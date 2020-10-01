@@ -1,0 +1,104 @@
+---
+title: "Solution for Diagnostic Quiz"
+author: "Teaching Team"
+date: "13/09/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Question 5
+
+_Write programs or script using the programming language of your choice that perform the following tasks.  Use programming primitives as opposed to dedicated library functions:_
+
+- (a) Given an input matrix, check if it is:  Symmetric, upper-triangular, lower-triangular.
+
+Symmetric
+```{r}
+isSymmetric(D3 <- diag(3))
+D3
+isSymmetric(D4 <- matrix(rnorm(9),nrow=3,ncol=3))
+D4
+```
+
+
+upper-triangular and  lower-triangular.
+```{r}
+library(Matrix)
+D4[upper.tri(D4)] <- 0
+D4
+isTriangular(D4,upper=FALSE)
+isTriangular(D4,upper=TRUE)
+```
+
+
+
+- (b)  Given a list of numbers, return a sorted list of numbers
+
+
+```{r}
+x <- rnorm(10)*10
+x
+cat("x sorted \n")
+sort(x)
+```
+
+- (c)  Given  a  sequence  ofninput  vectors,  each  of  length $p$,  compute  the $p\times p$ sample covariance matrix of these vectors.
+
+```{r}
+p <- 8
+set.seed(10)
+X <- data.frame(X1=rnorm(p),X2=runif(p),X3=rt(p,df=1)*10)
+X
+cat("Covariance matrix  of X1, X2, X3\n")
+cov(X)
+cat("Correlation matrix  of X1, X2, X3\n")
+cor(X)
+```
+
+Primitive function
+
+```{r}
+cat("Covariance matrix  of X1, X2, X3\n")
+X.center <- scale(X,center=TRUE,scale=FALSE)
+(1/(p-1))*t(X.center)%*%X.center
+cat("Correlation matrix  of X1, X2, X3\n")
+X.c.s <- scale(X,center=TRUE,scale=TRUE)
+(1/(p-1))*(t(X.c.s)%*%X.c.s)
+```
+
+
+
+- (d)  Use brute-force Riemann sums to illustrate numerically that
+
+\[
+\int_{x_1 = -5}^5 \int_{x_2= -5}^5 ~\frac{1}{2 \pi}e^{-\frac{x_1^2 + x_2^2}{2}} ~ dx_1\, dx_2  \approx 1.
+\]
+
+```{r}
+library(cubature)
+integrand <- function(x) (1/(2*pi))*exp(-0.5*(x[1]^2+x[2]^2))
+adaptIntegrate(integrand, lowerLimit = c(-5,-5), upperLimit = c(5, 5))
+```
+
+```{r}
+x1lower <- x2lower <- -5
+x1upper <- x2upper <- 5
+n <- 1000
+deltak <- (x2upper - x2lower)/n
+Deltak <- deltak**2
+center.x <- c(0,0)
+f.center <- 0
+for (i in 1:n) {
+  for (j in 1:n){
+    center.x[1] <- x1lower + i*deltak - deltak/2
+    center.x[2] <- x2lower + j*deltak - deltak/2
+  f.center <- f.center+ integrand(center.x)
+  }
+}
+integral <- Deltak*f.center
+integral
+```
+
