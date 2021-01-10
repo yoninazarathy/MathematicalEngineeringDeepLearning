@@ -1,0 +1,666 @@
+---
+title: Neural Network For Classification
+author: 
+- name:  Benoit and Sarat and Yoni 
+  affiliation: Macquarie University
+  email: benoit.liquet-weiland@mq.edu.au
+date: '`r doc_date()`'
+output:
+  BiocStyle::html_document:
+    toc_depth: 2
+  BiocStyle::pdf_document:
+    toc: true
+    keep_tex: yes
+    includes:
+     in_header: peamble.tex
+    toc_depth: 2
+fontsize: 15pt
+header-includes:
+- \usepackage{color}
+---
+
+
+
+[//]: A few LaTeX Macros
+$\newcommand{\vect}[1]{\boldsymbol{#1}}$
+$\newcommand{\transp}{^{\text{T}}}$
+$\newcommand{\mat}[1]{\boldsymbol{\mathcal{#1}}}$
+$\newcommand{\sign}{\text{sign}}$
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,message = NA,comment = NA)
+library(knitr)
+```
+
+
+
+# Logistic Regression by Scratch: Binary example  (HW1)
+
+## Data Set: A Flower
+
+First, let’s get the dataset you will work on. The following code will load a "flower" 2-class dataset.
+
+
+```{r,message=FALSE}
+library(ggplot2)
+library(dplyr)
+load("planar_solar.RData")
+df <- planarsolar
+df <- df[sample(nrow(df)), ]
+head(df)
+df %>%
+  ggplot(aes(x = x1, y= x2,colour=factor(y))) + geom_point()
+```
+
+
+
+### Train-Test Split
+
+- Split it into train and test sets.
+
+- 80\% of our data into our train set and the remaining 20\% into our test set.
+
+
+```{r}
+set.seed(69)
+train_test_split_index <- 0.8 * nrow(df)
+
+train <- df[1:train_test_split_index,]
+head(train)
+
+test <- df[(train_test_split_index+1): nrow(df),]
+head(test)
+```
+
+
+
+
+### Preprocess
+
+- Neural networks work best when the input values are standardized. 
+
+- Scaled all the values to to have their mean = 0 and standard-deviation =1.
+
+- Standardizing input values speeds up the training and ensures faster convergence.
+
+However, in this tutorial we decided to not scaled the values to compared to the classical **GLM**.
+
+```{r}
+#X_train <- scale(train[, c(1:2)])
+X_train <- train[, c(1:2)]
+
+y_train <- train$y
+dim(y_train) <- c(length(y_train), 1) # add extra dimension to vector
+
+#X_test <- scale(test[, c(1:2)])
+X_test <- test[,c(1:2)]
+y_test <- test$y
+dim(y_test) <- c(length(y_test), 1) # add extra dimension to vector
+```
+
+
+
+
+
+Now we convert our input and output to matrices from data frames. Converting to a matrix format often speed up the computations.
+
+```{r}
+X_train <- as.matrix(X_train, byrow=TRUE)
+X_train <- t(X_train)
+dim(X_train)
+
+y_train <- as.matrix(y_train, byrow=TRUE)
+y_train <- t(y_train)
+dim(y_train)
+
+X_test <- as.matrix(X_test, byrow=TRUE)
+X_test <- t(X_test)
+dim(X_test)
+y_test <- as.matrix(y_test, byrow=TRUE)
+y_test <- t(y_test)
+dim(y_train)
+```
+
+## Logistic Regression with a Neural Network
+
+
+The main steps for building a Neural Network are:
+
+1. Define the model structure (such as number of input features) 
+
+2. Initialize the model's parameters
+
+3. Loop:
+    - Calculate current loss (forward propagation)
+    - Calculate current gradient (backward propagation)
+    - Update parameters (gradient descent)
+
+### Sigmoid function 
+
+```{r}
+sigmoid <- function(x){
+  return(1 / (1 + exp(-x)))
+}
+```
+
+
+###  Function Layer Size
+
+We first build a function which provides the size (number of neurons) of all the layers in our neural-net. This function will be more usefull for Neural Network with hidden layer.
+
+
+
+```{r}
+getLayerSize <- function(X, y) {
+  n_x <- dim(X)[1]  # number of neuron in input layer
+  n_y <- dim(y)[1]  # number of neuron output layer
+  
+  size <- list("n_x" = n_x,
+               "n_y" = n_y)
+  
+  return(size)
+}
+
+```
+
+### Parameter Initialisation 
+
+The function _initializeParameters()_ takes as argument an input matrix and a list which contains the layer sizes i.e. number of neurons. The function returns the trainable parameters $W1$, $b1$, $W2$, $b2$.
+
+
+```{r}
+initializeParameters <- function(X, list_layer_size){
+  
+  n_x <- list_layer_size$n_x
+  n_y <- list_layer_size$n_y
+  
+  W1 <- matrix(runif(n_y * n_x), nrow = n_y, ncol = n_x, byrow = TRUE) * 0.01
+  b1 <- matrix(rep(0, n_y), nrow = n_y)
+ 
+  params <- list("W1" = W1,
+                 "b1" = b1)
+  return (params)
+}
+
+```
+
+### Forward Propagation Step 
+
+```{r}
+forwardPropagation <- function(X, params, list_layer_size){
+  
+  m <- dim(X)[2]
+  n_y <- list_layer_size$n_y
+  
+  W1 <- params$W1
+  b1 <- params$b1
+ 
+  b1_new <- matrix(rep(b1, m), nrow = n_y)
+ 
+  Z1 <- W1 %*% X + b1_new
+  A1 <- sigmoid(Z1)
+
+  cache <- list("Z1" = Z1,
+                "A1" = A1)
+  return (cache)
+}
+```
+
+### Compute cost
+
+```{r}
+computeCost <- function(X, y, cache) {
+  m <- dim(X)[2]
+  A1 <- cache$A1
+  logprobs <- (log(A1) * y) + (log(1-A1) * (1-y))
+  cost <- -sum(logprobs/m)
+  return (cost)
+}
+```
+
+### Backpropagation
+
+```{r}
+backwardPropagation <- function(X, y, cache, params, list_layer_size){
+  m <- dim(X)[2]
+  n_x <- list_layer_size$n_x
+  n_y <- list_layer_size$n_y
+  
+  A1 <- cache$A1
+  W1 <- params$W1
+  
+  dZ1 <- A1 - y
+  dW1 <- 1/m * (dZ1 %*% t(X)) 
+  db1 <- matrix(1/m * sum(dZ1), nrow = n_y)
+  db1_new <- matrix(rep(db1, m), nrow = n_y)
+  
+  grads <- list("dW1" = dW1, 
+                "db1" = db1)
+  
+  return(grads)
+}
+
+```
+
+### Update Parameters
+
+
+```{r}
+updateParameters <- function(grads, params, learning_rate){
+  
+  W1 <- params$W1
+  b1 <- params$b1
+  
+  dW1 <- grads$dW1
+  db1 <- grads$db1
+  
+  W1 <- W1 - learning_rate * dW1
+  b1 <- b1 - learning_rate * db1
+  
+  updated_params <- list("W1" = W1,
+                         "b1" = b1)
+  return (updated_params)
+}
+```
+
+
+## Train our model
+
+```{r}
+trainModel <- function(X, y, num_iteration, lr){
+  
+  layer_size <- getLayerSize(X, y)
+  init_params <- initializeParameters(X, layer_size)
+  
+  cost_history <- c()
+  
+  for (i in 1:num_iteration) {
+    fwd_prop <- forwardPropagation(X, init_params, layer_size)
+    cost <- computeCost(X, y, fwd_prop)
+    back_prop <- backwardPropagation(X, y, fwd_prop, init_params, layer_size)
+    update_params <- updateParameters(back_prop, init_params, learning_rate = lr)
+    init_params <- update_params
+    
+    cost_history <- c(cost_history, cost)
+    
+    if (i %% 10 == 0){ cat("Iteration", i, " | Cost: ", cost, "\n")
+      cat("Iteration", i, " | W1: ", update_params$W1, "\n")
+    }
+  }
+  
+  model_out <- list("updated_params" = update_params,
+                    "cost_hist" = cost_history)
+  
+  return (model_out)
+}
+```
+
+## Application on the data set 
+
+
+### Logistic Neural Network
+
+
+
+```{r,eval=TRUE}
+layer_size <- getLayerSize(X_train, y_train)
+layer_size
+
+
+init_params <- initializeParameters(X_train, layer_size)
+lapply(init_params, function(x) dim(x))
+fwd_prop <- forwardPropagation(X_train, init_params, layer_size)
+
+lapply(fwd_prop, function(x) dim(x))
+
+cost <- computeCost(X_train, y_train, fwd_prop)
+cost
+
+back_prop <- backwardPropagation(X_train, y_train, fwd_prop, init_params, layer_size)
+lapply(back_prop, function(x) dim(x))
+
+
+update_params <- updateParameters(back_prop, init_params, learning_rate = 0.01)
+lapply(update_params, function(x) dim(x))
+
+
+EPOCHS = 100
+LEARNING_RATE = 0.9
+
+train_model <- trainModel(X_train, y_train, num_iteration = EPOCHS, lr = LEARNING_RATE)
+```
+
+The parameters are 
+
+```{r}
+train_model$updated_params
+```
+
+## Logistic Model using GLM
+
+```{r}
+lr_model <- glm(y ~ x1 + x2, data = train,family=binomial())
+lr_model
+```
+## Performance of our binary classifier 
+
+
+- Prediction function for new data
+
+```{r}
+makePrediction <- function(X, y){
+  layer_size <- getLayerSize(X, y)
+  params <- train_model$updated_params
+  fwd_prop <- forwardPropagation(X, params, layer_size)
+  pred <- fwd_prop$A1
+  return (pred)
+}
+
+```
+
+### confusion matrix
+
+```{r}
+y_pred <- makePrediction(X_test, y_test)
+y_pred <- round(y_pred)
+
+tb_nn <- table(y_test, y_pred)
+tb_nn
+```
+
+
+### Accuracy Metrics
+
+```{r}
+calculate_stats <- function(tb, model_name) {
+  acc <- (tb[1] + tb[4])/(tb[1] + tb[2] + tb[3] + tb[4])
+  recall <- tb[4]/(tb[4] + tb[3])
+  precision <- tb[4]/(tb[4] + tb[2])
+  f1 <- 2 * ((precision * recall) / (precision + recall))
+  
+  cat(model_name, ": \n")
+  cat("\tAccuracy = ", acc*100, "%.")
+  cat("\n\tPrecision = ", precision*100, "%.")
+  cat("\n\tRecall = ", recall*100, "%.")
+  cat("\n\tF1 Score = ", f1*100, "%.\n\n")
+}
+```
+
+
+```{r}
+calculate_stats(tb_nn,"Logistic Neural network")
+```
+
+
+## Decision Boundaries
+
+We firstly make a grid of points around the input space:
+
+```{r}
+grid <- expand.grid(x1 = seq(min(df$x1) - 1,
+                             max(df$x1) + 1,
+                             by = .25),
+                    x2 = seq(min(df$x2) - 1,
+                             max(df$x2) + 1,
+                             by = .25))
+```
+
+
+Then feed these points forward through our trained neural network.
+
+```{r}
+newdata <- t(data.matrix(grid[, c('x1', 'x2')]))
+
+fwd_prop <- forwardPropagation(newdata, train_model$updated_params, layer_size)
+
+grid$class <- factor((fwd_prop$A1 > .5) * 1,
+                     labels = levels(factor(df$y)))
+
+```
+
+
+```{r,message=FALSE}
+library(tidyverse)
+class <- as.factor(df$y)
+ df %>% add_column(class=class)
+  ggplot(df)+ aes(x1,x2,colour=class)  +
+  geom_point(data = grid, size = .5) +
+  geom_point() +
+  labs(x = expression(x[1]), y = expression(x[2]))
+```
+
+
+
+# Adding one Hidden Layer
+
+## feedforward  
+
+To write a compact code, we include the biais parameter in the weight matrices parameters. Just to play, we use the sigmoid activation function in the hidden layer. The feedforward function is very compact:
+
+```{r}
+feedforward <- function(x, w1, w2) {
+  z1 <- cbind(1, x) %*% w1
+  h <- sigmoid(z1)
+  z2 <- cbind(1, h) %*% w2
+  list(output = sigmoid(z2), h = h)
+}
+```
+
+Using the computation graph, the backpropagation function could be easily written as
+
+```{r}
+backpropagate <- function(x, y, y_hat, w1, w2, h, learn_rate) {
+  dw2 <- t(cbind(1, h)) %*% (y_hat - y)
+  dh  <- (y_hat - y) %*% t(w2[-1, , drop = FALSE])
+  dw1 <- t(cbind(1, x)) %*% (h * (1 - h) * dh)
+  
+  w1 <- w1 - learn_rate * dw1
+  w2 <- w2 - learn_rate * dw2
+  
+  list(w1 = w1, w2 = w2)
+}
+```
+
+We can now wrap it to get our train model function:
+
+```{r}
+train <- function(x, y, hidden = 5, learn_rate = 1e-2, iterations = 1e4) {
+  d <- ncol(x) + 1
+  w1 <- matrix(rnorm(d * hidden), d, hidden)
+  w2 <- as.matrix(rnorm(hidden + 1))
+  for (i in 1:iterations) {
+    ff <- feedforward(x, w1, w2)
+    bp <- backpropagate(x, y,
+                        y_hat = ff$output,
+                        w1, w2,
+                        h = ff$h,
+                        learn_rate = learn_rate)
+    w1 <- bp$w1; w2 <- bp$w2
+  }
+  list(output = ff$output, w1 = w1, w2 = w2)
+}
+```
+
+```{r,cache=TRUE,cache.path='cache/'}
+#x <- data.matrix(df[, c('x1', 'x2')])
+#y <- df$y
+#y <- as.numeric(y_train)
+nnet10 <- train(t(X_train), as.numeric(y_train), hidden = 10, iterations = 1e5)
+```
+
+### Is it better ?
+
+```{r}
+mean((nnet10$output > .5) == t(y_train))
+```
+
+### What about on the test set ?
+
+```{r}
+predout <- feedforward(x = t(X_test),w1 = nnet10$w1,w2 = nnet10$w2)
+y_pred_nnet10<- (predout$output > .5) * 1
+tb_nnH <- table(y_test, y_pred_nnet10)
+tb_nnH
+```
+
+## confusion matrix
+
+```{r}
+calculate_stats(tb_nnH,"Neural network with one Hidden layer and 10 neurons")
+```
+
+
+
+## Visualisation
+
+```{r}
+ff_grid <- feedforward(x = data.matrix(grid[, c('x1', 'x2')]),
+                       w1 = nnet10$w1,
+                       w2 = nnet10$w2)
+class <- as.factor(df$y)
+grid$class <- factor((ff_grid$output > .5) * 1,
+                     labels = levels(class))
+
+```
+
+```{r}
+class <- as.factor(df$y)
+ df %>% add_column(class=class)
+  ggplot(df)+ aes(x1,x2,colour=class)  +
+  geom_point(data = grid, size = .5) +
+  geom_point() +
+  labs(x = expression(x[1]), y = expression(x[2]))
+```
+
+# Neural Network using Software
+
+
+## R packages for deep learning 
+
+- **nnet**: Package for feedforward neural networks with a single hidden layer and multinomial log-linear models
+
+- **neuranet**: Training of neural networks using backpropagation
+
+- **tensorflow**: Interface to TensorFlow
+
+- **deepnet**: Deep learning toolkit in R
+
+- **rnn**: Package to implement Recurrent Neural Networks
+
+more here https://cran.r-project.org/web/views/MachineLearning.html
+
+
+## Keras
+
+The R package **keras** is an interface to the Python **keras** package.
+
+### Install Keras
+
+```{r,eval=FALSE}
+install.packages(keras)
+```
+
+### Load Keras
+
+```{r}
+library(keras)
+```
+
+### Defining a keras Model
+
+Keep in mind in you are lost 
+
+```{r,eval=FALSE}
+help(package = keras)
+```
+
+Here, we use a fully connected neural network. 
+
+- First we initialize a sequential model using **keras_model_sequential()** function
+
+- Sequential model is a linear stack of layers. Use **keras_model_sequential()** function to add a series of layer functions.
+
+- Specify activation functions: **relu**, **softmax**, **sigmoid**, **tanh**, ...
+
+- Need to specify the loss function: **mean_squared_error**, **binary_crossentropy**, **categorical_crossentropy**
+
+- Optimizer could be: **sgd**, **adam**, **rmsprop**, **Adadelta**
+
+- learning rate specify with **lr**
+
+### Binary classifier with one hidden layer
+
+```{r,comment=FALSE}
+set.seed(1)
+model <- keras_model_sequential()
+model %>%
+layer_dense(units = 8, activation = "relu", input_shape = c(2)) %>%
+#layer_dense(units = 10, activation = "sigmoid") %>%
+layer_dense(units = 1,activation = "sigmoid") %>%
+compile(
+optimizer = "adam",
+loss = "binary_crossentropy",
+metrics = c("accuracy")
+)
+summary(model)
+```
+
+
+## Run the model on the full data
+
+### Scale the data
+
+```{r}
+X_train <- scale(df[, c(1:2)])
+#X_train <- train[, c(1:2)]
+y_train <- df$y
+#dim(y_train) <- c(length(y_train), 1) # add extra dimension to vector
+#X_test <- scale(test[, c(1:2)])
+#X_test <- test[,c(1:2)]
+#y_test <- test$y
+#dim(y_test) <- c(length(y_test), 1) # add extra dimension to vector
+```
+
+
+
+
+```{r,cache=TRUE,cache.path='cache/'}
+history <- model %>% fit(X_train, y_train, epochs = 500, batch_size = 40,validation_split = 0)
+model %>% evaluate(X_train, y_train)
+```
+
+```{r}
+plot(history)
+```
+
+```{r}
+keras_pred_train <- model %>% predict_classes(X_train)
+table(Predicted = keras_pred_train, Actual = t(y_train))
+```
+
+## Need more iteration
+
+
+```{r,eval=FALSE}
+history <- model %>% fit(X_train, y_train, epochs = 10000, batch_size = 40,validation_split = 0)
+plot(history)
+model %>% evaluate(X_train, y_train)
+```
+
+
+### Overfitting ?
+
+Reproduce similar analysis using 80$\%$ for train data and evaluate on  test set (20$\%$)
+
+```{r,eval=FALSE}
+keras_pred_test <- model %>% predict_classes(X_test)
+table(Predicted = keras_pred_test, Actual = y_test)
+```
+
+## Explore different models
+
+- Add more neurons
+- Try the **tanh** activation function 
+- Change the optimizer function: **sgd**
+
