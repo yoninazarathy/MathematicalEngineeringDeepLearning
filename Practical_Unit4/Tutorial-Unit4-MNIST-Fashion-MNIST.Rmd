@@ -1,0 +1,960 @@
+---
+title: Tutorial on Lecture 4. Multi-Layer DNN using R.
+author: 
+- name:  Benoit  Liquet
+  affiliation: Macquarie University
+  email: benoit.liquet-weiland@mq.edu.au
+date: '`r doc_date()`'
+output:
+  BiocStyle::html_document:
+    toc_depth: 2
+  BiocStyle::pdf_document:
+    toc: true
+    keep_tex: yes
+    includes:
+     in_header: peamble.tex
+    toc_depth: 2
+fontsize: 15pt
+header-includes:
+- \usepackage{color}
+---
+
+
+
+[//]: A few LaTeX Macros
+$\newcommand{\vect}[1]{\boldsymbol{#1}}$
+$\newcommand{\transp}{^{\text{T}}}$
+$\newcommand{\mat}[1]{\boldsymbol{\mathcal{#1}}}$
+$\newcommand{\sign}{\text{sign}}$
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,message = NA,comment = NA)
+library(knitr)
+```
+
+# Goals
+
+In this tutorial, we mainly use the MNIST dataset to explore classification deep neural networks (DNN) models.
+At the end of this tutorial, you should be comfortable to use a software package (here **keras**) to run different models for a classification task.  You will explore different models by exploring/tuning different hyperparamaters of the DNN: 
+
+- number of layers and nodes
+- batch normalization
+- regularization technique
+- dropout 
+- weight initialization
+
+
+# MNIST Data set 
+
+## Loading package and dataset
+
+First you have to install **keras** R packages using 
+
+```{r,eval=FALSE}
+install.packages(keras)
+```
+
+We load some extra packages that you have to install too.
+
+```{r pkg-req, cache=FALSE}
+library(dplyr)         
+library(keras)         
+library(dslabs)
+library(tidyr)
+library(stringr)
+library(purrr)
+```
+
+MNIST data are available from the package **dslabs**
+
+
+```{r DL-prep-mnist-data}
+# Import MNIST training data
+mnist <- dslabs::read_mnist()
+mnist_x <- mnist$train$images
+mnist_y <- mnist$train$labels
+mnist_x_test <- mnist$test$images
+mnist_y_test <- mnist$test$labels
+dim(mnist_x)
+dim(mnist_x_test)
+length(mnist_y)
+length(mnist_y_test)
+```
+
+**Reminder**: Keep in mind that all features need to be numeric for running a feedforward DNN. When you have some categorical features you have to transform into numerical values such as one-hot encoded. 
+
+### Scale the data set
+
+The data is in gray scale with each image having 0 to 255 pixels. We therefore
+need to scale the data by the number of pixels.
+
+```{r}
+colnames(mnist_x) <- paste0("V", 1:ncol(mnist_x))
+mnist_x <- mnist_x / 255
+colnames(mnist_x_test) <- paste0("V", 1:ncol(mnist_x))
+mnist_x_test <- mnist_x_test / 255
+```
+
+### Transform the outcome 
+
+For multi-classification model (multinomial response 0 to 9), **Keras** uses one-hot encoded for the outcome
+
+```{r}
+# One-hot encode response
+mnist_y <- to_categorical(mnist_y, 10)
+dim(mnist_y)
+```
+
+
+## Implementation a DNN using Keras
+
+### Procedure
+
+- Initiate a sequential feed-forward DNN using `keras_model_sequential()` 
+- Add some dense layers.  
+
+```{r,echo=FALSE}
+k_clear_session()
+```
+
+```{r architecture}
+
+model <- keras_model_sequential() %>%
+  layer_dense(units = 128, input_shape = ncol(mnist_x)) %>%
+  layer_dense(units = 64) %>%
+  layer_dense(units = 10)
+```
+
+Here, we have two hidden layers:
+
+- 128 neurons for the first layer
+- 64 for the second
+- 10 neurons for the output layer
+
+Note the  **input_shape** argument which represents the number of features in the data (here 784)
+
+### Activation 
+
+We need to choose some activation function:
+
+```{r activation-arguments}
+model <- keras_model_sequential() %>%
+  layer_dense(units = 128, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_dense(units = 64, activation = "relu") %>%
+  layer_dense(units = 10, activation = "softmax")
+```
+
+Here, it is natural to choose the **softmax** function for the output layer. It is the most common to use **ReLU** activation for hidden layer
+
+
+### Backpropagation and Optimizer
+
+Now, we have to define our objective function to optimize and the optimizer to get a solution.
+The natural choise here is the **cross entropy** for categorical outcome. You have learned in lecture 3 the different variant of the gradient descent. **Keras** offers several optimizers:
+
+-  Stochastic gradient descent (sgd) optimizer
+- Adaptive Moment Estimation (adam)
+- rmsprop
+- Adaptive learning rate (Adadelta) 
+
+We will use in this example **rmsprop** optimizer. 
+
+
+
+```{r backpropagation}
+model <- keras_model_sequential() %>%
+  
+  # Network architecture
+  layer_dense(units = 128, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_dense(units = 64, activation = "relu") %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  
+  # Backpropagation
+  compile(
+    loss = 'categorical_crossentropy',
+    optimizer = optimizer_rmsprop(),
+    metrics = c('accuracy')
+  )
+```
+
+Note that we define a metric on which the model will be evaluated. We have 
+used the "accuracy" metric to assess the performance of the model
+
+### Summary of our modef
+
+```{r}
+summary(model)
+```
+
+### Train our model
+
+We will train our model on 25 epochs and a bath size of 128. We also use $20\%$ of our data for the evaluation step during the training phase, meaning that $60,000\times 0.2=12,000$ of the samples are using for the validation step while 48,000 samples are using for the optimization step.
+
+**Reminder:**  An epoch describes the number of times the algorithm sees the entire data set. So with a batch size of 128, one epoch is achieved after 375 passes. 
+
+
+```{r model-train, fig.height=5, fig.width=7, fig.cap="Training and validation performance over 25 epochs."}
+# Train the model
+set.seed(1)
+fit1 <- model %>%
+  fit(
+    x = mnist_x,
+    y = mnist_y,
+    epochs = 25,
+    batch_size = 128,
+    validation_split = 0.2,
+    verbose = FALSE
+  )
+
+# Display output
+fit1
+plot(fit1)
+```
+
+
+
+We can see that the loss function improves rapidly. However, we can see a potential overfit after 10 epochs. Indeed, the accurary rate of the validation set presents a flat shape after 10 epochs.
+
+### Prediction 
+
+
+We can predict now the class (digits) for a new image:
+
+```{r}
+model%>% predict_classes(mnist_x_test[1:10,])
+```
+Compared to the true label
+
+```{r}
+mnist_y_test[1:10]
+```
+It looks good ?
+
+```{r}
+pred <- model%>% predict_classes(mnist_x_test[,])
+table(pred,mnist_y_test)
+sum(diag(table(pred,mnist_y_test)))/10000
+```
+
+### Performance  on test set
+
+```{r,message=FALSE}
+library(caret)
+confusionMatrix(factor(pred),factor(mnist_y_test))->res
+res$table
+res$overall[1]
+```
+
+## Improve our model by tuning some parameters 
+
+
+### Model complexity
+
+We will explore different model size by playing with the number of hidden layer from 1 to 3 and different number of neurons. Complex models have higher capacity to learn more features and patterns in the data, however they can overfit the training data. We try to maximize a high validation performance while minimizing the complexity of our model. The folowing table present the 9 models we will explore:
+ 
+
+```{r one-hot, echo=FALSE,message=FALSE,warning=FALSE}
+library(knitr)
+library(kableExtra)
+
+data_frame(
+  Size = c("small", "medium", "large"), 
+  `1` = c("16", "64", "256"),
+  `2` = c("16, 8", "64, 32", "256, 128"),
+  `3` = c("16, 8, 4", "64, 32, 16", "256, 128, 64")
+) %>%
+  kable(align = "c", caption = "9 Models with different complexity according number of layers and nodes per layer.") %>%
+  add_header_above(c(" ", "Hidden Layers" = 3)) %>%
+  kable_styling(bootstrap_options = "striped", full_width = FALSE)
+```
+
+We have 9 models to run !!! better to wrap it into a nice function.
+
+
+### Small Model: one layer model
+
+
+
+```{r model-capacity}
+compiler <- function(object) {
+  compile(
+    object,
+    loss = 'categorical_crossentropy',
+    optimizer = optimizer_rmsprop(),
+    metrics = c('accuracy')
+  )
+}
+
+trainer <- function(object) {
+  fit(
+    object,
+    x = mnist_x,
+    y = mnist_y,
+    epochs = 25,
+    batch_size = 128,
+    validation_split = .2,
+    verbose = FALSE
+    )
+}
+
+# One layer models -------------------------------------------------------------
+# small  model
+`1 layer_small` <- keras_model_sequential() %>%
+  layer_dense(units = 16, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  trainer()
+
+# medium
+`1 layer_medium` <- keras_model_sequential() %>%
+  layer_dense(units = 64, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  trainer()
+
+# large
+`1 layer_large` <- keras_model_sequential() %>%
+  layer_dense(units = 256, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  trainer()
+
+```
+
+
+
+We can plot the results:
+
+```{r}
+models <- ls(pattern = "layer_") 
+df <- models %>%
+  map(get) %>%
+  map(~ data.frame(
+    `Validation error` = .$metrics$val_loss,
+    `Training error`   = .$metrics$loss,
+    epoch = seq_len(.$params$epoch)
+    )) %>%
+  map2_df(models, ~ mutate(.x, model = .y)) %>%
+  separate(model, into = c("Middle layers", "Number of nodes"), sep = "_") %>%
+  gather(Validation, Loss, Validation.error:Training.error) %>%
+  mutate(
+    Validation = str_replace_all(Validation, "\\.", " "),
+    `Number of nodes` = factor(`Number of nodes`, levels = c("small", "medium", "large"))
+    )
+
+best <- df %>% 
+  filter(Validation == "Validation error") %>%
+  group_by(`Middle layers`, `Number of nodes`) %>% 
+  filter(Loss == min(Loss)) %>%
+  mutate(label = paste("Min validation error:", round(Loss, 4)))
+
+ggplot(df, aes(epoch, Loss)) +
+  geom_hline(data = best, aes(yintercept = Loss), lty = "dashed", color = "grey50") +
+  geom_text(data = best, aes(x = 25, y = 0.95, label = label), size = 4, hjust = 1, vjust = 1) + 
+  geom_point(aes(color = Validation)) +
+  geom_line(aes(color = Validation)) +
+  facet_grid(`Number of nodes` ~ `Middle layers`, scales = "free_y") +
+  scale_y_continuous(limits = c(0, 1)) +
+  theme(legend.title = element_blank(),
+        legend.position = "top") +
+  xlab("Epoch")
+
+```
+
+## TASK1 
+
+- Repeat it for the 2-layer and 3-layer model.
+
+You should get a figure similar as the following one:
+
+```{r,echo=FALSE,warning=FALSE}
+# Two layer models -------------------------------------------------------------
+# small capacity model
+`2 layer_small` <- keras_model_sequential() %>%
+  layer_dense(units = 16, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_dense(units = 8, activation = "relu") %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  trainer()
+
+# medium
+`2 layer_medium` <- keras_model_sequential() %>%
+  layer_dense(units = 64, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_dense(units = 32, activation = "relu") %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  trainer()
+
+# large
+`2 layer_large` <- keras_model_sequential() %>%
+  layer_dense(units = 256, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_dense(units = 128, activation = "relu") %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  trainer()
+
+# Three layer models -------------------------------------------------------------
+# small capacity model
+`3 layer_small` <- keras_model_sequential() %>%
+  layer_dense(units = 16, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_dense(units = 8, activation = "relu") %>%
+  layer_dense(units = 4, activation = "relu") %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  trainer()
+
+# medium
+`3 layer_medium` <- keras_model_sequential() %>%
+  layer_dense(units = 64, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_dense(units = 32, activation = "relu") %>%
+  layer_dense(units = 16, activation = "relu") %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  trainer()
+
+# large
+`3 layer_large` <- keras_model_sequential() %>%
+  layer_dense(units = 256, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_dense(units = 128, activation = "relu") %>%
+  layer_dense(units = 64, activation = "relu") %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  trainer()
+
+models <- ls(pattern = "layer_") 
+df <- models %>%
+  map(get) %>%
+  map(~ data.frame(
+    `Validation error` = .$metrics$val_loss,
+    `Training error`   = .$metrics$loss,
+    epoch = seq_len(.$params$epoch)
+    )) %>%
+  map2_df(models, ~ mutate(.x, model = .y)) %>%
+  separate(model, into = c("Middle layers", "Number of nodes"), sep = "_") %>%
+  gather(Validation, Loss, Validation.error:Training.error) %>%
+  mutate(
+    Validation = str_replace_all(Validation, "\\.", " "),
+    `Number of nodes` = factor(`Number of nodes`, levels = c("small", "medium", "large"))
+    )
+
+best <- df %>% 
+  filter(Validation == "Validation error") %>%
+  group_by(`Middle layers`, `Number of nodes`) %>% 
+  filter(Loss == min(Loss)) %>%
+  mutate(label = paste("Min validation error:", round(Loss, 4)))
+
+ggplot(df, aes(epoch, Loss)) +
+  geom_hline(data = best, aes(yintercept = Loss), lty = "dashed", color = "grey50") +
+  geom_text(data = best, aes(x = 25, y = 0.95, label = label), size = 4, hjust = 1, vjust = 1) + 
+  geom_point(aes(color = Validation)) +
+  geom_line(aes(color = Validation)) +
+  facet_grid(`Number of nodes` ~ `Middle layers`, scales = "free_y") +
+  scale_y_continuous(limits = c(0, 1)) +
+  theme(legend.title = element_blank(),
+        legend.position = "top") +
+  xlab("Epoch")
+```
+
+
+## Task 2
+
+What are you conclusions from this experiment ? which models present some overfit issue ? which models to keep ?
+
+
+
+
+
+
+
+## Batch normalization
+
+Here we will add a normalization batch step after each layer. An example using the  following code.
+
+```{r batch-norm}
+model_w_norm <- keras_model_sequential() %>%
+  
+  # Network architecture with batch normalization
+  layer_dense(units = 256, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 128, activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 64, activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+
+  # Backpropagation
+  compile(
+    loss = "categorical_crossentropy",
+    optimizer = optimizer_rmsprop(),
+    metrics = c("accuracy")
+  )
+```
+
+
+
+**Question: Complexity size of your model (number of parameters) ?**
+
+Now we can explore the effect of batch normalization on our 9 models
+
+
+
+```{r model-capacity-with-batch-norm, echo=TRUE, eval=TRUE}
+# One layer models -------------------------------------------------------------
+# small  model
+`1 layer_small` <- keras_model_sequential() %>%
+  layer_dense(units = 16, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  trainer()
+
+# medium
+`1 layer_medium` <- keras_model_sequential() %>%
+  layer_dense(units = 64, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  trainer()
+
+# large
+`1 layer_large` <- keras_model_sequential() %>%
+  layer_dense(units = 256, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  trainer()
+
+# Two layer models -------------------------------------------------------------
+# small capacity model
+`2 layer_small` <- keras_model_sequential() %>%
+  layer_dense(units = 16, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 8, activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  trainer()
+
+# medium
+`2 layer_medium` <- keras_model_sequential() %>%
+  layer_dense(units = 64, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 32, activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  trainer()
+
+# large
+`2 layer_large` <- keras_model_sequential() %>%
+  layer_dense(units = 256, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 128, activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  trainer()
+
+# Three layer models -------------------------------------------------------------
+# small capacity model
+`3 layer_small` <- keras_model_sequential() %>%
+  layer_dense(units = 16, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 8, activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 4, activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  trainer()
+
+# medium
+`3 layer_medium` <- keras_model_sequential() %>%
+  layer_dense(units = 64, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 32, activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 16, activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  trainer()
+
+# large
+`3 layer_large` <- keras_model_sequential() %>%
+  layer_dense(units = 256, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 128, activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 64, activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  trainer()
+
+models <- ls(pattern = "layer_") 
+df_batch <- models %>%
+  map(get) %>%
+  map(~ data.frame(
+    `Validation error` = .$metrics$val_loss,
+    `Training error`   = .$metrics$loss,
+    epoch = seq_len(.$params$epoch)
+    )) %>%
+  map2_df(models, ~ mutate(.x, model = .y)) %>%
+  separate(model, into = c("Middle layers", "Number of nodes"), sep = "_") %>%
+  gather(Validation, Loss, Validation.error:Training.error) %>%
+  mutate(
+    Validation = str_replace_all(Validation, "\\.", " "),
+    `Number of nodes` = factor(`Number of nodes`, levels = c("small", "medium", "large")),
+    `Batch normalization` = TRUE
+    )
+```
+
+Plot the results
+
+```{r model-capacity-with-batch-norm-plot, warning=FALSE,echo=TRUE, fig.width=12, fig.height=8, fig.cap="The effect of batch normalization on validation loss for various model capacities."}
+df2 <- df %>%
+  mutate(`Batch normalization` = FALSE) %>%
+  bind_rows(df_batch) %>% 
+  filter(Validation == "Validation error")
+
+best <- df2 %>% 
+  filter(Validation == "Validation error") %>%
+  group_by(`Middle layers`, `Number of nodes`) %>% 
+  filter(Loss == min(Loss)) %>%
+  mutate(label = paste("Min validation error:", round(Loss, 4)))
+
+ggplot(df2, aes(epoch, Loss, color = `Batch normalization`)) + 
+  geom_text(data = best, aes(x = 25, y = 0.95, label = label), size = 4, hjust = 1, vjust = 1) + 
+  geom_point() +
+  geom_line() +
+  facet_grid(`Number of nodes` ~ `Middle layers`, scales = "free_y") +
+  scale_y_continuous(limits = c(0, 1)) +
+  xlab("Epoch") +
+  scale_color_discrete("Batch normalization") +
+  theme(legend.position = "top")
+```
+
+
+## Regularization
+
+Regularization is generally a good practice for overfitting issue. Here we explore $L_1$ and $L_2$ normalization:
+
+Here the code for a model with batch normalization and $L_2$ regularization.
+
+```{r regularization-with-penalty, eval=TRUE}
+model_w_reg <- keras_model_sequential() %>%
+  
+  # Network architecture with L1 regularization and batch normalization
+  layer_dense(units = 256, activation = "relu", input_shape = ncol(mnist_x),
+              kernel_regularizer = regularizer_l2(0.001)) %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 128, activation = "relu", 
+              kernel_regularizer = regularizer_l2(0.001)) %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 64, activation = "relu", 
+              kernel_regularizer = regularizer_l2(0.001)) %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+
+  # Backpropagation
+  compile(
+    loss = "categorical_crossentropy",
+    optimizer = optimizer_rmsprop(),
+    metrics = c("accuracy")
+  )
+```
+
+### Task
+
+Present the result of the model with 3-layer with 256, 128 and 64 nodes per respective layer, with batch normalization  and with $L_2$ regularization components. 
+
+```{r,echo=FALSE}
+fit1 <- model_w_reg %>%
+  fit(
+    x = mnist_x,
+    y = mnist_y,
+    epochs = 25,
+    batch_size = 128,
+    validation_split = 0.2,
+    verbose = FALSE
+  )
+fit1
+plot(fit1)
+```
+
+Is the $L_2$ improved your model ?
+
+## Dropout
+
+An another avenue for overfitting issue is to use the **dropout** strategy.
+
+
+```{r dropout, eval=TRUE}
+model_w_drop <- keras_model_sequential() %>%
+  
+  # Network architecture with 20% dropout
+  layer_dense(units = 256, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_dropout(rate = 0.2) %>%
+  layer_dense(units = 128, activation = "relu") %>%
+  layer_dropout(rate = 0.2) %>%
+  layer_dense(units = 64, activation = "relu") %>%
+  layer_dropout(rate = 0.2) %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+
+  # Backpropagation
+  compile(
+    loss = "categorical_crossentropy",
+    optimizer = optimizer_rmsprop(),
+    metrics = c("accuracy")
+  )
+```
+
+
+Here we compare 3 models: baseline, batch normalization and dropout + batch normalization
+
+
+```{r model-with-regularization, echo=TRUE, eval=TRUE}
+fit_baseline <- keras_model_sequential() %>%
+  layer_dense(units = 256, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_dense(units = 128, activation = "relu") %>%
+  layer_dense(units = 64, activation = "relu") %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  fit(
+    x = mnist_x,
+    y = mnist_y,
+    epochs = 35,
+    batch_size = 128,
+    validation_split = 0.2,
+    verbose = FALSE
+  )
+
+fit_norm <- keras_model_sequential() %>%
+  layer_dense(units = 256, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 128, activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 64, activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  fit(
+    x = mnist_x,
+    y = mnist_y,
+    epochs = 35,
+    batch_size = 128,
+    validation_split = 0.2,
+    verbose = FALSE
+  )
+
+fit_reg <- keras_model_sequential() %>%
+  layer_dense(units = 256, activation = "relu", input_shape = ncol(mnist_x)) %>%
+  layer_batch_normalization() %>%
+  layer_dropout(rate = 0.4) %>%
+  layer_dense(units = 128, activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dropout(rate = 0.3) %>%
+  layer_dense(units = 64, activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dropout(rate = 0.2) %>%
+  layer_dense(units = 10, activation = "softmax") %>%
+  compiler() %>%
+  fit(
+    x = mnist_x,
+    y = mnist_y,
+    epochs = 35,
+    batch_size = 128,
+    validation_split = 0.2,
+    verbose = FALSE
+  )
+
+models <- ls(pattern = "fit_") 
+df_reg <- models %>%
+  map(get) %>%
+  map(~ data.frame(
+    `Validation error` = .$metrics$val_loss,
+    `Training error`   = .$metrics$loss,
+    epoch = seq_len(.$params$epoch)
+    )) %>%
+  map2_df(models, ~ mutate(.x, model = .y)) %>%
+  mutate(Model = case_when(
+    model == "fit_baseline" ~ "Baseline",
+    model == "fit_norm"     ~ "Baseline + batch normalization",
+    model == "fit_reg"      ~ "Baseline + batch normalization + dropout"
+  )) %>%
+  gather(Validation, Loss, Validation.error:Training.error)
+```
+
+
+We plot the results
+
+
+```{r model-with-regularization-plot, echo=TRUE, fig.cap="The effect of regularization with dropout on validation loss."}
+baseline <- df %>%
+  filter(`Middle layers` == "3 layer", `Number of nodes` == "large") %>%
+  mutate(Model = "Baseline") %>%
+  select(epoch, Model, Validation, Loss)
+batch <- df_batch %>%
+  filter(`Middle layers` == "3 layer", `Number of nodes` == "large") %>%
+  mutate(Model = "Baseline + batch normalization") %>%
+  select(epoch, Model, Validation, Loss)
+df_reg <- df_reg %>%
+  select(-model) %>%
+  filter(Model == "Baseline + batch normalization + dropout") %>%
+  mutate(Validation = stringr::str_replace_all(Validation, "\\.", " ")) %>%
+  bind_rows(batch, baseline)
+
+best <- df_reg %>% 
+  filter(Validation == "Validation error") %>%
+  group_by(Model) %>% 
+  filter(Loss == min(Loss)) %>%
+  mutate(label = paste("Min validation error:", round(Loss, 4)))
+
+ggplot(df_reg, aes(epoch, Loss)) + 
+  geom_text(data = best, aes(x = 35, y = 0.49, label = label), size = 4, hjust = 1, vjust = 1) +
+  geom_point(aes(color = Validation)) +
+  geom_line(aes(color = Validation)) +
+  facet_wrap(~ Model) +
+  xlab("Epoch") +
+  theme(legend.title = element_blank(),
+        legend.position = "top")
+```
+
+Task: What are your conclusions ?
+
+## What about the initialization of the weight
+
+Keep in mind that weight initialization can have an impact on both the convergence rate and
+the accuracy of your network. In **Keras**, the argument **kernel_initializer** in the function **layer_dense** allows us to set up different weight initialization. The default is the "Glorot uniform" which draws samples from a uniform within $[-a,a]$ where $a=\sqrt{\frac{6}{(fan_i+fan_o)}}$ where $fan_i$ is the number of inputs in the weight tensor and $fan_o$ is the number of output in the weight tensor.
+
+
+```{r}
+fit_reg_init <- keras_model_sequential() %>%
+  layer_dense(units = 256, activation = "relu", kernel_initializer=initializer_random_normal(),input_shape = ncol(mnist_x)) %>%
+  layer_batch_normalization() %>%
+  layer_dropout(rate = 0.4) %>%
+  layer_dense(units = 128, kernel_initializer=initializer_random_normal(),activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dropout(rate = 0.3) %>%
+  layer_dense(units = 64, kernel_initializer=initializer_random_normal(),activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dropout(rate = 0.2) %>%
+  layer_dense(units = 10, kernel_initializer=initializer_random_normal(),activation = "softmax") %>%
+  compiler() %>%
+  fit(
+    x = mnist_x,
+    y = mnist_y,
+    epochs = 35,
+    batch_size = 128,
+    validation_split = 0.2,
+    verbose = FALSE
+  )
+fit_reg_init
+plot(fit_reg_init)
+```
+
+Do you see any differences ? Is it better ?
+
+
+## Early stop 
+
+You can also adust the number of "epoch" by adding **callback_early_stopping(patience = 5)** to
+stop training if the loss has not improved after 5 epochs. 
+
+
+```{r,echo=FALSE}
+# set plot.keras_training_history in your global env to call user functions
+plot.keras_training_history <- keras:::plot.keras_training_history
+environment(plot.keras_training_history) <- globalenv()
+
+# replace as.dataframe with custom function
+as.data.frame.keras_training_history <- function (x, ...){
+
+ if (tensorflow::tf_version() < "2.2") 
+  x$metrics <- x$metrics[x$params$metrics]
+ values <- x$metrics
+
+ # pad <- x$params$epochs - length(values$loss)
+ # pad_data <- list()
+ # for (metric in x$params$metrics) pad_data[[metric]] <- rep_len(NA, 
+ #                                                                pad)
+ # values <- rbind(values, pad_data)
+
+ values[] <- lapply(values, `length<-`, x$params$epochs)
+ df <- data.frame(epoch = seq_len(x$params$epochs), value = unlist(values), 
+                  metric = rep(sub("^val_", "", names(x$metrics)), each = x$params$epochs),
+                  data = rep(grepl("^val_", names(x$metrics)), each = x$params$epochs))
+ rownames(df) <- NULL
+ df$data <- factor(df$data, c(FALSE, TRUE), c("training", "validation"))
+ df$metric <- factor(df$metric, unique(sub("^val_", "", names(x$metrics))))
+ df
+}
+```
+
+
+
+
+```{r adj-lrn-rate, fig.cap="Training and validation performance on our 3-layer large network with dropout."}
+model_final <- keras_model_sequential() %>%
+  layer_dense(units = 256, activation = "relu", kernel_initializer=initializer_random_normal(),input_shape = ncol(mnist_x)) %>%
+  layer_batch_normalization() %>%
+  layer_dropout(rate = 0.4) %>%
+  layer_dense(units = 128, kernel_initializer=initializer_random_normal(),activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dropout(rate = 0.3) %>%
+  layer_dense(units = 64, kernel_initializer=initializer_random_normal(),activation = "relu") %>%
+  layer_batch_normalization() %>%
+  layer_dropout(rate = 0.2) %>%
+  layer_dense(units = 10, kernel_initializer=initializer_random_normal(),activation = "softmax") %>%
+  compile(
+    loss = 'categorical_crossentropy',
+    optimizer = optimizer_rmsprop(),
+    metrics = c('accuracy')
+  ) 
+
+model_final.fit <- model_final %>%
+  fit(
+    x = mnist_x,
+    y = mnist_y,
+    epochs = 35,
+    batch_size = 128,
+    validation_split = 0.2,
+    callbacks = list(callback_early_stopping(patience = 5)),
+    verbose = FALSE
+  )
+
+model_final.fit
+
+# Optimal
+min(model_final.fit$metrics$val_loss)
+max(model_final.fit$metrics$val_acc)
+
+plot(model_final.fit)
+```
+
+## Final Task
+
+
+Present the performance of your final model on the test set:
+
+- confusion matrix
+- accuracy
+
+
+
+### Performance
+
+```{r,echo=FALSE}
+pred.final <- model_final%>%predict_classes(mnist_x_test[,])
+confusionMatrix(factor(pred.final),factor(mnist_y_test))->res
+res$table
+res$overall[1]
+```
+
+
+
+
+
+
