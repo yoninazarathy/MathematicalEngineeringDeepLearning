@@ -22,10 +22,10 @@ This is the source code used for creating figures and tables in the book.
 | Table 2.1 | Linear MNIST classification | [Julia](Julia/LinearMNIST_3_ways.ipynb) |
 | 2.6    | Gradient Descent  | Python |  
 | 2.7    | Loss Landscape  | R |  
-| 2.8    | Generalization and Training | Julia |  
+| 2.8    | Generalization and Training | [Julia](Julia/Expected_Performance_Curves.ipynb) |  
 | 2.9    | Polynomial fit | R |  
 | 2.10   | K-fold cross validation | TikZ |  
 | 2.11   | K-means clustering | R |  
 | 2.12   | K-means image segmentation | R |  
 | 2.13   | Breast Cancer PCA | R |  
-| 2.14   | SVD Compression | [Julia](SVD_compression.ipynb) |
+| 2.14   | SVD Compression | [Julia](Julia/SVD_compression.ipynb) |
