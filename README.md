@@ -20,7 +20,7 @@ This is the source code used for creating figures and tables in the book.
 | 2.4    | Least Squares | TikZ |  
 | 2.5    | Loss functions | [Julia](Julia/LossFunctions.ipynb) |  
 | Table 2.1 | Linear MNIST classification | [Julia](Julia/LinearMNIST_3_ways.ipynb) |
-| 2.6    | Gradient Descent  | Python |  
+| 2.6    | Gradient Descent Learning Rate  | [Python](Python/Learning-Rate-Matters-GD-linear.ipynb) |  
 | 2.7    | Loss Landscape  | R |  
 | 2.8    | Generalization and Training | [Julia](Julia/Expected_Performance_Curves.ipynb) |  
 | 2.9    | Polynomial fit | R |  
