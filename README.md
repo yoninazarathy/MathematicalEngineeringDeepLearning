@@ -4,7 +4,7 @@ Material for The Mathematical Engineering of Deep Learning. See https://deeplear
 ### Chapter 1 Figures
 | Figure  | Topic       | Source Code  |
 | ------- | ----------- | -----------  |
-| 1.1     | Fast.ai example | Python Google Colab |  
+| 1.1     | Fast.ai example | [Python Google Colab](https://colab.research.google.com/drive/1YOjnlAqY71PspLn0QzoYl5SmcEmXr4GP?usp=sharing) |  
 | 1.3     | Architectures   | TikZ(a), TikZ(b), TikZ(c), TikZ(d), TikZ(e), TikZ(f) |  
 | 1.4     | Neurons         | TikZ(b), TikZ(d) |  
 | 1.5     | Data on earth   | [Julia](Julia/data_world_in_zb.ipynb) |  
