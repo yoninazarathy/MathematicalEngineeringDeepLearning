@@ -1,7 +1,9 @@
 # MathematicalEngineeringDeepLearning
-Material for The Mathematical Engineering of Deep Learning. See https://deeplearningmath.org
+Material for The Mathematical Engineering of Deep Learning. See the book content on https://deeplearningmath.org.
 
-### Chapter 1 Figures
+This is the source code used for creating figures and tables in the book.
+
+### Chapter 1
 | Figure  | Topic       | Source Code  |
 | ------- | ----------- | -----------  |
 | 1.1     | Fast.ai example | [Python Google Colab](https://colab.research.google.com/drive/1YOjnlAqY71PspLn0QzoYl5SmcEmXr4GP?usp=sharing) |  
@@ -9,7 +11,7 @@ Material for The Mathematical Engineering of Deep Learning. See https://deeplear
 | 1.4     | Neurons         | TikZ(b), TikZ(d) |  
 | 1.5     | Data on earth   | [Julia](Julia/data_world_in_zb.ipynb) |  
 
-### Chapter 2 Figures
+### Chapter 2
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
 | 2.1    | Supervised and Unsupervised Learning | TikZ(a), TikZ(b) |  
