@@ -18,8 +18,8 @@ This is the source code used for creating figures and tables in the book.
 | 2.2    | Simple regression | R |  
 | 2.3    | Breast Cancer ROC curves | R |  
 | 2.4    | Least Squares | TikZ |  
-| 2.5    | Loss functions | Julia |  
-| Table 2.1 | Linear MNIST classification | Julia |
+| 2.5    | Loss functions | [Julia](Julia/LossFunctions.ipynb) |  
+| Table 2.1 | Linear MNIST classification | [Julia](Julia/LinearMNIST_3_ways.ipynb) |
 | 2.6    | Gradient Descent  | Python |  
 | 2.7    | Loss Landscape  | R |  
 | 2.8    | Generalization and Training | Julia |  
@@ -28,4 +28,4 @@ This is the source code used for creating figures and tables in the book.
 | 2.11   | K-means clustering | R |  
 | 2.12   | K-means image segmentation | R |  
 | 2.13   | Breast Cancer PCA | R |  
-| 2.14   | SVD Compression | Julia |
+| 2.14   | SVD Compression | [Julia](SVD_compression.ipynb) |
