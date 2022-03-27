@@ -1,7 +1,7 @@
 # MathematicalEngineeringDeepLearning
 Material for The Mathematical Engineering of Deep Learning. See the actual book content on [deeplearningmath.org](https://deeplearningmath.org) or (when it is out) purchase the book from CRC press.
 
-This is the source code used for creating figures and tables in the book. We use [Julia](https://julialang.org/), [Python](https://www.python.org/), or [R](https://www.r-project.org/) and the code is sometimes in stand alone files, sometimes in [Jupyter](https://jupyter.org/) notebooks, sometimes as [R Markdown](https://rmarkdown.rstudio.com/), and sometimes in [Google Colab](https://research.google.com/colaboratory/). Many of our static illustrations were created using [TikZ](https://texample.net/tikz/examples/) by Ajay Hemanth and Vishnu Prasath with the p[source of their illustrations](https://github.com/ajayhemanth/The-Mathematical-Engineering-of-Deep-Learning---TikZ) also available. 
+This is the source code used for creating figures and tables in the book. We use [Julia](https://julialang.org/), [Python](https://www.python.org/), or [R](https://www.r-project.org/) and the code is sometimes in stand alone files, sometimes in [Jupyter](https://jupyter.org/) notebooks, sometimes as [R Markdown](https://rmarkdown.rstudio.com/), and sometimes in [Google Colab](https://research.google.com/colaboratory/). Many of our static illustrations were created using [TikZ](https://texample.net/tikz/examples/) by [Ajay Hemanth](https://www.linkedin.com/in/ajayhemanth/) and Vishnu Prasath with the [source of their illustrations](https://github.com/ajayhemanth/The-Mathematical-Engineering-of-Deep-Learning---TikZ) also available so you can adapt it for purposes. 
 
 ### Chapter 1
 | Figure  | Topic       | Source Code  |
