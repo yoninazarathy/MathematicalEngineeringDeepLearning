@@ -1,7 +1,7 @@
 # MathematicalEngineeringDeepLearning
 Material for The Mathematical Engineering of Deep Learning. See the book content on https://deeplearningmath.org.
 
-This is the source code used for creating figures and tables in the book.
+This is the source code used for creating figures and tables in the book. We use [Julia](https://julialang.org/), [Python](https://www.python.org/), or [R](https://www.r-project.org/) and the code is sometimes in stand alone files, sometimes in [Jupyter](https://jupyter.org/) notebooks, sometimes as [R Markdown](https://rmarkdown.rstudio.com/), and sometimes in [Google Colab](https://research.google.com/colaboratory/). Many of our static illustrations were created using [TikZ](https://texample.net/tikz/examples/) by Ajay Hemanth and Vishnu Prasath with the p[source of their illustrations](https://github.com/ajayhemanth/The-Mathematical-Engineering-of-Deep-Learning---TikZ) also available. 
 
 ### Chapter 1
 | Figure  | Topic       | Source Code  |
@@ -29,3 +29,23 @@ This is the source code used for creating figures and tables in the book.
 | 2.12   | K-means image segmentation | R |  
 | 2.13   | Breast Cancer PCA | R |  
 | 2.14   | SVD Compression | [Julia](Julia/SVD_compression.ipynb) |
+
+### Chapter 3
+| Figure | Topic           | Source Code        |
+| ------ | --------------- | -----------        |
+| 3.1    | TBD             |                    |  
+
+### Chapter 4
+| Figure | Topic           | Source Code        |
+| ------ | --------------- | -----------        |
+| 4.1    | TBD             |                    |  
+
+### Chapter 5
+| Figure | Topic           | Source Code        |
+| ------ | --------------- | -----------        |
+| 5.1    | TBD             |                    |  
+
+### Chapter 6
+| Figure | Topic           | Source Code        |
+| ------ | --------------- | -----------        |
+| 5.1    | TBD             |                    |  
