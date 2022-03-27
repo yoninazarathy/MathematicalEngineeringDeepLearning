@@ -7,8 +7,8 @@ This is the source code used for creating figures and tables in the book. We use
 | Figure  | Topic       | Source Code  |
 | ------- | ----------- | -----------  |
 | 1.1     | Fast.ai example | [Python Google Colab](https://colab.research.google.com/drive/1YOjnlAqY71PspLn0QzoYl5SmcEmXr4GP?usp=sharing) |  
-| 1.3     | Architectures   | [TikZ(a)](https://github.com/ajayhemanth/The-Mathematical-Engineering-of-Deep-Learning---TikZ/blob/main/source_tikz/in_out_neural_network.tikz), TikZ(b), TikZ(c), TikZ(d), TikZ(e), TikZ(f) |  
-| 1.4     | Neurons         | TikZ(b), TikZ(d) |  
+| 1.3     | Architectures   | [TikZ(a)](https://github.com/ajayhemanth/The-Mathematical-Engineering-of-Deep-Learning---TikZ/blob/main/source_tikz/in_out_neural_network.tikz), TikZ(b), [TikZ(c)](https://github.com/ajayhemanth/The-Mathematical-Engineering-of-Deep-Learning---TikZ/blob/main/source_tikz/recursive_graph.tikz), [TikZ(d)](https://github.com/ajayhemanth/The-Mathematical-Engineering-of-Deep-Learning---TikZ/blob/main/source_tikz/circuit_diagram.tikz), [TikZ(e)](https://github.com/ajayhemanth/The-Mathematical-Engineering-of-Deep-Learning---TikZ/blob/main/source_tikz/encoder_decoder.tikz), [TikZ(f)](https://github.com/ajayhemanth/The-Mathematical-Engineering-of-Deep-Learning---TikZ/blob/main/source_tikz/predicted_lables.tikz) |  
+| 1.4     | Neurons         | TikZ(b), [TikZ(d)](https://github.com/ajayhemanth/The-Mathematical-Engineering-of-Deep-Learning---TikZ/blob/main/source_tikz/simple_neural_network.tikz) |  
 | 1.5     | Data on earth   | [Julia](Julia/data_world_in_zb.ipynb) |  
 
 ### Chapter 2
