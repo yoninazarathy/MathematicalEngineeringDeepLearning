@@ -48,4 +48,24 @@ This is the source code used for creating figures and tables in the book. We use
 ### Chapter 6
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
-| 5.1    | TBD             |                    |  
+| 6.1    | TBD             |                    |  
+
+### Chapter 7
+| Figure | Topic           | Source Code        |
+| ------ | --------------- | -----------        |
+| 7.1    | TBD             |                    |  
+
+### Chapter 8
+| Figure | Topic           | Source Code        |
+| ------ | --------------- | -----------        |
+| 8.1    | TBD             |                    |  
+
+### Chapter 9
+| Figure | Topic           | Source Code        |
+| ------ | --------------- | -----------        |
+| 9.1    | TBD             |                    |  
+
+### Chapter 10
+| Figure | Topic           | Source Code        |
+| ------ | --------------- | -----------        |
+| 10.1    | TBD             |                    |  
