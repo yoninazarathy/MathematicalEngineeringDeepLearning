@@ -24,7 +24,7 @@ Below is a detailed list of the source code used for creating figures and tables
 | 2.6    | Loss functions | [Julia](Julia/LossFunctions.ipynb) |  
 | Table 2.1 | Linear MNIST classification | [Julia](Julia/LinearMNIST_3_ways.ipynb) |
 | 2.7    | Gradient Descent Learning Rate  | [Python](Python/Learning-Rate-Matters-GD-linear.ipynb) |  
-| 2.8    | Loss Landscape  | R |  
+| 2.8    | Loss Landscape  | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Loss_Landscape.R) |  
 | 2.9    | Generalization and Training | [Julia](Julia/Expected_Performance_Curves.ipynb) |  
 | 2.10    | Polynomial fit | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Polynomial_fit.R) |  
 | 2.11   | K-fold cross validation | TikZ |  
