@@ -16,8 +16,8 @@ Below is a detailed list of the source code used for creating figures and tables
 ### Chapter 2
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
-| 2.1    | Supervised Learning | TikZ |  
-| 2.2    | Unsupervised Learning | TikZ |  
+| 2.1    | Supervised Learning | [TikZ](https://github.com/ajayhemanth/The-Mathematical-Engineering-of-Deep-Learning---TikZ/blob/main/source_tikz/training_prediction.tex) |  
+| 2.2    | Unsupervised Learning | [TikZ](https://github.com/ajayhemanth/The-Mathematical-Engineering-of-Deep-Learning---TikZ/blob/main/source_tikz/clustering_reduction.tex) |  
 | 2.3    | Simple regression | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Simple_Regression.R) |  
 | 2.4    | Breast Cancer ROC curves | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Breast_Cancer_ROC_curves.R) |  
 | 2.5    | Least Squares | TikZ |  
