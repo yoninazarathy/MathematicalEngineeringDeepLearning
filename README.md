@@ -16,21 +16,22 @@ Below is a detailed list of the source code used for creating figures and tables
 ### Chapter 2
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
-| 2.1    | Supervised and Unsupervised Learning | TikZ(a), TikZ(b) |  
-| 2.2    | Simple regression | R |  
-| 2.3    | Breast Cancer ROC curves | R |  
-| 2.4    | Least Squares | TikZ |  
-| 2.5    | Loss functions | [Julia](Julia/LossFunctions.ipynb) |  
+| 2.1    | Supervised Learning | TikZ |  
+| 2.2    | Unsupervised Learning | TikZ |  
+| 2.3    | Simple regression | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Simple_Regression.R) |  
+| 2.4    | Breast Cancer ROC curves | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Breast_Cancer_ROC_curves.R) |  
+| 2.5    | Least Squares | TikZ |  
+| 2.6    | Loss functions | [Julia](Julia/LossFunctions.ipynb) |  
 | Table 2.1 | Linear MNIST classification | [Julia](Julia/LinearMNIST_3_ways.ipynb) |
-| 2.6    | Gradient Descent Learning Rate  | [Python](Python/Learning-Rate-Matters-GD-linear.ipynb) |  
-| 2.7    | Loss Landscape  | R |  
-| 2.8    | Generalization and Training | [Julia](Julia/Expected_Performance_Curves.ipynb) |  
-| 2.9    | Polynomial fit | R |  
-| 2.10   | K-fold cross validation | TikZ |  
-| 2.11   | K-means clustering | R |  
-| 2.12   | K-means image segmentation | R |  
-| 2.13   | Breast Cancer PCA | R |  
-| 2.14   | SVD Compression | [Julia](Julia/SVD_compression.ipynb) |
+| 2.7    | Gradient Descent Learning Rate  | [Python](Python/Learning-Rate-Matters-GD-linear.ipynb) |  
+| 2.8    | Loss Landscape  | R |  
+| 2.9    | Generalization and Training | [Julia](Julia/Expected_Performance_Curves.ipynb) |  
+| 2.10    | Polynomial fit | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Polynomial_fit.R) |  
+| 2.11   | K-fold cross validation | TikZ |  
+| 2.12   | K-means clustering | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/kmeans-clustering.R) |  
+| 2.13   | K-means image segmentation | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/K-means-image-segmentation.R) |  
+| 2.14   | Breast Cancer PCA | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Breast_Cancer_PCA.R) |  
+| 2.15   | SVD Compression | [Julia](Julia/SVD_compression.ipynb) |
 
 ### Chapter 3
 | Figure | Topic           | Source Code        |
