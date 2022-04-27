@@ -20,14 +20,14 @@ Below is a detailed list of the source code used for creating figures and tables
 | 2.2    | Unsupervised Learning | [TikZ](https://github.com/ajayhemanth/The-Mathematical-Engineering-of-Deep-Learning---TikZ/blob/main/source_tikz/clustering_reduction.tex) |  
 | 2.3    | Simple regression | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Simple_Regression.R) |  
 | 2.4    | Breast Cancer ROC curves | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Breast_Cancer_ROC_curves.R) |  
-| 2.5    | Least Squares | TikZ |  
+| 2.5    | Least Squares | [TikZ](https://github.com/ajayhemanth/The-Mathematical-Engineering-of-Deep-Learning---TikZ/blob/main/source_tikz/plot_rectangles.tex) |  
 | 2.6    | Loss functions | [Julia](Julia/LossFunctions.ipynb) |  
 | Table 2.1 | Linear MNIST classification | [Julia](Julia/LinearMNIST_3_ways.ipynb) |
 | 2.7    | Gradient Descent Learning Rate  | [Python](Python/Learning-Rate-Matters-GD-linear.ipynb) |  
 | 2.8    | Loss Landscape  | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Loss_Landscape.R) |  
-| 2.9    | Generalization and Training | [Julia](Julia/Expected_Performance_Curves.ipynb) |  
+| 2.9    | Generalization and Training | [TikZ](https://github.com/ajayhemanth/The-Mathematical-Engineering-of-Deep-Learning---TikZ/blob/main/source_tikz/error_modelcomplexity.tex) or [Julia](Julia/Expected_Performance_Curves.ipynb) |  
 | 2.10    | Polynomial fit | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Polynomial_fit.R) |  
-| 2.11   | K-fold cross validation | TikZ |  
+| 2.11   | K-fold cross validation | [TikZ](https://github.com/ajayhemanth/The-Mathematical-Engineering-of-Deep-Learning---TikZ/blob/main/source_tikz/kfold_cross_validation.tex) |  
 | 2.12   | K-means clustering | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/kmeans-clustering.R) |  
 | 2.13   | K-means image segmentation | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/K-means-image-segmentation.R) |  
 | 2.14   | Breast Cancer PCA | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Breast_Cancer_PCA.R) |  
