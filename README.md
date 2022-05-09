@@ -79,8 +79,6 @@ Below is a detailed list of the source code used for creating figures and tables
 | 5.8    | Flow of information in standard neural network back propagation | [TikZ]() |  
 | 5.9    | Computational graph for batch normalization | [TikZ]() |  
 | 5.10    | The effect of dropout  | [TikZ]()                    |  
-| 5.11    | TBD             |                    |  
-| 5.12    | TBD             |                    |  
 
 ### Chapter 6 (Figures under construction)
 | Figure | Topic           | Source Code        |
