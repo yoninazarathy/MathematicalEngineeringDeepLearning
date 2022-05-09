@@ -50,11 +50,21 @@ Below is a detailed list of the source code used for creating figures and tables
 | 3.12 | Autoencoder projections of MNIST including using PCA | [R]() |
 | 3.13 | Reconstruction of MNIST using autoencoders | [R]() |
 | 3.14 | Denoising autoencoder | [TikZ]() |
+| 3.15 | Denoising autoencoder used for MNIST | [R]() |
+
 
 ### Chapter 4 (Figures under construction)
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
-| 4.1    | TBD             |                    |  
+| 4.1    | Convexity and local/global extrema   |    [Python]()  |  
+| 4.2    | Saddle points   |  [Python]()  | 
+| 4.3    | Various parameters of gradient descent |  [Python]()  | 
+| 4.4    | Stochastic gradient descent |  [Python]()  | 
+| 4.5    | Early stopping in deep learning |  [Python]()  | 
+| 4.6    | Momentum and RMS Prop enhancing gradient descent |  [Python]()  | 
+| 4.7    | Nesterov and other variations of gradient descent |  [Python]()  | 
+| 4.8    | Performance of second order methods             |    | 
+| 4.9    | Computational graph for automatic differentiation            |  [TikZ]()  | 
 
 ### Chapter 5 (Figures under construction)
 | Figure | Topic           | Source Code        |
