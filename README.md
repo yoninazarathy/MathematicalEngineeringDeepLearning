@@ -33,42 +33,55 @@ Below is a detailed list of the source code used for creating figures and tables
 | 2.14   | Breast Cancer PCA | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Breast_Cancer_PCA.R) |  
 | 2.15   | SVD Compression | [Julia](Julia/SVD_compression.ipynb) |
 
-### Chapter 3
-| Figure | Topic           | Source Code        |
-| ------ | --------------- | -----------        |
-| 3.1    | TBD             |                    |  
+### Chapter 3 (Figures under construction)
+| Figure | Topic           | Source Code          |
+| ------ | --------------- | -----------          |
+| 3.1    | Logistic regression model curves | [R(a)]() [R(b)]() |        
+| 3.2    | Linear decision boundary for logistic regression | [R]()   |  
+| 3.3    | Components of an artificial neuron | [TikZ]() |
+| 3.4    | Loss landscape of MSE vs. CE on logistic regression | [Python]() |
+| 3.5    | Evolution of gradient descent learning in logistic regression | [R]() |
+| 3.6    | Multinomial regression for classification | [R]() |
+| 3.7    | Shallow multi-output neural network with softmax | [TikZ]() |
+| 3.8    | Feature engineering in simple logistic regression | [R]() |
+| 3.9    | Non-linear classification decision boundaries with feature engineering in logistic regression | [R]() |
+| 3.10   | Non-linear classification decision boundaries with feature engineering in multinomial regression | [R]() |
+| 3.11 | Single hidden layer autoencoder | [TikZ]() |
+| 3.12 | Autoencoder projections of MNIST including using PCA | [R]() |
+| 3.13 | Reconstruction of MNIST using autoencoders | [R]() |
+| 3.14 | Denoising autoencoder | [TikZ]() |
 
-### Chapter 4
+### Chapter 4 (Figures under construction)
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
 | 4.1    | TBD             |                    |  
 
-### Chapter 5
+### Chapter 5 (Figures under construction)
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
 | 5.1    | TBD             |                    |  
 
-### Chapter 6
+### Chapter 6 (Figures under construction)
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
 | 6.1    | TBD             |                    |  
 
-### Chapter 7
+### Chapter 7 (Figures under construction)
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
 | 7.1    | TBD             |                    |  
 
-### Chapter 8
+### Chapter 8 (Figures under construction)
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
 | 8.1    | TBD             |                    |  
 
-### Chapter 9
+### Chapter 9 (Figures under construction)
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
 | 9.1    | TBD             |                    |  
 
-### Chapter 10
+### Chapter 10 (Figures under construction)
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
 | 10.1    | TBD             |                    |  
