@@ -69,7 +69,18 @@ Below is a detailed list of the source code used for creating figures and tables
 ### Chapter 5 (Figures under construction)
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
-| 5.1    | TBD             |                    |  
+| 5.1    | Fully Connected Feedforward Neural Networks | [TikZ(a)](), [TikZ(b)]()   |  
+| 5.2    | Arbitrary function approximation with neural nets  | [Julia]()   |  
+| 5.3    | Binary classification with increasing depth |  [R]() |  
+| 5.4    | A continuous multiplication gate with 4 hidden units | [TikZ]()  |  
+| 5.5    | Several common scalar activation functions |  [Julia]()  |  
+| 5.6    | Flow of information in general back propagation | [TikZ]()  |  
+| 5.7    | Simple neural network hypothetical example | [TikZ]() |  
+| 5.8    | Flow of information in standard neural network back propagation | [TikZ]() |  
+| 5.9    | Computational graph for batch normalization | [TikZ]() |  
+| 5.10    | The effect of dropout  | [TikZ]()                    |  
+| 5.11    | TBD             |                    |  
+| 5.12    | TBD             |                    |  
 
 ### Chapter 6 (Figures under construction)
 | Figure | Topic           | Source Code        |
