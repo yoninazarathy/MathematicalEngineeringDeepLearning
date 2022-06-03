@@ -48,8 +48,8 @@ Below is a detailed list of the source code used for creating figures and tables
 | 3.9    | Non-linear classification decision boundaries with feature engineering in logistic regression | [R]() |
 | 3.10   | Non-linear classification decision boundaries with feature engineering in multinomial regression | [R]() |
 | 3.11 | Single hidden layer autoencoder | [TikZ]() |
-| 3.12 | Autoencoder projections of MNIST including using PCA | [R]() |
-| 3.13 | Manifolds and autoencoders | [R]() |
+| 3.12 | Autoencoder projections of MNIST including using PCA | [R]() [TikZ]() |
+| 3.13 | Manifolds and autoencoders | [R]() [TikZ]() |
 | 3.14 | MNIST using autoencoders | [R]() |
 | 3.15 | Denoising autoencoder | [TikZ]() |
 | 3.16 | Interpolations with autoencoders | [Julia]() |
