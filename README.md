@@ -41,16 +41,18 @@ Below is a detailed list of the source code used for creating figures and tables
 | 3.3    | Components of an artificial neuron | [TikZ]() |
 | 3.4    | Loss landscape of MSE vs. CE on logistic regression | [Python]() |
 | 3.5    | Evolution of gradient descent learning in logistic regression | [R]() |
-| 3.6    | Multinomial regression for classification | [R]() |
-| 3.7    | Shallow multi-output neural network with softmax | [TikZ]() |
+| 3.6    | Shallow multi-output neural network with softmax | [TikZ]() |
+| 3.7    | Multinomial regression for classification | [R]() |
+| Table 3.1 | Different approaches for creating an MNIST digit classifier. | [Julia]() |
 | 3.8    | Feature engineering in simple logistic regression | [R]() |
 | 3.9    | Non-linear classification decision boundaries with feature engineering in logistic regression | [R]() |
 | 3.10   | Non-linear classification decision boundaries with feature engineering in multinomial regression | [R]() |
 | 3.11 | Single hidden layer autoencoder | [TikZ]() |
 | 3.12 | Autoencoder projections of MNIST including using PCA | [R]() |
-| 3.13 | Reconstruction of MNIST using autoencoders | [R]() |
-| 3.14 | Denoising autoencoder | [TikZ]() |
-| 3.15 | Denoising autoencoder used for MNIST | [R]() |
+| 3.13 | Manifolds and autoencoders | [R]() |
+| 3.14 | MNIST using autoencoders | [R]() |
+| 3.15 | Denoising autoencoder | [TikZ]() |
+| 3.16 | Interpolations with autoencoders | [Julia]() |
 
 
 ### Chapter 4 (Figures under construction)
