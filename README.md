@@ -55,17 +55,20 @@ Below is a detailed list of the source code used for creating figures and tables
 | 3.16 | Interpolations with autoencoders | [Julia]() |
 
 
-### Chapter 4 (Figures under construction)
+### Chapter 4 (Figures)
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
 | 4.1    | Convexity and local/global extrema   |    [Python]()  |  
-| 4.2    | Various parameters of gradient descent |  [Python]()  | 
+| 4.2    | Gradient descent with a time dependent learning rate |  [Python]()  | 
 | 4.3    | Stochastic gradient descent |  [Python]()  | 
-| 4.4    | Early stopping in deep learning |  [Python]()  | 
-| 4.5    | Momentum and RMS Prop enhancing gradient descent |  [Python]()  | 
-| 4.6    | Nesterov and other variations of gradient descent |  [Python]()  | 
-| 4.7    | Performance of second order methods             |    | 
-| 4.8    | Computational graph for automatic differentiation            |  [TikZ]()  | 
+| 4.4    | Early stopping in deep learning |  [Julia]()  | 
+| 4.5    | Non-convex loss landscapes |  [Python]()  | 
+| 4.6    | Momentum enhancing gradient descent |  [Python]()  | 
+| 4.7    | The computational graph for automatic differentiation |  [TikZ](https://github.com/ajayhemanth/The-Mathematical-Engineering-of-Deep-Learning---TikZ/blob/main/source_tikz/computational_graph.tex)  | 
+| 4.8    | Line search concepts             |  [Python]()  | 
+| 4.9    | The zig-zagging property of line search (zoom in) | [Python]()  | 
+| 4.10    | Newton's method in one dimension | [Python]()  | 
+
 
 ### Chapter 5 (Figures under construction)
 | Figure | Topic           | Source Code        |
