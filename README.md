@@ -89,7 +89,7 @@ Below is a detailed list of the source code used for creating figures and tables
 | Figure | Topic           | Source Code          |
 | ------ | --------------- | -----------          |
 | 6.2    | VGG19 architecture | [TikZ]()        |  
-| 6.3    | Convolutions | [TikZ(a)]() [TikZ(a)]() |  
+| 6.3    | Convolutions | [TikZ(a)](), [TikZ(b)]() |  
 | 6.6    | Convolution padding | [TikZ]() |  
 | 6.7    | Convolution stride | [TikZ]() |  
 | 6.8    | Convolution dilation | [TikZ]() |  
@@ -101,22 +101,42 @@ Below is a detailed list of the source code used for creating figures and tables
 | 6.17   | Siamese network | [TikZ]() |  
 
 
-### Chapter 7 (Figures under construction)
+### Chapter 7 
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
-| 7.1    | TBD             |                    |  
+| 7.1    | Sequence RNN tasks | [TikZ(a)](), [TikZ(b)](), [TikZ(c)](), [TikZ(d)]() |
+| 7.2    | Sequence RNN input output paradigms | [TikZ(a)](), [TikZ(b)](), [TikZ(c)](), [TikZ(d)]() |
+| 7.3    | RNN recursive graph and unfolded graph | [TikZ]() |
+| 7.4    | RNN unit | [TikZ]() |
+| 7.5    | RNN language prediction training | [TikZ]() |
+| 7.6    | Backpropagation  through time | [TikZ]() |
+| 7.7    | Alternative RNN configurations | [TikZ(a)](), [TikZ(b)]() |
+| 7.8    |  |  |
+| 7.9    |  |  |
+| 7.10    |  |  |
+| 7.11    |  |  |
+| 7.12    |  |  |
+| 7.13    |  |  |
+| 7.14    |  |  |
+| 7.15    |  |  |
+| 7.16    |  |  |
+| 7.17    |  |  |
+
 
 ### Chapter 8 (Figures under construction)
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
-| 8.1    | TBD             |                    |  
+| 8.1   |  |  |
+| 8.2   |  |  |
+| 8.4   |  |  |
+| 8.6   |  |  |
+| 8.7   |  |  |
+| 8.8   |  |  |
+| 8.9   |  |  |
+| Equation (8.72)   |  |  |
+| 8.10   |  |  |
+| 8.11   |  |  |
+| 8.12   |  |  |
+| 8.13   |  |  |
+| 8.14   |  |  |
 
-### Chapter 9 (Figures under construction)
-| Figure | Topic           | Source Code        |
-| ------ | --------------- | -----------        |
-| 9.1    | TBD             |                    |  
-
-### Chapter 10 (Figures under construction)
-| Figure | Topic           | Source Code        |
-| ------ | --------------- | -----------        |
-| 10.1    | TBD             |                    |  
