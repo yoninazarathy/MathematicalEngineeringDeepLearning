@@ -111,32 +111,31 @@ Below is a detailed list of the source code used for creating figures and tables
 | 7.5    | RNN language prediction training | [TikZ]() |
 | 7.6    | Backpropagation  through time | [TikZ]() |
 | 7.7    | Alternative RNN configurations | [TikZ(a)](), [TikZ(b)]() |
-| 7.8    |  |  |
-| 7.9    |  |  |
-| 7.10    |  |  |
-| 7.11    |  |  |
-| 7.12    |  |  |
-| 7.13    |  |  |
-| 7.14    |  |  |
-| 7.15    |  |  |
-| 7.16    |  |  |
-| 7.17    |  |  |
+| 7.8    | LSTM and GRU | [TikZ(a)](), [TikZ(b)]() |
+| 7.9    | Encoder decoder architectures | [TikZ(a)](), [TikZ(b)]() |
+| 7.10   | Encoder decoder with attention | [TikZ]() |
+| 7.11   | Attention weights | [TikZ]() |
+| 7.12   | Flow of information with self attention | [TikZ]()  |
+| 7.13   | Multi-head self attention | [TikZ]() |
+| 7.14   | Positional embedding | [Julia(a,b)]() |
+| 7.15   | Transformer blocks | [TikZ(a)](), [TikZ(b)]() |
+| 7.16   | Transformer encoder decoder architecture | [TikZ]() |
+| 7.17   | Transfomer auto-regressive application | [TikZ]() |
 
 
 ### Chapter 8 (Figures under construction)
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
-| 8.1   |  |  |
-| 8.2   |  |  |
-| 8.4   |  |  |
-| 8.6   |  |  |
-| 8.7   |  |  |
-| 8.8   |  |  |
-| 8.9   |  |  |
-| Equation (8.72)   |  |  |
-| 8.10   |  |  |
-| 8.11   |  |  |
-| 8.12   |  |  |
-| 8.13   |  |  |
-| 8.14   |  |  |
-
+| 8.1   | Generative modelling | [TikZ]()  |
+| 8.2   | Variational autoencoder | [TikZ]() |
+| 8.4   | Diffusion encoder and decoder | [TikZ]() |
+| 8.6   | GAN architectures | [TikZ]() |
+| 8.7   | Separation of GAN distributions | [TikZ]() |
+| 8.8   | Wasserstein distance | [TikZ]() |
+| 8.9   | Reinforcement learning | [TikZ]() |
+| Equation (8.72) | An MDP optimal policy  | [Julia]() |
+| 8.10   | Applications of GNN | [TikZ(a)](), [TikZ(b)](), [TikZ(c)]() |
+| 8.11   | Directed and undirected graphs | [TikZ(a)](), [TikZ(b)]() |
+| 8.12   | Transductive inductive learning | [TikZ(a)](), [TikZ(b)]() |
+| 8.13   | Types of GNN tasks | [TikZ(a)](), [TikZ(b)](), [TikZ(c)]() |
+| 8.14   | Aggregation in message passing  | [TikZ(a)](), [TikZ(b)]() |
