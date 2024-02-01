@@ -123,7 +123,7 @@ Below is a detailed list of the source code used for creating figures and tables
 | 7.17   | Transfomer auto-regressive application | [TikZ]() |
 
 
-### Chapter 8 (Figures under construction)
+### Chapter 8
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
 | 8.1   | Generative modelling | [TikZ]()  |
