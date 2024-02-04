@@ -46,7 +46,7 @@ Below is a detailed list of the source code used for creating figures and tables
 | Table 3.1 | Different approaches for creating an MNIST digit classifier. | [Julia]() |
 | 3.8    | Feature engineering in simple logistic regression | [R](R/R-code-logistic-beyond-linearity.R) |
 | 3.9    | Non-linear classification decision boundaries with feature engineering in logistic regression | [R]() |
-| 3.10   | Non-linear classification decision boundaries with feature engineering in multinomial regression | [R]() |
+| 3.10   | Non-linear classification decision boundaries with feature engineering in multinomial regression | [R](R/Figure-softmax-boundary-4-classes.R) |
 | 3.11 | Single hidden layer autoencoder | [TikZ]() |
 | 3.12 | Autoencoder projections of MNIST including using PCA | [R]() [TikZ]() |
 | 3.13 | Manifolds and autoencoders | [R]() [TikZ]() |
