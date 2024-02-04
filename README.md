@@ -41,11 +41,11 @@ Below is a detailed list of the source code used for creating figures and tables
 | 3.4    | Loss landscape of MSE vs. CE on logistic regression | [Python]() |
 | 3.5    | Evolution of gradient descent learning in logistic regression | [R(a,b) First file](R/Gradient_Descent_logistic.R), [R(a,b) Second file](R/Function-for-Gradient-Descent-Logistic.R) |
 | 3.6    | Shallow multi-output neural network with softmax | [TikZ]() |
-| 3.7    | Multinomial regression for classification | [R]() |
+| 3.7    | Multinomial regression for classification | [R](R/Figure-softmax-boundary-4-classes.R) |
 | Table 3.1 | Different approaches for creating an MNIST digit classifier. | [Julia]() |
 | 3.8    | Feature engineering in simple logistic regression | [R](R/R-code-logistic-beyond-linearity.R) |
-| 3.9    | Non-linear classification decision boundaries with feature engineering in logistic regression | [R]() |
-| 3.10   | Non-linear classification decision boundaries with feature engineering in multinomial regression | [R](R/Figure-softmax-boundary-4-classes.R) |
+| 3.9    | Non-linear classification decision boundaries with feature engineering in logistic regression | [R](R/R-code-Figure-versatile-Boundaries.R) |
+| 3.10   | Non-linear classification decision boundaries with feature engineering in multinomial regression | [R](R/Figure-softmax-boundary-4-classes.R) same as 3.7 |
 | 3.11 | Single hidden layer autoencoder | [TikZ]() |
 | 3.12 | Autoencoder projections of MNIST including using PCA | [R]() [TikZ]() |
 | 3.13 | Manifolds and autoencoders | [R]() [TikZ]() |
