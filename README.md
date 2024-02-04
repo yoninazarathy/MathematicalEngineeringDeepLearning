@@ -36,8 +36,8 @@ Below is a detailed list of the source code used for creating figures and tables
 ### Chapter 3
 | Figure | Topic           | Source Code          |
 | ------ | --------------- | -----------          |
-| 3.1    | Logistic regression model curves | [R(a)]() [R(b)]() |        
-| 3.2    | Linear decision boundary for logistic regression | [R]()   |  
+| 3.1    | Logistic regression model curves | [R(a,b](R-code-logistic-smooth-link)  |        
+| 3.2    | Linear decision boundary for logistic regression | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/R-code-logistic-smooth-link.R)   |  
 | 3.3    | Components of an artificial neuron | [TikZ]() |
 | 3.4    | Loss landscape of MSE vs. CE on logistic regression | [Python]() |
 | 3.5    | Evolution of gradient descent learning in logistic regression | [R]() |
