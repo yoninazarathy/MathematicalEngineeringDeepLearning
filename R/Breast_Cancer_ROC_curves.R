@@ -1,4 +1,4 @@
-load("Breast_cancer.RData")
+load("../data/Breast_cancer.RData")
 head(Breast_cancer_data[,c(2:6)])
 data <- Breast_cancer_data
 dim(data)

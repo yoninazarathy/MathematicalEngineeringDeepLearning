@@ -40,18 +40,19 @@ Cost.fct.norm <- function(theta0,theta1) {
 theta0 <- seq(-20, 20, 0.1)
 theta1 <- seq(-20, 20, 0.1)
 cost <- outer(theta0, theta1, function(x,y) mapply(Cost.fct,x,y))
-pdf(file="normalized-input-a.pdf", height=10, width=10)
-par(cex.axis=2)
-contour(x = theta0, y = theta1, nlevel=20,z = cost,labcex=1)
+pdf(file="normalized-input-a-new.pdf", height=10, width=10)
+par(cex.axis=2,mar=c(5,5,2,2) + 0.1)
+contour(x = theta0, y = theta1, cex.lab=2,ylab=expression(w[2]),xlab=expression(w[1]),nlevel=20,z = cost,labcex=1)
 dev.off()
 
 
 theta0 <- seq(-20, 20, 0.5)
 theta1 <- seq(-20, 20, 0.5)
 cost <- outer(theta0, theta1, function(x,y) mapply(Cost.fct.norm,x,y))
-pdf(file="normalized-input-b.pdf", height=10, width=10)
-par(cex.axis=2)
-contour(x = theta0, y = theta1,nlevel=20,z = cost,labcex=1)
+pdf(file="normalized-input-b-new.pdf", height=10, width=10)
+par(cex.axis=2,mar=c(5,5,2,2) + 0.1)
+contour(x = theta0, y = theta1, cex.lab=2,ylab=expression(tilde(w)[2]),xlab=expression(tilde(w)[1]),nlevel=20,z = cost,labcex=1)
+#contour(x = theta0, y = theta1,nlevel=20,z = cost,labcex=1)
 
 
 dev.off()

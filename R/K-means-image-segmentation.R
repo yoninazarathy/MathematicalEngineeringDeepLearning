@@ -2,7 +2,7 @@ library(ggplot2)
 library(jpeg)
 
 
-img <- readJPEG("Yoni-ben-pool-seg.jpg")
+img <- readJPEG("../dataYoni-ben-pool-seg.jpg")
 
 
 # Obtain the dimension
