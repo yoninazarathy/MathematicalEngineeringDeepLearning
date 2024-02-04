@@ -18,7 +18,7 @@ Below is a detailed list of the source code used for creating figures and tables
 | ------ | --------------- | -----------        |
 | 2.1    | Supervised Learning | [TikZ]() |  
 | 2.2    | Unsupervised Learning | [TikZ]() |  
-| 2.3    | Simple regression | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Simple_Regression.R) |  
+| 2.3    | Simple regression | [R](R/Simple_Regression.R) |  
 | 2.4    | Breast Cancer ROC curves | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Breast_Cancer_ROC_curves.R) |  
 | 2.5    | Least Squares | [TikZ]() |  
 | 2.6    | Loss functions | [Julia](Julia/LossFunctions.ipynb) |  
