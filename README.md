@@ -47,7 +47,7 @@ Below is a detailed list of the source code used for creating figures and tables
 | 3.9    | Non-linear classification decision boundaries with feature engineering in logistic regression | [R](R/R-code-Figure-versatile-Boundaries.R) |
 | 3.10   | Non-linear classification decision boundaries with feature engineering in multinomial regression | [R](R/Figure-softmax-boundary-4-classes.R) same as 3.7 |
 | 3.11 | Single hidden layer autoencoder | [TikZ]() |
-| 3.12 | Autoencoder projections of MNIST including using PCA | [R]() [TikZ]() |
+| 3.12 | Autoencoder projections of MNIST including using PCA | [R](R/R-code-section-autoencoder.R) [TikZ]() |
 | 3.13 | Manifolds and autoencoders | [R](R/simple-autoencoder-experiment.R) [TikZ]() |
 | 3.14 | MNIST using autoencoders | [R]() |
 | 3.15 | Denoising autoencoder | [TikZ]() |
