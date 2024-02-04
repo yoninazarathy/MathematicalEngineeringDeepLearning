@@ -40,7 +40,7 @@ Below is a detailed list of the source code used for creating figures and tables
 | 3.2    | Linear decision boundary for logistic regression | [R]()   |  
 | 3.3    | Components of an artificial neuron | [TikZ]() |
 | 3.4    | Loss landscape of MSE vs. CE on logistic regression | [Python]() |
-| 3.5    | Evolution of gradient descent learning in logistic regression | [R(a,b) First file](R/Function-for-Gradient-Descent-Logistic.R), [R(a,b) First file](R/Function-for-Gradient-Descent-Logistic.R) |
+| 3.5    | Evolution of gradient descent learning in logistic regression | [R(a,b) First file](R/Gradient_Descent_logistic.R), [R(a,b) Second file](R/Function-for-Gradient-Descent-Logistic.R) |
 | 3.6    | Shallow multi-output neural network with softmax | [TikZ]() |
 | 3.7    | Multinomial regression for classification | [R]() |
 | Table 3.1 | Different approaches for creating an MNIST digit classifier. | [Julia]() |
