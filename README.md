@@ -64,7 +64,7 @@ Below is a detailed list of the source code used for creating figures and tables
 | 4.5    | Non-convex loss landscapes |  [Python]()  | 
 | 4.6    | Momentum enhancing gradient descent |  [Python]()  | 
 | 4.7    | The computational graph for automatic differentiation |  [TikZ]()  | 
-| 4.8    | Line search concepts             |  [Python]()  | 
+| 4.8    | Line search concepts |  [Python]()  | 
 | 4.9    | The zig-zagging property of line search | [Python]()  | 
 | 4.10    | Newton's method in one dimension | [Python]()  | 
 
@@ -74,7 +74,7 @@ Below is a detailed list of the source code used for creating figures and tables
 | ------ | --------------- | -----------        |
 | 5.1    | Fully Connected Feedforward Neural Networks | [TikZ(a)](), [TikZ(b)]()   |  
 | 5.2    | Arbitrary function approximation with neural nets  | [TikZ(a)](), [Julia(b,c)]()   |  
-| 5.3    | Binary classification with increasing depth |  [R]() |
+| 5.3    | Binary classification with increasing depth |  [R](R/Figure_expressivity.R) |
 | 5.4    | A continuous multiplication gate with 4 hidden units | [TikZ]()  | 
 | 5.5    | A deep model with 10 layers | [TikZ]()  |  
 | 5.6    | Several common scalar activation functions |  [Julia(a,b)]()  |  
