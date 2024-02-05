@@ -49,9 +49,9 @@ Below is a detailed list of the source code used for creating figures and tables
 | 3.11 | Single hidden layer autoencoder | [TikZ]() |
 | 3.12 | Autoencoder projections of MNIST including using PCA | [R](R/R-code-section-autoencoder.R) [TikZ]() |
 | 3.13 | Manifolds and autoencoders | [R](R/simple-autoencoder-experiment.R) [TikZ]() |
-| 3.14 | MNIST using autoencoders | [R]() |
+| 3.14 | MNIST using autoencoders | [R](R/R-code-section-autoencoder.R) same as 3.12 |
 | 3.15 | Denoising autoencoder | [TikZ]() |
-| 3.16 | Interpolations with autoencoders | [Julia]() |
+| 3.16 | Interpolations with autoencoders | [R](R/R-code-section-autoencoder.R) same as 3.12, [Julia]() |
 
 
 ### Chapter 4
