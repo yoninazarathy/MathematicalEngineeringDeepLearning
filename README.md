@@ -97,7 +97,7 @@ Below is a detailed list of the source code used for creating figures and tables
 | 6.11   | Pooling | [TikZ(a)](tikz/figure6-11-a-max-pooling.tex), [TikZ(b)](tikz/figure6-11-b-average-pooling.tex) |
 | 6.13   | Inception module | [TikZ](tikz/figure6-13-inception-module.tex) |
 | 6.14   | Resnets | [TikZ](tikz/figure6-14-resnet.tex) |
-| 6.17   | Siamese network | [TikZ]() |
+| 6.17   | Siamese network | TikZ — not yet available |
 
 
 ### Chapter 7
@@ -136,5 +136,5 @@ Below is a detailed list of the source code used for creating figures and tables
 | 8.10   | Applications of GNN | [TikZ(a)](tikz/figure8-10-a-social-networks-data.tex), [TikZ(b)](tikz/figure8-10-b-knowledge-graphs-data.tex), [TikZ(c)](tikz/figure8-10-c-molecules.tex) |
 | 8.11   | Directed and undirected graphs | [TikZ(a)](tikz/figure8-11-a-undirected-graphs.tex), [TikZ(b)](tikz/figure8-11-b-directed-graphs.tex) |
 | 8.12   | Transductive inductive learning | [TikZ(a)](tikz/figure8-12-a-big-graph-for-transductive-learning.tex), [TikZ(b)](tikz/figure8-12-b-several-small-graphs-for-inductive-learning.tex) |
-| 8.13   | Types of GNN tasks | [TikZ(a)](), [TikZ(b)](), [TikZ(c)]() |
-| 8.14   | Aggregation in message passing  | [TikZ(a)](tikz/figure8-14-a-message-passing-input-graph.tex), [TikZ(b)]() |
+| 8.13   | Types of GNN tasks | TikZ(a), TikZ(b), TikZ(c) — not yet available |
+| 8.14   | Aggregation in message passing  | [TikZ(a)](tikz/figure8-14-a-message-passing-input-graph.tex), TikZ(b) — not yet available |
