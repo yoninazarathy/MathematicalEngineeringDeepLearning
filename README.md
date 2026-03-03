@@ -11,7 +11,7 @@ Below is a detailed list of the source code used for creating figures and tables
 | 1.1     | Fast.ai example | [Python Google Colab](https://colab.research.google.com/drive/1YOjnlAqY71PspLn0QzoYl5SmcEmXr4GP?usp=sharing) |
 | 1.3     | Architectures   | [TikZ(a)](tikz/figure1-3-a-in_out_neural_network.tex), [TikZ(c)](tikz/figure1-3-c-conv-nn-simple.tex), [TikZ(d)](tikz/figure1-3-d-recursive_graph.tex) |
 | 1.4     | Neurons         | [TikZ(b)](tikz/figure1-4-b-dendrites_with_synaptic_weights_axons.tex) |
-| 1.5     | Data on earth   | [Julia](Julia/data_world_in_zb.ipynb) |
+| 1.5     | Data on earth   | [Julia](Julia/world_data.ipynb) |
 
 ### Chapter 2
 | Figure | Topic           | Source Code        |
@@ -21,17 +21,17 @@ Below is a detailed list of the source code used for creating figures and tables
 | 2.3    | Simple regression | [R](R/Simple_Regression.R) |
 | 2.4    | Breast Cancer ROC curves | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Breast_Cancer_ROC_curves.R) |
 | 2.5    | Least Squares | [TikZ](tikz/figure2-5-plot_sum_squares.tex) |
-| 2.6    | Loss functions | [Julia](Julia/LossFunctions.ipynb) |
-| Table 2.1 | Linear MNIST classification | [Julia](Julia/LinearMNIST_3_ways.ipynb) |
+| 2.6    | Loss functions | [Julia](Julia/plots_env/LossFunctions.ipynb) |
+| Table 2.1 | Linear MNIST classification | [Julia](Julia/MNIST_5_ways.ipynb) |
 | 2.7    | Gradient Descent Learning Rate  | [Python](Python/Learning-Rate-Matters-GD-linear.ipynb) |
 | 2.8    | Loss Landscape  | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Loss_Landscape.R) |
-| 2.9    | Generalization and Training | [TikZ](tikz/figure2-9-error_modelcomplexity.tex) or [Julia](Julia/Expected_Performance_Curves.ipynb) |
+| 2.9    | Generalization and Training | [TikZ](tikz/figure2-9-error_modelcomplexity.tex) or [Julia](Julia/plots_env/Expected_Performance_Curves.ipynb) |
 | 2.10   | Polynomial fit | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Polynomial_fit.R) |
 | 2.11   | K-fold cross validation | [TikZ](tikz/figure2-11-kfold_cross_validation.tex) |
 | 2.12   | K-means clustering | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/kmeans-clustering.R) |
 | 2.13   | K-means image segmentation | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/K-means-image-segmentation.R) |
 | 2.14   | Breast Cancer PCA | [R](https://github.com/yoninazarathy/MathematicalEngineeringDeepLearning/blob/master/R/Breast_Cancer_PCA.R) |
-| 2.15   | SVD Compression | [Julia](Julia/SVD_compression.ipynb) |
+| 2.15   | SVD Compression | [Julia](Julia/plots_env/SVD_compression.ipynb) |
 
 ### Chapter 3
 | Figure | Topic           | Source Code          |
@@ -42,7 +42,7 @@ Below is a detailed list of the source code used for creating figures and tables
 | 3.5    | Evolution of gradient descent learning in logistic regression | [R(a,b) First file](R/Gradient_Descent_logistic.R), [R(a,b) Second file](R/Function-for-Gradient-Descent-Logistic.R) |
 | 3.6    | Shallow multi-output neural network with softmax | [TikZ](tikz/figure3-6-softmax_layer.tex) |
 | 3.7    | Multinomial regression for classification | [R](R/Figure-softmax-boundary-4-classes.R) |
-| Table 3.1 | Different approaches for creating an MNIST digit classifier. | [Julia]() |
+| Table 3.1 | Different approaches for creating an MNIST digit classifier. | [Julia](Julia/MNIST_5_ways.ipynb) |
 | 3.8    | Feature engineering in simple logistic regression | [R](R/R-code-logistic-beyond-linearity.R) |
 | 3.9    | Non-linear classification decision boundaries with feature engineering in logistic regression | [R](R/R-code-Figure-versatile-Boundaries.R) |
 | 3.10   | Non-linear classification decision boundaries with feature engineering in multinomial regression | [R](R/Figure-softmax-boundary-4-classes.R) same as 3.7 |
@@ -60,7 +60,7 @@ Below is a detailed list of the source code used for creating figures and tables
 | 4.1    | Convexity and local/global extrema   |    [Python](Python/Convexity_and_local_extrema.py)  |
 | 4.2    | Gradient descent with fixed or time dependent learning rate |  [Python](Python/GD-with-timde-dependent-alpha.py)  |
 | 4.3    | Stochastic gradient descent |  [Python](Python/Stochastic-gradient-descent.py)  |
-| 4.4    | Early stopping in deep learning |  [Julia]()  |
+| 4.4    | Early stopping in deep learning |  [Julia](Julia/MNIST_train.ipynb)  |
 | 4.5    | Non-convex loss landscapes |  [Python](Python/Momentum-enhanced-GD.py)  |
 | 4.6    | Momentum enhancing gradient descent |  [Python](Python/Non-convex-landscapes.py)  |
 | 4.7    | The computational graph for automatic differentiation |  [TikZ](tikz/figure4-7-computational_graph.tex)  |
@@ -73,11 +73,11 @@ Below is a detailed list of the source code used for creating figures and tables
 | Figure | Topic           | Source Code        |
 | ------ | --------------- | -----------        |
 | 5.1    | Fully Connected Feedforward Neural Networks | [TikZ(a)](tikz/figure5-1-a-one_hidden_layer.tex), [TikZ(b)](tikz/figure5-1-b-deep_neural_network.tex)   |
-| 5.2    | Arbitrary function approximation with neural nets  | [TikZ(a)](tikz/figure5-2-a-realvalue_function_approximation.tex), [Julia(b,c)]()   |
+| 5.2    | Arbitrary function approximation with neural nets  | [TikZ(a)](tikz/figure5-2-a-realvalue_function_approximation.tex), [Julia(b,c)](Julia/FunctionApprox.ipynb)   |
 | 5.3    | Binary classification with increasing depth |  [R](R/Figure_expressivity.R) |
 | 5.4    | A continuous multiplication gate with 4 hidden units | [TikZ](tikz/figure5-4-multiplication_gate.tex)  |
 | 5.5    | A deep model with 10 layers | [TikZ](tikz/figure5-5-deep_polynomial_model.tex)  |
-| 5.6    | Several common scalar activation functions |  [Julia(a,b)]()  |
+| 5.6    | Several common scalar activation functions |  [Julia(a,b)](Julia/plots_env/ActivationPlots.ipynb)  |
 | 5.7    | Flow of information in general back propagation | [TikZ](tikz/figure5-7-initial_gradient_values.tex)  |
 | 5.8    | Simple neural network hypothetical example | [TikZ](tikz/figure5-8-scalar_hidden_units.tex) |
 | 5.9    | Flow of information in standard neural network back propagation | [TikZ](tikz/figure5-9-advanced_gradient_values.tex) |
@@ -116,7 +116,7 @@ Below is a detailed list of the source code used for creating figures and tables
 | 7.11   | Attention weights | [TikZ](tikz/figure7-11-attention-matrix.tex) |
 | 7.12   | Flow of information with self attention | [TikZ](tikz/figure7-12-self-attention.tex)  |
 | 7.13   | Multi-head self attention | [TikZ](tikz/figure7-13-Multi-head-self-attention.tex) |
-| 7.14   | Positional embedding | [Julia(a,b)]() |
+| 7.14   | Positional embedding | [Julia(a,b)](Julia/plots_env/positional.ipynb) |
 | 7.15   | Transformer blocks | [TikZ(a)](tikz/figure7-15-a-transformer-block.tex), [TikZ(b)](tikz/figure7-15-b-transformer-decoder-block.tex) |
 | 7.16   | Transformer encoder decoder architecture | [TikZ](tikz/figure7-16-transformer-encoder-decoder.tex) |
 | 7.17   | Transfomer auto-regressive application | [TikZ](tikz/figure7-17-transformer-encoder-decoder-unrolling.tex) |
@@ -132,7 +132,7 @@ Below is a detailed list of the source code used for creating figures and tables
 | 8.7   | Separation of GAN distributions | [TikZ](tikz/figure8-7-GAN-Generator-Distributions-Signal.tex) |
 | 8.8   | Wasserstein distance | [TikZ](tikz/figure8-8-DIFFERENT-LATEX-COMPILER-wgan-joint-distribution.tex) |
 | 8.9   | Reinforcement learning | [TikZ](tikz/figure8-9-RL-agent-envior.tex) |
-| Equation (8.72) | An MDP optimal policy  | [Julia]() |
+| Equation (8.72) | An MDP optimal policy  | Julia — not yet available |
 | 8.10   | Applications of GNN | [TikZ(a)](tikz/figure8-10-a-social-networks-data.tex), [TikZ(b)](tikz/figure8-10-b-knowledge-graphs-data.tex), [TikZ(c)](tikz/figure8-10-c-molecules.tex) |
 | 8.11   | Directed and undirected graphs | [TikZ(a)](tikz/figure8-11-a-undirected-graphs.tex), [TikZ(b)](tikz/figure8-11-b-directed-graphs.tex) |
 | 8.12   | Transductive inductive learning | [TikZ(a)](tikz/figure8-12-a-big-graph-for-transductive-learning.tex), [TikZ(b)](tikz/figure8-12-b-several-small-graphs-for-inductive-learning.tex) |
