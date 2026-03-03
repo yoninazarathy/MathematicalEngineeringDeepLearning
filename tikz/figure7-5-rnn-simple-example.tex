@@ -1,0 +1,111 @@
+\documentclass[tikz, border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{medl_colors}
+\usepackage{graphicx} %package to manage images
+\graphicspath{ {./images/} } 
+\usepackage{ifthen}
+
+\usepackage{arrayjob}
+
+\begin{document}
+\begin{tikzpicture}
+
+\pgfdeclarelayer{background}
+\pgfsetlayers{background, main}
+
+\def\numsA{{
+        {"0.2", "0.05", "0.05", "0.1", "0.4", "0.1", "0.05", "0.05"}, 
+        {"0.01", "0.55", "0.09", "0.02", "0.08", "0.1", "0.1", "0.05"}, 
+        {"0.05", "0.15", "0.05", "0.1", "0.04", "0.35", "0.2", "0.06"}, 
+        {"0.3", "0.37", "0.03", "0.05", "0.02", "0.03", "0.09", "0.11"}, 
+        {"0.02", "0.52", "0.03", "0.12", "0.03", "0.03", "0.21", "0.04"}
+}};
+
+\def\numsB{{
+        {"0", "0", "0", "0", "0", "0", "0", "1"}, 
+        {"0", "0", "0", "0", "1", "0", "0", "0"}, 
+        {"0", "1", "0", "0", "0", "0", "0", "0"}, 
+        {"0", "0", "0", "0", "0", "1", "0", "0"}, 
+        {"1", "0", "0", "0", "0", "0", "0", "0"} 
+}};
+
+\def\spec{{
+        {"the", "mathematical", "engineering", "of", "deep"},
+        {"mathematical", "engineering", "of", "engineering", "learning"},
+        {"mathematical", "engineering", "of", "deep", "learning"},
+        {"deep", "engineering", "learning", "machine", "mathematical", "of", "statistics", "the"}, 
+        {"4", "1", "5", "1", "2", "3"}
+}};
+
+\node[greylayer, thick, minimum width=11.2cm, minimum height=.5cm] at (7.4,5.7) (rect1) {};
+\node[redlayer, thick, minimum width=11.2cm, minimum height=.5cm] at (7.4,4.7) (rect2) {};
+\node[greenlayer, thick, minimum width=11.2cm, minimum height=.5cm] at (7.4,-4.7) (rect3) {};
+
+\foreach \i in {1,...,5}
+{
+       \pgfmathparse{\i-1}\edef\j{\pgfmathresult};
+
+        \node[blueshape, rounded corners, minimum width=1cm, minimum height=.5cm] (unit\i) at (\i*2.5, 0) { \tiny $h^{\langle \i \rangle}$};
+
+        \node[redshape, rounded corners, minimum width=.5cm, minimum height=2.6cm, above of=unit\i, node distance=2.5cm] (top\i) { };
+        
+        \draw[-Triangle, thickline] (unit\i) -- (top\i) node[pos=.43, fill=white] {\tiny $W_{yh}$};
+        
+        \node[greenshape, rounded corners, minimum width=.5cm, minimum height=2.6cm, below of=unit\i, node distance=2.5cm] (bottom\i) { };
+        \draw[Triangle-, thickline] (unit\i) -- (bottom\i) node[pos=.57, fill=white] {\tiny $W_{hx}$};
+        
+        \ifnum\i>1
+            \draw[-Triangle, thickline] (unit\j) -- (unit\i) node[pos=.45, fill=white] {\tiny $W_{hh}$};;
+        \fi
+
+        \pgfmathparse{\spec[0][\j]} \edef\bword{\pgfmathresult};
+        \pgfmathparse{\spec[1][\j]} \edef\tword{\pgfmathresult};
+        \pgfmathparse{\spec[2][\j]} \edef\ttword{\pgfmathresult};
+        \pgfmathparse{int(\spec[4][\j])} \edef\cindex{\pgfmathresult};
+
+        \node [draw=border-light-red, circle, minimum size=4mm, fill=fill-light-red] at (\i*2.5, 3.6-\cindex*.3) {};
+        
+        \node[below of=bottom\i, node distance=2.2cm] (bword\i) { \texttt {\tiny \bword}};
+         \ifthenelse{\i = 4}
+         {
+            \node[above of=top\i, node distance=2.2cm, red] (tword\i) { \texttt {\tiny \tword}};
+            \node[above of=top\i, node distance=3.2cm, red] (ttword\i) { \texttt {\tiny \ttword}}; 
+            \draw[-, red, thick] ($(top\i.north)+(0,1.1)$) -- (top\i |- rect1.south);
+        }
+        {
+            \node[above of=top\i, node distance=2.2cm] (tword\i) { \texttt {\tiny \tword}};
+            \node[above of=top\i, node distance=3.2cm] (ttword\i) { \texttt {\tiny \ttword}};          
+            \draw[-, border-light-grey, thick] ($(top\i.north)+(0,1.1)$) -- (top\i |- rect1.south);
+        }
+        
+        \draw[-Triangle, thickline] ($(bword\i.north)+(0,.1)$) -- (bottom\i);
+        \draw[-Triangle, thickline] (top\i) -- (top\i |- rect2.south);
+        
+        \foreach \k in {0,...,7}
+        {
+            \pgfmathparse{\numsA[\j][\k]} \edef\tnum{\pgfmathresult};
+            \pgfmathparse{\numsB[\j][\k]} \edef\ttnum{\pgfmathresult};
+            
+            \node[] at (\i*2.5, 3.6-\k*.3) (ttext\i\k) { \texttt {\tiny \tnum}};
+            \node[] at (\i*2.5, -1.4-\k*.3) (btext\i\k) { \texttt {\tiny \ttnum}};
+        }  
+}
+
+\foreach \k in {0,...,7}
+{
+    \pgfmathparse{\spec[3][\k]} \edef\ttword{\pgfmathresult};
+    \node[align=left, text width=2.2cm] at (1.5, 3.6-\k*.3) (ttext0\k) { \texttt {\tiny  \ttword:}};
+}
+
+\node[rounded corners, minimum width=1cm, minimum height=.5cm, left of = btext13, node distance=2cm] (encoded) { \footnotesize One-hot encoded:};
+\node[left of = bword1, node distance = 1.25cm,font=\footnotesize] {Input:};
+\node[left of = tword1, node distance = 1.55cm,font=\footnotesize] {Prediction: };
+\node[left of = ttword1, node distance = 1.3cm,font=\footnotesize] {Target:};
+
+\end{tikzpicture}
+\end{document}

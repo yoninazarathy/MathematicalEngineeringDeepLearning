@@ -1,0 +1,50 @@
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{medl_colors}
+\usepackage{fontspec}
+
+
+\begin{document}
+\begin{tikzpicture}
+
+\newcommand\lhs[1]
+{
+    \node[left of = unit#1, node distance=2cm] (side#1) {\Large $z^{\star}$};
+    \draw[-Triangle, thickline] (side#1) -- ([yshift=1.3cm]unit#1.west);
+    \draw[-Triangle, thickline] (side#1) -- ([yshift=.9cm]unit#1.west);
+    \draw[-Triangle, thickline] (side#1) -- ([yshift=-1cm]unit#1.west);
+    \node[left of = unit#1, node distance=1.3cm, align=center, border-grey, thick] (side#1) {.\\.\\.};
+}
+
+
+\node[greenshape,rounded corners,minimum width=2cm, minimum height=4cm, align=center] (unit1) { Transformer\\Encoder };
+\node[below of = unit1, node distance=3cm] (bottom1) {$\texttt{We love deep learning <stop>}$};
+\node[above of = unit1, node distance=3cm] (top1) {\Large $z^{\star}$};
+\draw[-Triangle, thickline] (bottom1.north) -- (unit1.south);
+\draw[-Triangle, thickline] (unit1.north) -- (top1.south);
+\draw[-Triangle, thickline] (top1.east) -- ++(1.5, -0.5);
+
+\node[redshape,rounded corners, minimum width=2cm, minimum height=4cm, align=center, node distance=5cm, right of = unit1] (unit2) { Transformer\\Decoder };
+\node[below of = unit2, node distance=3cm] (bottom2) {$\texttt{<start>}$};
+\node[above of = unit2, node distance=3cm] (top2) {$\texttt{<start> nous}$};
+\draw[-Triangle, thickline] (bottom2.north) -- (unit2.south);
+\draw[-Triangle, thickline] (unit2.north) -- (top2.south);
+
+\node[redshape,rounded corners, minimum width=2cm, minimum height=4cm, align=center, node distance=5cm, right of = unit2] (unit3) { Transformer\\Decoder };
+\node[below of = unit3, node distance=3cm] (bottom3) {$\texttt{<start> nous}$};
+\node[above of = unit3, node distance=3cm] (top3) {$\texttt{<start> nous aimons}$};
+\draw[-Triangle, thickline] (bottom3.north) -- (unit3.south);
+\draw[-Triangle, thickline] (unit3.north) -- (top3.south);
+\draw[-Triangle, thickline, bend right, looseness=1] (top2.east) to[out=90, in=-90] ([xshift=-1.2cm]bottom3);
+\draw[-Triangle, thickline, bend right, looseness=1] (top3.east) to[out=90, in=-90] ([xshift=5cm]bottom3);
+
+\lhs{2};
+\lhs{3};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,28 @@
+\documentclass[border = 0.2cm]{standalone}
+ 
+% Required package
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usepackage{medl_colors}
+\begin {document}
+ 
+% Layer A neurons'number
+\newcommand{\numlayerA}{5} 
+
+\newcommand{\numlayerB}{1} 
+
+\begin{tikzpicture}
+ 
+\node[blueshape, ellipse, minimum width = 2cm, minimum height = 1cm] (layerB) at (6,-6) {\large Neuron};
+
+\foreach \i in {1,...,\numlayerA}
+{
+    \node[blueshape, circle, minimum size = 10mm] (layerA\i) at (0,-\i*2) {};
+    \draw [-Triangle, thickline] (layerA\i) -- (layerB) node[pos=.2, above] {$w_\i$};
+}
+
+\draw [-Triangle, thickline, double] (layerB.east) -- node[above] {\large } ++(2,0); 
+
+\end{tikzpicture}
+ 
+\end {document}

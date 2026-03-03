@@ -1,0 +1,29 @@
+\documentclass[border=0.2cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usepackage{medl_colors}
+
+\begin{document}
+\begin{tikzpicture}
+
+\node [redshape,circle,minimum size=5mm] (node11) {$v_3$};
+\node [lightgreenshape,circle,above of=node11,node distance=3cm,xshift=1.5cm] (node12) {$v_1$};
+\node [greenshape,circle,right of=node11,node distance=1cm,yshift=0.8cm, xshift=1.5cm] (node13) {$v_2$};
+\node [yellowshape, circle, below of=node11,node distance=1cm,xshift=2cm] (node14) {$v_4$};
+\node [lightblueshape,circle,right of=node14,node distance=2cm,xshift=-0.2cm] (node15) {$v_5$};
+\node [lightgreyshape,circle,right of=node13,node distance=2cm, yshift=1cm] (node16) {$v_6$};
+\node [below of=node11,node distance=1cm](node17){Target Node};
+
+\draw [thickline](node11) -- (node12) {};
+\draw [thickline](node11) -- (node13) {};
+\draw [thickline](node11) -- (node14) {};
+\draw [thickline](node12) -- (node13) {};
+\draw [thickline](node13) -- (node16) {};
+\draw [thickline](node15) -- (node14) {};
+%\draw[-Triangle] (node17) -- (node11) {};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,96 @@
+\documentclass[tikz, border=50pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{medl_colors}
+\usepackage{amsmath,xstring}
+\usepackage{ifthen}
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta, decorations.pathreplacing, calligraphy}
+\usetikzlibrary{matrix, calc, positioning,fit, backgrounds, shapes}
+
+\pgfdeclarelayer{layer1}
+\pgfdeclarelayer{layer2}
+\pgfdeclarelayer{layer3}
+\pgfdeclarelayer{layer4}
+\pgfsetlayers{layer4,layer3,layer2,layer1}
+
+\begin {document}
+\newcommand\slantarray[8]{
+        \foreach \i in {0,...,#3}{
+            \draw[#6, line width=#7] (#1,#2) grid (#1+#3+1, #2-#4-1);
+            \pgfmathparse{#1+((#3+1)/2)}\edef\ni{\pgfmathresult};
+            \pgfmathparse{#2-#4-1.8}\edef\nj{\pgfmathresult};
+            \node[#6] at(\ni,\nj){\huge $#8$};
+    }
+}
+
+\newcommand\lines[8]{
+        \draw[#7, ultra thick] (#1,#2) -- (#3,#4);
+        \draw[#7, ultra thick] (#1+#5,#2) -- (#3+#6,#4);
+        \draw[#7, ultra thick] (#1,#2-#5) -- (#3,#4-#6);
+        \draw[#7, ultra thick] (#1+#5,#2-#5) -- (#3+#6,#4-#6);
+}
+
+\newcommand\fillbg[6]{
+    \begin{scope}
+    \node[rectangle,thickline, minimum size=1cm,fill=#5] at (#1+.5+#3,#2-.5-#4){#6};   
+    \end{scope}
+}
+
+\newcommand\fillbglarge[7]{
+    \begin{scope}
+    \node[rectangle,minimum size=#7cm,fill=#5] at (#1+.5+#3,#2-.5-#4){#6};   
+    \end{scope}
+}
+
+
+\begin{tikzpicture}[remember picture, every node/.style={minimum size=1cm},on grid]
+
+\begin{scope}[every node/.append style={yslant=0.3},yslant=0.3]
+
+\begin{pgfonlayer}{layer4}
+    \fillbglarge{3.5}{-4.5}{1}{0}{greylight}{}{10}
+    \slantarray{0}{0}{9}{9}{0}{fill-light-grey}{2}{\Huge $x$};
+    \draw[decorate, decoration={calligraphic brace,amplitude=5pt, raise = .5cm}, pen colour={fill-grey}, ultra thick] (0,0) -- (4,0) node[above=.8cm, pos=.5]{\Huge $s_v = 4$};
+    \draw[decorate, decoration={calligraphic brace,amplitude=5pt, raise = .5cm}, pen colour={fill-grey}, ultra thick] (0,-5) -- (0,0) node[left=.8cm, pos=.5]{\Huge $s_h = 5$};
+\end{pgfonlayer}
+
+\begin{pgfonlayer}{layer3}
+    \lines{4}{0}{17}{-5}{3}{3}{border-red}{fill-red};
+    \fillbglarge{17}{-6}{1}{0}{fill-light-red}{}{3};
+    \slantarray{4}{0}{2}{2}{1}{border-red}{3}{};
+    \slantarray{17}{-5}{2}{2}{1}{border-red}{3}{$W$};
+    \lines{17}{-5}{24}{-10}{3}{1}{border-red}{border-red}
+
+    \lines{4}{-5}{17}{-10}{3}{3}{green2}{green1};
+    \fillbglarge{17}{-11}{1}{0}{green0}{}{3}
+    \slantarray{4}{-5}{2}{2}{1}{green2}{3}{};
+    \slantarray{17}{-10}{2}{2}{1}{green2}{3}{$W$};
+    \lines{17}{-10}{24}{-11}{3}{1}{green2}{green2}
+\end{pgfonlayer}
+
+\begin{pgfonlayer}{layer2}
+    \lines{0}{0}{13}{-5}{3}{3}{border-blue}{border-blue}
+    \fillbglarge{13}{-6}{1}{0}{fill-light-blue}{}{3}
+    \slantarray{0}{0}{2}{2}{0}{border-blue}{3}{};
+    \slantarray{13}{-5}{2}{2}{1}{border-blue}{3}{$W$};
+    \lines{13}{-5}{23}{-10}{3}{1}{border-blue}{border-blue}
+
+    \lines{0}{-5}{13}{-10}{3}{3}{border-yellow}{border-yellow}
+    \fillbglarge{13}{-11}{1}{0}{fill-light-yellow}{}{3}
+    \slantarray{0}{-5}{2}{2}{1}{border-yellow}{3}{};
+    \slantarray{13}{-10}{2}{2}{1}{border-yellow}{3}{$W$};
+    \lines{13}{-10}{23}{-11}{3}{1}{border-yellow}{border-yellow}
+\end{pgfonlayer}
+
+\begin{pgfonlayer}{layer1}
+    \slantarray{23}{-10}{1}{1}{1}{border-grey}{2}{\Huge $z$};
+    \fillbg{23}{-11}{0}{0}{border-yellow}{}
+    \fillbg{23}{-10}{0}{0}{border-blue}{}
+    \fillbg{24}{-11}{0}{0}{green2}{}
+    \fillbg{24}{-10}{0}{0}{border-red}{}
+\end{pgfonlayer}
+
+
+\end{scope}
+\end{tikzpicture}
+\end{document}

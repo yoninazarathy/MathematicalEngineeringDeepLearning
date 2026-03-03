@@ -1,0 +1,38 @@
+\documentclass[tikz, border=50pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{medl_colors}
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta}
+\usetikzlibrary{matrix, calc, positioning,fit}
+\usepackage{arrayjob}
+
+\begin {document}
+ 
+\def\negationorder{{{"1","2","r-1"},{"0","1","r-2"}}}
+  
+\begin{tikzpicture}
+ 
+% Layer A
+\node[greenshape, circle, minimum size = 1cm] (layerA0) at (0,-5) {\large {$x$}};
+
+% Layer B
+\node[blueshape, circle, minimum size = 2.5cm] (layerB0) at (6, 0) {bias = $-u_1$};
+\node[blueshape, circle, minimum size = 2.5cm] (layerB1) at (6, -3) {bias = $-u_2$};
+\node[blueshape, circle, minimum size = 2.5cm] (layerB2) at (6, -10) {bias = $-u_{r-1}$};
+
+%layer C
+\draw [thick, dashed] ([yshift=-.3cm]layerB1.south) -- ([yshift=.3cm]layerB2.north);
+\node[redshape, circle, minimum size = 1cm, align=center] (layerC0) at (12, -5) {\large {$\hat y$}};
+
+%connecting between the nodes 
+\foreach \i in {0,1,2}
+{
+      \pgfmathparse{\negationorder[0][\i]} \edef\lsign{\pgfmathresult};
+      \pgfmathparse{\negationorder[1][\i]} \edef\rsign{\pgfmathresult};
+       
+       \draw[-Triangle, thickline] (layerA0) -- (layerB\i) node[pos=.5, above, sloped] {$w^{[1]}_{1,\lsign}=1$};  
+       \draw[-Triangle, thickline] (layerB\i) -- (layerC0) node[pos=.5, above, sloped] {$w^{[2]}_{\lsign,1}=s_{\lsign}-s_{\rsign}$};  
+}
+
+\end{tikzpicture}
+\end {document}

@@ -1,0 +1,43 @@
+\documentclass[border=10pt]{standalone}
+\usepackage{tikz}
+\usepackage{medl_colors}
+\usetikzlibrary{graphdrawing,graphdrawing.trees,graphs, graphs.standard, backgrounds, calc, arrows.meta, bending, matrix}
+\usegdlibrary{layered}
+
+\begin{document}
+    \begin{tikzpicture}
+        \path (0, -1.6) graph [layered layout, nodes={blueshape, circle, minimum size=1cm, thick,empty nodes}, level sep=6mm, sibling sep=15mm, edges={>={Triangle[round,sep,bend]}, thickline}]
+        {
+            1[label = center:$v_1$];
+            2[label = center:$v_2$];
+            3[label = center:$v_3$];
+            4[label = center:$v_4$];
+            5[label = center:$v_5$];
+            6[label = center:$v_6$];
+            7[label = center:$v_7$];
+            8[label = center:$v_8$];
+            1 -> 3 -> 2 ->  5;
+            3 ->[bend left] 4 ->[bend left] 3;
+            5 ->[bend left] 7 ->[bend left] 5;
+            5 ->[bend left] 6 ->[bend left] 8 ->[bend left] 6 ->[bend right] 3;
+
+        };
+        {\Large
+    \matrix (m) [matrix of math nodes, nodes in empty cells, left delimiter=[,right delimiter={]}, row sep=0.3cm, column sep=0.3cm, minimum width=0.4cm, minimum height=0.4cm, scale=0.7] at (10, -6.0) {
+        0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 \\
+        0 & 0 & 1 & 0 & 0 & 0 & 0 & 1 \\
+        0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+    };
+    }
+    % Labels for the matrix
+    \foreach \i in {1,...,8}
+        \node[anchor=east, xshift=-0.5cm] at (m-\i-1.west) {\i};
+    \foreach \j in {1,...,8}
+        \node[anchor=north, yshift=0.7cm] at (m-1-\j.north) {\j};
+    \end{tikzpicture}
+\end{document}

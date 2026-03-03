@@ -1,0 +1,53 @@
+\documentclass[tikz, border=50pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{medl_colors}
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta}
+\usetikzlibrary{matrix, calc, positioning,fit}
+
+\begin {document}
+ 
+\newcommand{\columns}{10}   
+\newcommand{\mcolumns}{9}
+\newcommand{\rows}{3}
+
+\begin{tikzpicture}
+ 
+\node[greenshape, circle, minimum size = 1cm] (column-01) at (0,-.5) {$x_1$};
+\node[greenshape, circle, minimum size = 1cm] (column-02) at (0,-2) {$x_2$};
+\node[greenshape, circle, minimum size = 1cm] (column-03) at (0,-4.5) {$x_{1000}$};
+\node[redshape, circle, minimum size = 1cm] (column-111) at (22,-2) {$\hat y$};
+
+% Layer B
+\foreach \i in {1,...,\columns}
+{
+    \foreach \j in {1,...,\rows}
+    {
+        \node[blueshape, circle, minimum size = 1cm] (column-\i\j) at (\i*2,-\j*\j/2) {};
+    }
+}
+
+\foreach \i [evaluate=\i as \in using int(\i+1) ] in {0,...,\mcolumns}
+{
+    \foreach \j  in {1,...,\rows}
+    {
+        \foreach \k  in {1,...,\rows}
+        {
+            \draw[-Triangle, thickline] (column-\i\j) -- (column-\in\k);
+        }
+    }
+}
+
+\foreach \j in {1,...,\rows}
+{
+       \draw[-Triangle, thickline] (column-10\j) -- (column-111);
+}
+
+\foreach \i in {0,...,\columns}
+{
+       \draw[thick, dashed] ([yshift=-3mm]column-\i2.south) -- ([yshift=3mm]column-\i3.north);
+}
+
+\end{tikzpicture}
+ 
+\end {document}

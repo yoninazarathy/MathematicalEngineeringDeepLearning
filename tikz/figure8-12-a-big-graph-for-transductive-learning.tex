@@ -1,0 +1,45 @@
+\documentclass[border=0.2cm]{standalone}
+
+\usepackage{tikz}
+\usepackage{medl_colors}
+\usetikzlibrary{graphs,graphdrawing}
+\usegdlibrary{force}
+
+
+\begin{document}
+\begin{tikzpicture}
+ % To add labeling and check, change the code in this way
+ % \graph[spring layout, nodes={circle, draw, inner sep=2pt}
+ \begin{scope}[shift={(-1,5)}]
+  \graph[spring layout, nodes={circle, draw=fill-grey, inner sep=1.5pt, empty nodes}, edges={line}]
+  {
+    a[blueshape,circle,thick] -- b -- c -- d -- e [blueshape,circle,thick] -- f -- a [blueshape,circle,thick]-- g -- h;
+    g -- i;
+    e [blueshape,circle,thick] -- a4;
+    e [blueshape,circle,thick] -- b4;
+    b -- 1 -- 2 -- 3  -- b2;
+    2 -- a2 [redshape,circle,thick] -- b2 -- c2 -- d2 -- e2 [yellowshape,circle,thick] -- f2 --a2 [redshape,circle,thick];
+    2 -- a3 -- b3 [greenshape,circle,thick] -- c3 -- d3 -- e3 -- f3 --a3;
+    b -- f2;
+  };
+ \end{scope} 
+
+\begin{scope}[shift={(-3,3)}]
+  \graph[spring layout, nodes={circle, draw=fill-grey, inner sep=1.5pt, empty nodes}, edges={line}]
+  {
+    1a [greenshape,circle,thick] -- 1b -- 1c -- 1d -- 1e -- 1f -- 1a [greenshape,circle,thick] -- 1g -- 1h;
+    g2 [greenshape,circle,thick] -- i2 --a4;
+    e -- a4 -- 13;
+    e -- b4 -- 1b;
+    1a [greenshape,circle,thick] -- 13;
+    b -- 1 -- 2 -- 13  -- b2;
+    2 -- a2 [redshape,circle,thick] -- b2 -- 2c2 -- d2 -- e2 [yellowshape,circle,thick] -- f2 --a2 [redshape,circle,thick];
+    2 -- a3 -- b3 [greenshape,circle,thick] -- c3 -- d3 -- e3 -- f3 --a3;
+    b -- f2;
+  };
+ \draw [line](13) -- (c2);
+
+ \end{scope}
+
+\end{tikzpicture}
+\end{document}

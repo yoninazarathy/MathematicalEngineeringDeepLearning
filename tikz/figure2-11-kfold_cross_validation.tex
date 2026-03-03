@@ -1,0 +1,49 @@
+\documentclass[tikz, border=50pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{geometry, amsmath}
+\usepackage{medl_colors}
+\usepackage{pgfplots}
+
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta}
+\usetikzlibrary{matrix,decorations.pathreplacing, calc, positioning,fit}
+\usetikzlibrary{positioning}
+
+\pgfplotsset{compat=1.17}
+\begin{document}
+
+\begin{tikzpicture}
+\newcommand\medlblock[5]
+{
+    \node[below of=#4, thickline, node distance=#5, rectangle split, rectangle split parts=5, rectangle split horizontal, rectangle split draw splits=true, rectangle split part fill={#2}, minimum height=1cm, draw] (#1) {
+    \nodepart[text width=2cm]{one}
+    \nodepart[text width=2cm]{two}
+    \nodepart[text width=2cm]{three}
+    \nodepart[text width=4cm, align=center]{four} ...
+    \nodepart[text width=2cm]{five}
+};
+\draw [-Triangle, thickline] (#1.east)+(.1cm,0) -- node[] (arrow#1) {} ++(.8,0);
+\node[align=center, right of=arrow#1, node distance=1.3cm] {\large $E^{(#3)}_{\text{validation}}$};
+\node[align=center, left of=#1, node distance=7.3cm] {$k = $ #3};
+}
+
+%root
+\node[draw] (root){}; 
+\medlblock{A}{fill-light-red,fill-light-blue}{1}{root}{0};
+\draw[decorate, uthickline, decoration={brace, raise=.8cm, amplitude=15pt}] (-6.5,0) -- (-4.5,0) node[pos=0.5, above=1.4cm]{\large Validation Data};
+\draw[decorate, uthickline, decoration={brace, raise=.8cm, amplitude=15pt}] (-4.3,0) -- (6.5,0) node[pos=0.5,above=1.4cm]{\large Training Data};
+
+%Bar 2
+\medlblock{B}{fill-light-blue, fill-light-red, fill-light-blue}{2}{A}{2.5cm};
+
+%seperator
+\node[align=center, below of=B, node distance=1.5cm, font=\bfseries] (sep) {.\\.\\.};
+
+%Bar 3
+\medlblock{C}{fill-light-blue, fill-light-blue, fill-light-blue, fill-light-blue, fill-light-red}{K}{sep}{1.5cm};
+\draw[decorate, uthickline, decoration={brace, raise=.8cm, amplitude=15pt, mirror}] (-6.5,-5.5) -- (4.3,-5.5) node[pos=0.5,below=1.4cm]{\large Training Data};
+\draw[decorate, uthickline, decoration={brace, raise=.8cm, amplitude=15pt,mirror}] (4.5, -5.5) -- (6.5, -5.5) node[pos=0.5, below=1.4cm]{\large Validation Data};
+
+\end{tikzpicture}
+\end{document}
+

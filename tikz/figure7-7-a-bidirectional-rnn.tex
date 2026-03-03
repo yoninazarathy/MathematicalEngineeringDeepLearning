@@ -1,0 +1,51 @@
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{ifthen}
+\usepackage{medl_colors}
+\usepackage{arrayjob}
+
+\usepackage{graphicx} %package to manage images
+\graphicspath{ {./images/} } 
+
+\begin{document}
+\begin{tikzpicture}
+
+\node[draw, dashed, border-grey, rounded corners, minimum width=9.5cm, minimum height=1cm] at (6,0) (rect1) {};
+\node[draw, dashed, border-grey, rounded corners, minimum width=9.5cm, minimum height=1cm] at (7,-1.5) (rect2) {};
+
+\foreach \i in {1,...,5}
+{
+    \pgfmathparse{\i-1}\edef\j{\pgfmathresult};
+    \ifthenelse{\i = 4}
+    {
+        \node[] (unit1\i) at (\i*2, 0) { - - - };
+        \node[] (unit2\i) at (1+\i*2, -1.5) { - - - };
+        \node[below of=unit1\i, node distance=4cm] (bottom1\i) { - - - };
+        \node[above of=unit2\i, node distance=4cm] (bottom2\i) { - - - };
+    }
+    {
+        \node[blueshape, rounded corners, minimum width=1cm, minimum height=.5cm] (unit1\i) at (\i*2, 0) {\footnotesize Unit};
+        \node[blueshape, rounded corners, minimum width=1cm, minimum height=.5cm] (unit2\i) at (1+\i*2, -1.5) { \footnotesize Unit};
+        \node[greenshape, rounded corners, minimum width=.5cm, minimum height=2cm, below of=unit1\i, node distance=4cm] (bottom1\i) { };
+        \node[redshape, rounded corners, minimum width=.5cm, minimum height=2cm, above of=unit2\i, node distance=4cm] (bottom2\i) { };
+        
+        \draw[Triangle-,thickline] (unit1\i) -- (bottom1\i.north);
+        \draw[-Triangle,thickline] (unit1\i) -- ([xshift=-2mm]bottom2\i.south);
+    
+        \draw[-Triangle,thickline] (unit2\i) -- (bottom2\i.south);
+        \draw[Triangle-,thickline] (unit2\i) -- (bottom1\i.north);
+    }  
+
+    \ifnum\i>1
+        \draw[-Triangle,thickline] (unit1\j) -- (unit1\i);
+        \draw[Triangle-,thickline] (unit2\j) -- (unit2\i);
+    \fi    
+}
+
+\end{tikzpicture}
+\end{document}

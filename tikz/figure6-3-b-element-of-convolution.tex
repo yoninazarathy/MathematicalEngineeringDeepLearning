@@ -1,0 +1,75 @@
+\documentclass[tikz, border=50pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{medl_colors}
+\usepackage{amsmath,xstring}
+\usepackage{ifthen}
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta}
+\usetikzlibrary{matrix, calc, positioning,fit, backgrounds}
+\begin {document}
+
+\begin{tikzpicture}[every node/.style={minimum size=1cm},on grid]
+
+\begin{scope}
+
+\newcommand\slantarray[7]{
+    \foreach \i in {1,...,#3}{
+        \foreach \j in {1,...,#4}{
+            \IfEq{#7}{1}%
+            {
+                \pgfmathparse{int(#3-\i+1)} \edef\pi{\pgfmathresult};  
+                \pgfmathparse{int(#4-\j+1)} \edef\pj{\pgfmathresult};
+            }
+            {
+                \pgfmathparse{int(\i)} \edef\pi{\pgfmathresult};  
+                \pgfmathparse{int(\j)} \edef\pj{\pgfmathresult};
+            }
+            \node (node-#5\i\j) at (#1+\i-.5, #2-\j+.5) {$#6_{\pj,\pi}$};
+        }
+    }
+    \draw [thickline](#1,#2) grid[step=1] (#1+#3, #2-#4);
+}
+
+\newcommand\fillbg[6]{
+    \begin{scope}[on background layer]
+    \node[rectangle,thickline, minimum size=1cm,fill=#5] at (#1+.5+#3,#2-.5-#4){#6};    
+    \end{scope}
+}
+
+\newcommand\lines[5]{
+    \draw[#4, ultra thick] (#1,#2) -- (#1+#3,#2);
+    \draw[#4, ultra thick] (#1+#3,#2) -- (#1+#3,#2-#3);
+    \draw[#4, ultra thick] (#1+#3,#2-#3) -- (#1,#2-#3);
+    \draw[#4, ultra thick] (#1,#2-#3) -- (#1,#2);
+    \pgfmathparse{int(#3-1)} \edef\prev{\pgfmathresult};
+    \foreach \i in {0,...,\prev}{
+        \foreach \j in {0,...,\prev}{
+            \fillbg{#1}{#2}{\i}{\j}{#5}{}
+        }
+    }
+}
+
+\slantarray{0}{0}{3}{3}{x}{x}{0};
+\slantarray{0}{4}{3}{3}{w}{w}{0};
+\slantarray{6}{4}{3}{3}{y}{w}{1};
+
+\lines{0}{0}{3}{border-green}{fill-light-green}
+
+\node [draw,uthickline, circle, minimum size=1cm, right of = node-x22, node distance=6cm] (circle1) {\Large $\odot$};
+
+\node [draw, uthickline, circle, minimum size=1cm, right of = circle1, node distance=4cm] (circle2) {\Large $\sum$};
+
+\draw[-Triangle, thickline, draw=black!50] (node-x32)+(7mm,0) -- ([xshift=-2mm]circle1.west);
+
+\draw[-Triangle, thickline, draw=black!50] (circle1)+(7mm,0) -- ([xshift=-2mm]circle2.west);
+
+\draw[-Triangle, thickline, draw=black!50] (node-w32)+(7mm,0) -- ([xshift=-2mm]node-y12.west) node[pos=.5, above] {Flipping};
+
+\draw[-Triangle, thickline, draw=black!50] (node-y23)+(0,-7mm) -- ([yshift=2mm]circle1.north);
+
+\draw[-Triangle, thickline, draw=black!50] (circle2)+(7mm,0) --  node[pos=1.3] {\Large $z_{1,1}$} ++(3cm,0);
+
+
+\end{scope}
+\end{tikzpicture}
+\end{document}

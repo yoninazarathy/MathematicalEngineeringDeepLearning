@@ -1,0 +1,48 @@
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{medl_colors}
+
+\begin{document}
+\begin{tikzpicture}
+
+\node[bluelayer, minimum width=3cm, minimum height=1cm] (unit11) {\parindent=.1cm $a_{\textrm{out}}^{\langle 1\rangle }$  \indent - - - -  \indent $a_{\textrm{out}}^{\langle T\rangle }$};
+\node[lightgreyshape,circle, minimum size=.8cm, node distance = 2.25cm, align=center, below of = unit11] (unit12) {$+$};
+\node[bluelayer, minimum width=3cm, minimum height=1cm, node distance=1.5cm, below of = unit12 ] (unit13) {\parindent=1cm $u_{[5]}^{\langle 1\rangle }$  \indent $u_{[5]}^{\langle T\rangle }$};
+\node[uthickline, rounded corners, minimum width=3cm, minimum height=1cm, node distance = 1.2cm, align=center, below of = unit13] (unit14) {Feed Forward\\Network};
+\node[bluelayer, minimum width=3cm, minimum height=1cm, node distance=2cm, below of = unit14 ] (unit15) {\parindent=.1cm $u_{[4]}^{\langle 1\rangle }$ \indent - - - - \indent $u_{[4]}^{\langle T\rangle }$};
+\node[lightgreyshape,circle, minimum size=.8cm, node distance = 2.25cm, align=center, below of = unit15] (unit16) {$+$};
+\node[bluelayer, minimum width=2.25cm, minimum height=1cm, node distance=1.5cm, below of = unit16 ] (unit17) {\parindent=.1cm $u_{[3]}^{\langle 1\rangle }$ \indent - - - - \indent $u_{[3]}^{\langle T\rangle }$};
+\node[uthickline, rounded corners, minimum width=3cm, minimum height=1cm, node distance = 1.2cm, align=center, below of = unit17] (unit18) {Multi-Head\\Cross Attention};
+
+\node[left of = unit18, node distance=3cm] (zznode) {{\Large $z^\star$}};
+
+
+\node[bluelayer, minimum width=3cm, minimum height=1cm, node distance=2cm, below of = unit18 ] (unit19) {\parindent=.1cm $u_{[2]}^{\langle 1\rangle }$ \indent - - - - \indent $u_{[2]}^{\langle T\rangle }$};
+\node[lightgreyshape,circle, minimum size=.8cm, node distance = 2.25cm, align=center, below of = unit19] (unit20) {$+$};
+\node[bluelayer, minimum width=3cm, minimum height=1cm, node distance=1.5cm, below of = unit20 ] (unit21) {\parindent=1cm $u_{[1]}^{\langle1\rangle }$  \indent $u_{[1]}^{\langle T\rangle }$};
+\node[uthickline, rounded corners, minimum width=3cm, minimum height=1cm, node distance = 1.2cm, align=center, below of = unit21] (unit22) {Multi-Head\\Self Attention};
+\node[bluelayer, minimum width=3cm, minimum height=1cm, node distance=2cm, below of = unit22 ] (unit23) {\parindent=.1cm $a_{\textrm{in}}^{\langle 1\rangle }$  \indent - - - -  \indent $a_{\textrm{in}}^{\langle T\rangle }$};
+
+\draw[Triangle-, thickline] (unit11) -- (unit12) node[pos=.5, anchor=center, fill=white] {Layer Norm};
+\draw[Triangle-, thickline] (unit12) -- (unit13);
+\draw[Triangle-, thickline] (unit14) -- (unit15);
+\draw[Triangle-, thickline] (unit15) -- (unit16) node[pos=.5, anchor=center, fill=white] {Layer Norm};
+\draw[Triangle-, thickline] (unit16) -- (unit17);
+\draw[Triangle-, thickline] (unit18) -- (unit19);
+\draw[Triangle-, thickline] (unit19) -- (unit20) node[pos=.5, anchor=center, fill=white] {Layer Norm};
+\draw[Triangle-, thickline] (unit20) -- (unit21);
+\draw[Triangle-, thickline] (unit22) -- (unit23);
+
+\draw[-Triangle, thickline] (zznode) -- (unit18);
+
+\draw[-Triangle, thickline] ([yshift=5mm]unit23.north) -| ++(2cm, 0) |- (unit20.east);
+\draw[-Triangle, thickline] ([yshift=5mm]unit19.north) -| ++(2cm, 0) |- (unit16.east);
+\draw[-Triangle, thickline] ([yshift=5mm]unit15.north) -| ++(2cm, 0) |- (unit12.east);
+
+\end{tikzpicture}
+\end{document}

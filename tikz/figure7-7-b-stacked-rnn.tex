@@ -1,0 +1,57 @@
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{ifthen}
+\usepackage{medl_colors}
+\usepackage{arrayjob}
+
+\begin{document}
+\begin{tikzpicture}
+
+\node[draw, dashed, border-grey, rounded corners, minimum width=9.5cm, minimum height=1cm] at (6,0) (rect1) {};
+\node[draw, dashed, border-grey, rounded corners, minimum width=9.5cm, minimum height=1cm] at (6,-3) (rect2) {};
+\node[draw, dashed, border-grey, rounded corners, minimum width=9.5cm, minimum height=1cm] at (6,-4.5) (rect2) {};
+
+\foreach \i in {1,...,5}
+{
+    \pgfmathparse{\i-1}\edef\j{\pgfmathresult};
+
+     \ifthenelse{\i = 4}
+    {
+        \node[] (unit1\i) at (\i*2, 0) {\Large ... };
+        \node[] (unit2\i) at (\i*2, -1.5) {\Large  };
+        \node[] (unit3\i) at (\i*2, -3) {\Large ... };
+        \node[] (unit4\i) at (\i*2, -4.5) {\Large ... };
+        \node[below of=unit4\i, node distance=2cm] (bottom1\i) { \Large ... };
+        \node[above of=unit1\i, node distance=2cm] (bottom2\i) { \Large ... };
+    }
+    {
+        \node[blueshape, rounded corners, minimum width=1cm, minimum height=.5cm] (unit1\i) at (\i*2, 0) { \footnotesize Unit};
+        \node[] (unit2\i) at (\i*2, -1.3) { \Large \vdots};
+        \node[blueshape, rounded corners, minimum width=1cm, minimum height=.5cm] (unit3\i) at (\i*2, -3) { \footnotesize Unit};
+        \node[blueshape, rounded corners, minimum width=1cm, minimum height=.5cm] (unit4\i) at (\i*2, -4.5) { \footnotesize Unit};
+    
+        \node[greenshape, rounded corners, minimum width=.5cm, minimum height=2cm, below of=unit4\i, node distance=2cm] (bottom1\i) { };
+        \node[redshape, rounded corners, minimum width=.5cm, minimum height=2cm, above of=unit1\i, node distance=2cm] (bottom2\i) { };
+
+        \draw[-Triangle, thickline] (unit1\i) -- (bottom2\i);
+        \draw[-Triangle, thickline] (unit2\i)++(0, 0.25) -- (unit1\i);  
+        \draw[-Triangle, thickline] (unit3\i) -- (unit2\i);
+        \draw[-Triangle, thickline] (unit4\i) -- (unit3\i);
+        \draw[-Triangle, thickline] (bottom1\i) -- (unit4\i);
+    }
+    
+    \ifnum\i>1
+        \draw[-Triangle, thickline] (unit1\j) -- (unit1\i);
+        \draw[-Triangle, thickline] (unit3\j) -- (unit3\i);
+        \draw[-Triangle, thickline] (unit4\j) -- (unit4\i);
+    \fi    
+  
+}
+
+\end{tikzpicture}
+\end{document}

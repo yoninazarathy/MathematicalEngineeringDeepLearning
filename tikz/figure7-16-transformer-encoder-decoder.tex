@@ -1,0 +1,56 @@
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{medl_colors}
+
+\begin{document}
+\begin{tikzpicture}
+
+\node[bluelayer, minimum width=3cm, minimum height=1cm] (unit11) {\parindent=1cm $a_{\textrm{out}}^{\langle 1\rangle }$  \indent $a_{\textrm{out}}^{\langle T\rangle }$};
+\node[bluelayer, minimum width=3cm, minimum height=1cm, node distance=5cm, right of = unit11] (unit21) {\parindent=1cm $\hat y_{\textrm{out}}^{\langle 1\rangle }$  \indent $\hat y_{\textrm{out}}^{\langle T\rangle }$};
+
+\node[draw, uthickline, rounded corners, minimum width=3cm, minimum height=1cm, below of = unit11, node distance = 2cm, align=center] (unit12) {Transformer\\Block};
+\node[draw, uthickline, rounded corners, minimum width=3cm, minimum height=1cm, below of = unit21, node distance = 2cm, align=center] (unit22) {Transformer\\Decoder Block};
+
+\node[minimum width=3cm, minimum height=1cm, below of = unit12, node distance = 2cm, align=center] (unit13) { .\\.\\.};
+\node[minimum width=3cm, minimum height=1cm, below of = unit22, node distance = 2cm, align=center] (unit23) { .\\.\\.};
+
+\node[draw, uthickline, rounded corners, minimum width=3cm, minimum height=1cm, below of = unit13, node distance = 2cm, align=center] (unit14) {Transformer\\Block};
+\node[draw, uthickline, rounded corners, minimum width=3cm, minimum height=1cm, below of = unit23, node distance = 2cm, align=center] (unit24) {Transformer\\Decoder Block};
+
+\node[draw, uthickline, rounded corners, minimum width=3cm, minimum height=1cm, below of = unit14, node distance = 2cm, align=center] (unit15) {Transformer\\Block};
+\node[draw, uthickline, rounded corners, minimum width=3cm, minimum height=1cm, below of = unit24, node distance = 2cm, align=center] (unit25) {Transformer\\Decoder Block};
+
+\node[bluelayer, minimum width=3cm, minimum height=1cm, node distance=2cm, below of = unit15 ] (unit16) {\parindent=1cm $\tilde x_{\textrm{in}}^{\langle 1\rangle }$  \indent $\tilde x_{\textrm{in}}^{\langle T\rangle }$};
+\node[bluelayer, minimum width=3cm, minimum height=1cm, node distance=2cm, below of = unit25] (unit26) {\parindent=1cm $\tilde y_{\textrm{out}}^{\langle 1\rangle }$  \indent $\tilde y_{\textrm{out}}^{\langle T\rangle }$};
+
+\node[bluelayer, minimum width=3cm, minimum height=1cm, node distance=2cm, below of = unit16 ] (unit17) {\parindent=1cm $x_{\textrm{in}}^{\langle 1\rangle }$  \indent $x_{\textrm{in}}^{\langle T\rangle }$};
+\node[bluelayer, minimum width=3cm, minimum height=1cm, node distance=2cm, below of = unit26] (unit27) {\parindent=1cm $y_{\textrm{out}}^{\langle 1\rangle }$  \indent $y_{\textrm{out}}^{\langle T\rangle }$};
+
+\foreach \i in {2,...,7}
+{
+    \pgfmathparse{int(\i-1)}\edef\j{\pgfmathresult};
+    \draw[-Triangle, thickline, thick] (unit1\i) -- (unit1\j);
+    \draw[-Triangle, thickline, thick] (unit2\i) -- (unit2\j);
+}
+
+\node[ above right = .25cm and -1.5cm of unit17, align=center] {\footnotesize Positional Embedding};
+\node[ above right = .25cm and -1.5cm of unit27, align=center] {\footnotesize Positional Embedding};
+\node[below of = unit17, node distance=1cm] {Encoder};
+\node[below of = unit27, node distance=1cm] {Decoder};
+
+\node[ above right = .25cm and -1.5cm of unit12, align=center] (mark1) {\tiny {\Large $z^{\star}$}};
+
+\draw[Triangle-, thickline, thick] (unit27.east) -| ++(2cm, 0) |- (unit21.east);
+\draw[-Triangle, thickline, thick] (mark1) -| ++(2cm, 0) |- (unit22.west);
+\draw[-Triangle, thickline, thick] (mark1) -| ++(2cm, 0) |- (unit24.west);
+\draw[-Triangle, thickline, thick] (mark1) -| ++(2cm, 0) |- (unit25.west);
+
+
+
+\end{tikzpicture}
+\end{document}

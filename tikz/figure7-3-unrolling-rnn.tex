@@ -1,0 +1,59 @@
+\documentclass[border=0.2cm]{standalone}
+ 
+% More defined colors
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage{xstring}
+\usepackage{pgfmath,pgffor}
+\usepackage{arrayjob}
+\usepackage{medl_colors}
+
+\usetikzlibrary{arrows.meta,shapes.arrows, shapes.misc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{cd, fit, calc}
+\usepackage{textcomp}
+
+\begin{document}
+\begin{tikzpicture}
+
+\newcommand{\numlayerA}{3}
+\newcommand{\nodedis}{8}
+
+\newarray\indicesarray
+\readarray{indicesarray}{-1&&+1}
+
+
+\node [blueshape, rounded corners, minimum width=2cm, minimum height=1cm] (controller1) at (0, 0) {\Large $ h ^{\langle{} t \rangle{} } $ };
+\node [redshape, rounded corners, minimum width=1.5cm, minimum height = 2cm, above of=controller1, node distance=2.5cm ] (circlea1) {\Large $ \hat{y} ^{\langle{} t \rangle{} } $ };
+\node [greenshape, rounded corners, minimum width=1.5cm, minimum height = 2cm, below of=controller1, node distance=2.5cm ] (circleb1) {\Large $ x ^{\langle{} t \rangle{} } $ };
+
+\draw [Triangle-, uthickline] (circlea1.south) -- (controller1.north) node[midway,right] {};
+\draw [-Triangle, uthickline] (circleb1.north) -- (controller1.south) node[midway,right] {};
+\draw[-Triangle, uthickline] ($(controller1.north west)+(0.5,0)$) -- ++ (0,0) arc[start angle=20, end angle=331, x radius=1.2cm, y radius =1.2cm] node[midway, right] (feedbackcircle) {};
+
+\node[uthickline, double arrow, minimum height=10mm, minimum width=.8mm, single arrow head extend=1mm, anchor=west, right of=controller1, node distance=2.5cm] (arrowh) {};
+
+\node[right of=arrowh, node distance=1.5cm] (dot1) {- -};
+\draw [-Triangle, uthickline] (dot1.east)+(.1cm,1pt) -- node[below] (arrow1) {} ++(.6,1pt);
+%\node[below of=circleb1, node distance=1cm] (textrecgraph) {Recursive graph};
+
+%\node [ rounded corners, draw, inner sep = 3mm, fit={(feedbackcircle) (controller1) (circlea1) (textrecgraph)} ] {};
+
+\foreach \i in {1,...,\numlayerA}
+{
+    \node [blueshape, rounded corners,minimum width=2cm, minimum height=1cm] (controller\i) at (3 + \i*3, 0) {\Large $ h ^{\langle{} t\indicesarray(\i) \rangle{} } $};
+    \node [redshape, rounded corners, minimum width=1.5cm, minimum height = 2cm, above of=controller\i, node distance=2.5cm ] (circlea\i) {\Large $ \hat{y} ^{\langle{} t\indicesarray(\i) \rangle{} } $ };
+    \node [greenshape, rounded corners, minimum width=1.5cm, minimum height = 2cm, below of=controller\i, node distance=2.5cm ] (circleb\i) {\Large  $ x ^{\langle{} t\indicesarray(\i) \rangle{} } $ };
+    \draw [Triangle-, uthickline] (circlea\i.south) -- (controller\i.north) node[midway,right] {};
+    \draw [-Triangle, uthickline] (circleb\i.north) -- (controller\i.south) node[midway,right] {};
+    \draw [-Triangle, uthickline] (controller\i.east)+(.1cm,1pt) -- node[below] (arrow\i) {} ++(.8,1pt);
+}
+
+%\node[below of=circleb2, node distance=1cm] (textunfoldgraph) {Unfolded graph};
+
+\node[right of=controller3, node distance=2.3cm](dot2) {- -}; 
+\%node [rounded corners, draw, inner sep = 3mm, fit={(dot1) (dot2) (circlea2) (textunfoldgraph)}] {};
+
+
+\end{tikzpicture}
+\end{document}

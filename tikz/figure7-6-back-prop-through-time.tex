@@ -1,0 +1,71 @@
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{medl_colors}
+
+\begin{document}
+\begin{tikzpicture}
+
+%Nodes
+\matrix[row sep=2.2cm,column sep=2cm] (m1) {
+    &
+    \node [align=center] (node21) {\large $h^{\langle 1\rangle}$}; &
+    \node [align=center] (node22) {\large $h^{\langle 2\rangle}$}; &
+    \node [align=center] (node23) {\large $h^{\langle  T-1 \rangle}$}; &
+    \node [align=center] (node24) {\large $h^{\langle T \rangle}$}; &
+    \\
+    &
+    \node [align=center, xshift=-.5cm] (node31) {\large $\zeta^{\langle 1 \rangle}$}; &
+    \node [align=center, xshift=-.5cm] (node32) {\large $\zeta^{\langle 2 \rangle}$}; &
+    \node [align=center, xshift=-.5cm] (node33) {\large $\zeta^{ \langle T-1 \rangle }$}; &
+    \node [align=center, xshift=-.5cm] (node34) {\large $\zeta^{\langle T \rangle}$}; &
+    \\
+   };
+
+\node[] at (0, 5) (t1) {\large $W$};
+\draw[-Triangle, thickline] (t1) -- (node21);
+\draw[-Triangle, thickline] (t1) -- (node22);
+\draw[-Triangle, thickline] (t1) -- (node23);
+\draw[-Triangle, thickline] (t1) -- (node24);
+
+\node[] at (0, -5) (t2) {\large $g_W$};
+\draw[Triangle-, thickline] (t2) -- (node31);
+\draw[Triangle-, thickline] (t2) -- (node32);
+\draw[Triangle-, thickline] (t2) -- (node33);
+\draw[Triangle-, thickline] (t2) -- (node34);
+
+\draw[Triangle-, thickline] (node21) -- ++(0, -.7) node[pos=1.7] {\large $x^{\langle 1 \rangle}$};
+\draw[Triangle-, thickline] (node22) -- ++(0, -.7) node[pos=1.7] {\large $x^{\langle 2\rangle}$};
+\draw[Triangle-, thickline] (node23) -- ++(0, -.7) node[pos=1.7] {\large $x^{\langle T-1\rangle}$};
+\draw[Triangle-, thickline] (node24) -- ++(0, -.7) node[pos=1.7] {\large $x^{\langle T\rangle}$};
+
+\draw [dashed] ([xshift=.5cm]node22.east) -- ([xshift=-.5cm]node23.west) node[] {}; 
+\draw [dashed] ([xshift=.5cm]node32.east) -- ([xshift=-.5cm]node33.west) node[] {}; 
+
+\draw [-Triangle, thickline] ([xshift=1.1cm]node21.west) -- ([xshift=-1.1cm]node22.east);
+\draw [-Triangle, thickline] ([xshift=1.4cm]node23.west) -- ([xshift=-1.4cm]node24.east);
+
+\draw [-Triangle, thickline] ([xshift=-.5cm]node32.west) -- ([xshift=.5cm]node31.east);
+\draw [-Triangle, thickline] ([xshift=-.5cm]node34.west) -- ([xshift=.5cm]node33.east);
+
+\node[below of = t2, node distance=.8cm, align=center] {\large Gradient};
+\node[above of = t1, node distance=.8cm, align=center] {\large Shared Parameter};
+
+\node[below right = 0mm and 1mm of node22, align=center] (textforward) {\large Forward};
+\node[above right = 0mm and 5mm of node32, align=center] {\large Backward};
+
+\node[rounded corners, bthickline, below right = 9mm and 1cm of node24] (nodec) {\large Loss : $C$};
+
+\node[above left = 1.5cm and -2.5cm of nodec.west, align=center] (nodey) { $y^{\langle 1\rangle},\ldots,y^{\langle T\rangle}$\\  $\hat{y}^{\langle 1 \rangle},\ldots,\hat{y}^{\langle T \rangle}$};
+\draw [-Triangle, thickline] ([yshift=-2mm]nodey.south) -- ([yshift=2mm, xshift=5mm]nodec.north);
+
+\path (node24.east)edge [-Triangle, thickline, out=0,in=90] node [midway, anchor=center] {} (nodec.north);
+
+\path (nodec.south)edge [-Triangle, thickline, out=270,in=0] node [midway, anchor=center] {} (node34.east);
+
+\end{tikzpicture}
+\end{document}

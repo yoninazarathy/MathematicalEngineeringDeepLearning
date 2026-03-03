@@ -1,0 +1,48 @@
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{medl_colors}
+
+\begin{document}
+\begin{tikzpicture}
+
+\node[bluelayer, minimum height=1cm, below left = 3cm] (unit01) {\parindent=1cm $x^{\langle 1\rangle }$ \indent$x^{\langle 2\rangle }$ \indent $\cdots$ \indent \textcolor{red}{$x^{\langle t\rangle }$} \indent $\cdots$ \indent \indent $x^{\langle T\rangle }$};
+
+\node[bluelayer, minimum height=1cm, above of=unit01,node distance= 7cm] (unit02) {\parindent=1cm $u^{\langle 1\rangle }$ \indent$u^{\langle 2\rangle }$ \indent $\cdots$ \indent \textcolor{red}{$u^{\langle t\rangle }$} \indent $\cdots$ \indent \indent $u^{\langle T\rangle }$};
+
+\node[ rounded corners, minimum width=4.2cm, minimum height=1cm, above left= 1cm and .5cm of unit01] (head11) {$W_{q}^{1}~~ W_{k}^{1}~~ W_{v}^{1} $};
+
+\node[uthickline, rounded corners, minimum width=5.3cm, minimum height=1cm, above of = head11] (head1) {Head 1};
+
+\node[ rounded corners, minimum width=4.2cm, minimum height=1cm, above right= 1cm and .5cm of unit01] (head22) {$W_{q}^{H} ~~ W_{k}^{H} ~~W_{v}^{H} $};
+
+\node[uthickline, rounded corners, minimum width=5.5cm, minimum height=1cm, above of = head22] (head2) {Head H};
+
+
+\node[greenlayer, minimum width=4.2cm, minimum height=1cm, above of = head1, node distance = 1.2cm] (tunit01) {\parindent=.3cm $u^{1, \langle 1\rangle }$ \indent $\cdots$ \indent \textcolor{red}{$u^{1,\langle t\rangle }$} \indent $\cdots$ \indent $u^{1,\langle T\rangle }$};
+\node[greenlayer, minimum width=4.2cm, minimum height=1cm, above of = head2, node distance = 1.2cm] (tunit02) {\parindent=.3cm $u^{H, \langle 1\rangle }$ \indent $\cdots$ \indent \textcolor{red}{$u^{H, \langle t\rangle }$} \indent $\cdots$ \indent $u^{H, \langle T\rangle }$};
+
+\draw[-Triangle,thickline, looseness=.4] ([xshift=-.5cm]unit01.north) to[out=90, in=-90] (head11.south)++(0, 0.2) node[](line1){};
+\draw[-Triangle,thickline, looseness=.4] ([xshift=1cm]unit01.north) to[out=90, in=-90] (head22.south)++(0, 0.2) node[](line2){};
+
+%\draw[-Triangle,thickline, looseness=.7] ([xshift=.5cm]unit01.north) to[out=90, in=-90] ++(2,1);
+%\draw[-Triangle,thickline, looseness=.7] (unit01.north) to[out=90, in=-90] ++(-2,1);
+
+\draw[-Triangle,thickline, looseness=.5] (tunit01.north) to[out=90, in=-90] (unit02.south) node[](line3){};
+\draw[-Triangle,thickline, looseness=.5] ([xshift=0cm]tunit02.north) to[out=90, in=-90] ([xshift=.5cm]unit02.south) node[](line4){};
+
+%\node[above left = -.2cm and -5.5cm of line1] {$W_{q}^{1}~~ W_{k}^{1}~~ W_{v}^{1} $};
+%\node[above right = -.2cm and -5cm of line2] {$W_{q}^{H} ~~ W_{k}^{H} ~~W_{v}^{H} $};
+\node[above left = -1cm and -5cm of line3] {$W_{c}^H $};
+\node[above right = -1cm and -5cm of line4] {$W_{c}^1 $};
+
+%\node[border-grey, above of = unit01, node distance = 3.5cm] {\Huge -  -  -  -  -  -  - };
+\node[border-grey, above of = unit01, node distance = 3.5cm] {\Huge .  .  .  .  .  .  .  . };
+
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,50 @@
+\documentclass[tikz, border=50pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{medl_colors}
+\usepackage{xfp}
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta}
+\usetikzlibrary{matrix, calc, positioning,fit}
+\usepackage{amsmath,amsfonts,xstring}
+
+\begin{document}
+\begin{tikzpicture}
+
+\newcommand\semicircleunit[4]
+{
+    \node [lightblueshape, bthickline, circle, minimum size = #3cm] (circle#4) at (#1,#2){};
+    \draw [bthickline](#1-.4,#2+#3/2.05) -- (#1-.4,#2-#3/2.05);
+    
+    \pgfmathparse{int(#4-1)} \edef\prev{\pgfmathresult}
+    \IfEq{\prev}{0}%
+    {
+        \node[above left = .1cm and 1.5cm of circle#4, align=center,font=\boldmath] (text2#4) {\large $\theta^{[#4]} \in \mathbb R^p$};
+        \node[left of=circle#4, node distance=1.2cm, align=center, text=black,font=\boldmath] (text1#4) {$\theta^{{[#4]}^\top}x$};
+        \node[below right=-2cm and -2cm of circle#4, align=center, text=black,font=\boldmath] (text1#4) {  $\underbrace{\sigma^{[#4]}(\theta^{{[#4]}^\top}a^{[\prev]})}$ \\ $a^{[#4]}$};
+    }
+    {
+        \node[above left = .1cm and 1.5cm of circle#4, align=center,font=\boldmath] (text2#4) {\large $\theta^{[#4]} \in \mathbb R$};
+        \node[left of=circle#4, node distance=1.2cm, align=center, text=black,font=\boldmath] (text1#4) {$\theta^{{[#4]}}a^{[\fpeval{#4-1}]}$};
+        \IfEq{\prev}{3}%
+        {
+            \node[below right=-2cm and -1.5cm of circle#4, align=center, text=black,font=\boldmath] (text1#4) {  $\underbrace{\theta^{{[#4]}}a^{[\prev]}}$ \\ $\hat y=a^{[#4]}$};
+        }
+        {
+            \node[below right=-2cm and -1.8cm of circle#4, align=center, text=black,font=\boldmath] (text1#4) {  $\underbrace{\sigma^{[#4]}(\theta^{{[#4]}}a^{[\prev]})}$ \\ $a^{[#4]}$};
+        }
+    }
+
+    \draw [-Triangle, thickline] (circle#4.west)+(-2.3cm,0) -- ([xshift=-.2cm]circle#4.west);
+    \draw [-Triangle, thickline] (text2#4) -- ++(0, -1.7cm);
+    
+}
+
+\node[align=center] (circle0) at (-5.5,-.35) {\Large  $\underbrace{x}_{\huge {\in \mathbb R^p}}$};
+\semicircleunit{0}{0}{4.5}{1};
+\semicircleunit{7}{0}{4.5}{2};
+\semicircleunit{14}{0}{4.5}{3};
+\semicircleunit{21}{0}{4.5}{4};
+\draw [-Triangle, thickline] (text24) -- ++(0, -1.7cm);
+\draw [-Triangle, thickline] (circle4.east) -- ++(+2cm, 0);
+\end{tikzpicture}
+\end{document}

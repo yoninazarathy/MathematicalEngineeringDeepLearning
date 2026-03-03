@@ -1,0 +1,48 @@
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{medl_colors}
+\usepackage{graphicx} %package to manage images
+\graphicspath{ {./images/} } 
+
+\usepackage{arrayjob}
+
+\begin{document}
+\begin{tikzpicture}
+
+\newcommand\rnnunit[6]
+{
+    \foreach \i in {1,...,#6}
+    {
+       \pgfmathparse{\i-1}\edef\j{\pgfmathresult};
+
+        \node[blueshape, rounded corners, minimum width=.5cm, minimum height=2cm] (unit#4\i) at (#2+\i*1.5,#3) { };
+        \node[rotate=90, below of=unit#4\i, node distance=0cm] {Unit};
+
+        \node[redshape, rounded corners, minimum width=.5cm, minimum height=2cm, above of=unit#4\i, node distance=3cm] (top#4\i) { };
+        \draw[-Triangle, uthickline] (unit#4\i) -- (top#4\i);
+        
+        \ifnum\i=1
+        {
+            \node[greenshape, rounded corners, minimum width=.5cm, minimum height=2cm, below of=unit#4\i, node distance=3cm] (bottom#4\i) { };
+            \draw[Triangle-, uthickline] (unit#4\i) -- (bottom#4\i);
+        }
+        \fi
+        
+        \ifnum\i>1
+            \draw[-Triangle, uthickline] (unit#4\j) -- (unit#4\i);
+        \fi
+    }
+}
+
+
+\rnnunit{}{0}{0}{0}{}{3};
+\node[above of=unit02, node distance=4.5cm] {};
+%One to many};
+
+\end{tikzpicture}
+\end{document}

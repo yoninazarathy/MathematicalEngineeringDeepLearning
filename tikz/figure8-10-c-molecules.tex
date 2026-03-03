@@ -1,0 +1,31 @@
+\documentclass[border=1cm]{standalone}
+\usepackage{tikz}
+\usepackage{chemfig}
+\usepackage{medl_colors}
+
+\begin{document}
+\setchemfig{atom sep=2em,bond style={line width=1pt, black!20}}   
+% \chemfig{
+% *6(
+%     C(=O)-
+%     {\color{border-blue}N}(-C(-[4]{\color{fill-grey}H})(-[6]{\color{fill-grey}H})(-[8]{\color{fill-grey}H}))-
+%     C(*5(-{\color{border-blue}N}=C-{\color{border-blue}N}(-C(-[8]{\color{fill-grey}H})(-[1]{\color{fill-grey}H})(-[2]{\color{fill-grey}H}))-))=
+%     C-
+%     C(=O)-
+%     {\color{border-blue}N}(-C(-[5]{\color{fill-grey}H})(-[4]{\color{fill-grey}H})(-[3]{\color{fill-grey}H}))-
+% )}
+
+\begin{tikzpicture}
+\node at (0,0){\chemfig{
+*6(
+    C(=O)-
+    {\color{border-blue}N}(-C(-[4]{\color{fill-grey}H})(-[6]{\color{fill-grey}H})(-[8]{\color{fill-grey}H}))-
+    C(*5(-{\color{border-blue}N}=C-{\color{border-blue}N}(-C(-[8]{\color{fill-grey}H})(-[1]{\color{fill-grey}H})(-[2]{\color{fill-grey}H}))))=
+    C-
+    C(=O)-
+    {\color{border-blue}N}(-C(-[5]{\color{fill-grey}H})(-[4]{\color{fill-grey}H})(-[3]{\color{fill-grey}H}))
+)}};
+\draw [line width = 1pt, black!20](-0.76,0.25) -- (-0.76,-0.07);
+\draw [line width = 1pt, black!20](0.65,0.5) -- (0.95,0.6);
+\end{tikzpicture}
+\end{document}

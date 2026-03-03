@@ -1,0 +1,75 @@
+\documentclass[tikz, border=50pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{medl_colors}
+\usepackage{amsmath,xstring}
+\usepackage{ifthen}
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta, decorations.pathreplacing, calligraphy}
+\usetikzlibrary{matrix, calc, positioning,fit, backgrounds}
+\begin {document}
+
+\begin{tikzpicture}%[fontsize=24pt]
+
+\begin{scope}
+\newcommand\slantarray[8]{
+      \draw[#6, line width=#7] (#1,#2) grid (#1+#3+1, #2-#4-1) rectangle (#1,#2);
+      \pgfmathparse{#1+((#3+1)/2)}\edef\ni{\pgfmathresult};
+      \pgfmathparse{#2-#4-1.6}\edef\nj{\pgfmathresult};
+      \node[] at(\ni,\nj){\huge $#8$};
+}
+
+\newcommand\matrixset[9]{
+    \draw[#5, line width=2] (#1,#2) grid (#1+#3+1, #2-#3-1) rectangle (#1,#2);
+    \draw[#6, line width=2] (#1-1,#2-1) grid (#1+#3, #2-#3-2) rectangle (#1-1,#2-1);
+    \draw[#7, line width=2] (#1-2,#2-2) grid (#1+#3-1, #2-#3-3) rectangle (#1-2,#2-2);
+    \draw[Triangle-Triangle, thickline] (#1-2, #2-#3-4) -- (#1+#3-1, #2-#3-4) node [midway,anchor=center, fill=white] {\Huge $#9_v$};
+    \draw[Triangle-Triangle, thickline] (#1-3, #2-2) -- (#1-3, #2-#3-3) node [midway,anchor=center, fill=white] {\Huge $#9_h$};
+    \draw[Triangle-Triangle, thickline] (#1+#3-.5, #2-#3-3.5) -- (#1+#3+1.5, #2-#3-1.5) node [midway,anchor=center, fill=white] {\Huge $#9_c$};
+    \ifthenelse{#3=8}
+        { \node at (#1+#3-12.5, #2-#3/2-2.5) {\Huge $\star$}; } {}
+    \pgfmathparse{#1-2+((#3+1)/2)}\edef\ni{\pgfmathresult};
+    \pgfmathparse{#2-5.3-#3}\edef\nj{\pgfmathresult};
+    \node[] at(\ni,\nj-0.2){\huge $#8$};
+}
+
+\newcommand\matrixsett[9]{
+    \draw[#5, line width=2] (#1,#2) grid (#1+#3+1, #2-#3-1) rectangle (#1,#2);
+    \draw[#6, line width=2] (#1-1,#2-1) grid (#1+#3, #2-#3-2) rectangle (#1-1,#2-1);
+    \draw[#7, line width=2] (#1-2,#2-2) grid (#1+#3-1, #2-#3-3) rectangle (#1-2,#2-2);
+    \ifthenelse{#3=8}
+        { \node at (#1+#3-12, #2-#3/2-2.5) {\Huge $\star$}; } {}
+    \pgfmathparse{#1-2+((#3+1)/2)}\edef\ni{\pgfmathresult};
+    \pgfmathparse{#2-5.3-#3}\edef\nj{\pgfmathresult};
+    \node[] at(\ni,\nj+0.5){\huge $#8$};
+}
+
+\matrixset{8}{0}{8}{}{blueshape}{greenshape}{redshape}{x}{M^{[0]}};
+\matrixset{-1}{2}{2}{[1]}{blueshape}{greenshape}{redshape}{W_{(1)}}{K};
+\matrixset{-1}{-8}{2}{[2]}{blueshape}{greenshape}{redshape}{W_{(2)}}{K};
+\draw[greylayer] (-5,4) rectangle ++(23,-20);
+
+\matrixsett{35}{9}{8}{[1]}{blueshape}{greenshape}{redshape}{x}{M^{[0]}};
+\matrixsett{26}{6}{2}{[1]}{blueshape}{greenshape}{redshape}{W_{(1)}}{K};
+\draw[greylayer] (22,11) rectangle ++(23,-16);
+
+\matrixsett{35}{-8}{8}{[2]}{blueshape}{greenshape}{redshape}{x}{M^{[0]}};
+\matrixsett{26}{-11}{2}{[2]}{blueshape}{greenshape}{redshape}{W_{(2)}}{K};
+\draw[greylayer] (22,-7) rectangle ++(23,-15);
+
+\draw[greylayer] (21,12) rectangle ++(25,-35);
+
+\node at (19.5,-5.5) {\Huge =};
+\node at (48,-5.5) {\Huge =};
+\node at (54,-10.5) {\Huge $W \star x$};
+
+\slantarray{51}{-2}{6}{5}{0}{tealshape}{2}{};
+\slantarray{50}{-3}{6}{5}{0}{yellowshape}{2}{};
+
+\draw[greylayer] (49,-1) rectangle ++(10,-9);
+
+\path (47,4) edge [-Triangle, thickline, out=0,in=90, looseness=1.5] node [] {} (54, -1.8);
+\path (47,-15) edge [-Triangle, thickline, out=0,in=270, looseness=1.5] node [] {} (52, -9.2);
+
+\end{scope}
+\end{tikzpicture}
+\end{document}

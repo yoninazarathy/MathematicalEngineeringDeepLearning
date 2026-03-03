@@ -1,0 +1,98 @@
+\documentclass[tikz, border=50pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{medl_colors}
+\usepackage{amsmath,xstring}
+\usepackage{ifthen}
+\usepackage{etoolbox}
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta, decorations.pathreplacing, calligraphy}
+\usetikzlibrary{matrix, calc, positioning,fit, backgrounds, shapes}
+
+\pgfdeclarelayer{layer1}
+\pgfdeclarelayer{layer2}
+\pgfdeclarelayer{layer3}
+\pgfdeclarelayer{layer4}
+\pgfsetlayers{layer4,layer3,layer2,layer1}
+
+\def\arrayA{
+    {
+        %Array x
+        {
+            {2, 4, 10, 13}, {6, -4, 3, -2}, {7, -2, 0, -11}, {8, 3, -1, 0} 
+        },
+        %Array z
+        { 
+            {2, 6}, {4, -3} 
+        }
+    }
+}
+
+\begin {document}
+
+\newcommand\fillnumbers[4]{
+    \foreach \i in {0,...,#3}{
+        \foreach \j in {0,...,#3}{
+            \pgfmathparse{int(\arrayA[#4][\j][\i])} \edef\ele{\pgfmathresult};
+            \node[thick] at (#1+.5+\i,#2-.5-\j) {$\ele$};
+        }
+    }
+}
+
+\newcommand\slantarray[8]{
+        \draw[#6, line width=#7, opacity=0.8] (#1,#2) grid (#1+#3+1, #2-#4-1);
+        \pgfmathparse{#1+((#3+1)/2)}\edef\ni{\pgfmathresult};
+        \pgfmathparse{#2-#4-1.8}\edef\nj{\pgfmathresult};
+        \node[#6] at(\ni,\nj){\huge $#8$};
+}
+
+\newcommand\lines[8]{
+        \draw[#7, dashed, ultra thick, opacity=0.8] (#1,#2) -- (#3,#4);
+        \draw[#7, dashed, ultra thick, opacity=0.8] (#1+#5,#2) -- (#3+#6,#4);
+        \draw[#7, dashed, ultra thick, opacity=0.8] (#1,#2-#5) -- (#3,#4-#6);
+        \draw[#7, dashed, ultra thick, opacity=0.8] (#1+#5,#2-#5) -- (#3+#6,#4-#6);
+}
+
+\newcommand\fillbg[6]{
+    \begin{scope}
+    \node[rectangle,uthickline, minimum size=1cm,fill=#5, draw=#5] at (#1+.5+#3,#2-.5-#4){#6};   
+    \end{scope}
+}
+
+\begin{tikzpicture}[remember picture, every node/.style={minimum size=1cm},on grid]
+
+\begin{scope}[every node/.append style={yslant=0.3},yslant=0.3]
+
+\begin{pgfonlayer}{layer4}
+    \slantarray{0}{0}{3}{3}{0}{border-grey}{2}{x};
+    \fillnumbers{0}{0}{3}{0};
+\end{pgfonlayer}
+
+\begin{pgfonlayer}{layer3}
+    \slantarray{2}{0}{1}{1}{1}{fill-red}{3}{};
+    \lines{2}{0}{8}{-5}{2}{1}{border-red}{border-red};
+
+    \slantarray{2}{-2}{1}{1}{1}{fill-yellow}{3}{};
+    \lines{2}{-2}{8}{-6}{2}{1}{border-yellow}{border-yellow};
+\end{pgfonlayer}
+
+\begin{pgfonlayer}{layer2}
+    \slantarray{0}{0}{1}{1}{0}{fill-blue}{3}{};
+    \lines{0}{0}{7}{-5}{2}{1}{border-blue}{border-blue};
+
+    \slantarray{0}{-2}{1}{1}{1}{fill-green}{3}{};
+    \lines{0}{-2}{7}{-6}{2}{1}{border-green}{border-green};
+\end{pgfonlayer}
+
+\begin{pgfonlayer}{layer1}
+    \slantarray{7}{-5}{1}{1}{1}{border-grey}{2}{z};
+    \fillbg{7}{-6}{0}{0}{fill-green}{};
+    \fillbg{7}{-5}{0}{0}{fill-blue}{};
+    \fillbg{8}{-6}{0}{0}{fill-yellow}{};
+    \fillbg{8}{-5}{0}{0}{fill-red}{};
+    \fillnumbers{7}{-5}{1}{1};
+\end{pgfonlayer}
+
+
+\end{scope}
+\end{tikzpicture}
+\end{document}

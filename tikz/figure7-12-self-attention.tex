@@ -1,0 +1,60 @@
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{ifthen}
+\usepackage{medl_colors}
+\usepackage{arrayjob}
+
+\def\words{{
+    {"\alpha_{1}^{\langle t\rangle}", "\alpha_{2}^{\langle t\rangle}", "", "\alpha_{\tau}^{\langle t\rangle}", "", "\alpha_{t}^{\langle t\rangle}", "", "", ""},
+    {"x^{\langle 1\rangle}", "x^{\langle2\rangle}", "", "x^{\langle\tau \rangle}", "", "x^{\langle t \rangle}", "", "", ""}   
+}}
+
+\begin{document}
+\begin{tikzpicture}
+
+
+\node [thickline,draw,circle, minimum size=0.6cm] at (1,0) (tcircle1)  { $+$ };
+\draw [-Triangle, thickline, draw] (tcircle1) -- node[pos=1.3] {$ u ^{\langle t \rangle}$} ++(0,2); 
+
+\foreach \j in {0,...,5}
+{
+    \pgfmathparse{\words[0][\j]} \edef\topword{\pgfmathresult};
+    \pgfmathparse{\words[1][\j]} \edef\bottomword{\pgfmathresult};
+    
+    \node[] at (-4+\j,-3) (t\j)  {\tiny $\topword$ };
+    \node[] at (-4+\j,-5) (b\j)  {\tiny $\bottomword$ };
+
+    \ifx\topword\empty
+        \node [] at (-4+\j,-4) (circle\j)  {. . .};
+    \else
+        \node [circle] at (-4+\j,-4) (circle\j)  { $\times$ };
+        \draw [Triangle-, thickline, draw] (tcircle1) -- (t\j); 
+    \fi
+}
+
+\draw [Triangle-, thickline, draw] (tcircle1) -- (t3); 
+\draw [Triangle-,red] (tcircle1) -- (2, -2.7); 
+\draw [Triangle-,red] (tcircle1) -- (4, -2.7); 
+\path (b3) edge [-Triangle,thickline,out=180,in=180,draw=blue] node [midway, left, blue] {\tiny $W_v$} (circle3);
+
+% \node[pink0] at (-1,-3) {\tiny $\alpha^{\langle \tau\rangle}$ };
+% \node[pink0] at (-1,-5) {\tiny $X^f{<t>}$ };
+% \node[fred, thick] at (1,-5) {\tiny $X^{<t>}$ };
+
+\path (b3) edge [-Triangle,thickline,out=0,in=-10,draw=blue, looseness=.7] node [pos=.3, left, blue] {\tiny $W_k$} (t3);
+\path ([yshift=-5mm]b5) edge [-Triangle,thickline,out=180,in=10,draw=blue] node [pos=.3, right,blue] {\tiny $W_q$} (t3);
+
+\node[] at (.4,-2) {. . .};
+\node[] at (-1,-2) {. . .};
+\node[align=center,red] at (2.4,-2) {\tiny non-\\ \tiny casual};
+
+\node[left of = t1, align=center, node distance = 3cm]  {\small Attention\\ \small Weights:};
+\node[left of = b1, align=center, node distance = 3cm]  {\small Input:};
+
+\end{tikzpicture}
+\end{document}

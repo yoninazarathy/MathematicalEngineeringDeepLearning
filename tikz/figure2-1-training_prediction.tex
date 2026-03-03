@@ -1,0 +1,59 @@
+\documentclass[tikz, border=20pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{geometry}
+\usepackage{medl_colors}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta}
+\usetikzlibrary{matrix,decorations.pathreplacing, calc, positioning,fit}
+
+\begin{document}
+
+\begin{tikzpicture}
+
+ \newcommand\cube[6]
+ {
+\fill[yellowshape] (#1+#4,#2,#3) -- (#1+#4,#2+#5,#3) -- (#1,#2+#5,#3)  --(#1,#2,#3) -- cycle;
+\fill[yellowshape]  (#1+#4,#2,#3) -- (#1+#4,#2,#3+#6) -- (#1+#4,#2+#5,#3+#6) -- (#1+#4,#2+#5,#3) -- cycle;
+\fill[yellowshape]  (#1+#4,#2+#5,#3) -- (#1,#2+#5,#3) -- (#1,#2+#5,#3+#6) -- (#1+#4,#2+#5,#3+#6) -- cycle;
+}
+
+
+%Training Data
+\node[thickline, rectangle split, rectangle split parts=2, rectangle split horizontal, rectangle split draw splits=false, rectangle split part fill={fill-green, fill-red}, minimum height=3cm, draw] (rect1) {
+    \nodepart[text width=1.2cm]{one}
+    \nodepart[text width=.3cm]{two}
+};
+
+\draw[densely dashed] (rect1.one split north) -- (rect1.one split south);
+\draw[draw, -] ([yshift=-0.1cm]rect1.two north) -- ([yshift=0.1cm]rect1.two south) node[midway, anchor=center, fill=fill-red] {\large $y$}+(0,1mm);
+\draw[draw, -] ([yshift=-0.1cm]rect1.one north) -- ([yshift=0.1cm]rect1.one south) node[midway, anchor=center, fill=fill-green] {\large $x$};
+\node[above of=rect1, align=center, node distance=2cm] (training) {\large Training Data};
+
+%Learning Algorithm Cube
+\cube{3}{-1.2}{0}{3}{2}{-1.5}
+\node[align=center] at (4.6,-.1) {\large Learning\\\large Algorithm};
+
+%model
+\node[blueshape, ellipse, minimum width = 3.5cm, minimum height = 2.5cm,  align=center] (model) at (11,0) {\large Model\\(Prediction \\ Algorithm)};
+
+%\node[blueshape, ellipse, minimum width = 4cm, minimum height = 2.5cm,  align=center] (model) at (10.5,3) {\large Model\\(Clustering\\Rule)};
+
+
+%Real world
+\node[scale = .3] (inputpic) at (18,0) {\includegraphics {images/earth.jpeg}};
+\node[right of=inputpic, align=center, node distance=1.6cm] {\large Real\\ \large World};
+
+%Arrows
+\draw [-Triangle, ubthickline] (rect1.east)+(.1cm,0) -- node[] {} ++(1.7,0);
+\draw [-Triangle, ubthickline] (model.west)+(-2.9cm,0) to (model.west) node[] (arrow1) {};
+\path (model) edge [-Triangle,out=270,in=270, ubthickline] node [midway, anchor=center, fill=white] {\Large $\hat{y}$} (inputpic);
+\path (model) edge [Triangle-,out=90,in=90,ubthickline] node [midway, anchor=center, fill=white] {\Large $[ -\hspace{.3cm}  x^\star \hspace{.3cm} - ] $} (inputpic);
+\path (inputpic) edge [-Triangle,dashed, out=80,in=80,ubthickline] node [] {} (training);
+
+\end{tikzpicture}
+
+\end{document}
+

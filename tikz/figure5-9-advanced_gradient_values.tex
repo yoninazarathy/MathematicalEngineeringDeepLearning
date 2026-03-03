@@ -1,0 +1,85 @@
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{medl_colors}
+
+\begin{document}
+\begin{tikzpicture}
+
+%Nodes
+\matrix[row sep=2cm,column sep=1.8cm] (m1) {
+    \node [align=center, xshift=-.5cm] (node11) {\large $W^{[1]},b^{[1]}$}; &
+    \node [align=center, xshift=-.5cm] (node12) {\large $W^{[2]},b^{[2]}$}; &
+    \node [align=center, xshift=-.5cm] (node13) {\large $W^{[L-1]},b^{[L-1]}$}; &
+    \node [align=center, xshift=-.5cm] (node14) {\large $W^{[L]},b^{[L]}$}; &
+    \\
+    \node [align=center] (node21) {\large $z^{[1]}$}; &
+    \node [align=center] (node22) {\large $z^{[2]}$}; &
+    \node [align=center] (node23) {\large $z^{[L-1]}$}; &
+    \node [align=center] (node24) {\large $z^{[L]}$}; &
+    \\
+    \node [align=center, xshift=-.5cm] (node31) {\large $\delta^{[1]}$}; &
+    \node [align=center, xshift=-.5cm] (node32) {\large $\delta^{[2]}$}; &
+    \node [align=center, xshift=-.5cm] (node33) {\large $\delta^{[L-1]}$}; &
+    \node [align=center, xshift=-.5cm] (node34) {\large $\delta^{[L]}$}; &
+    \\
+    \node [align=center] (node41) {\large ($g^{[1]}_W,g^{[1]}_b$)}; &
+    \node [align=center] (node42) {\large ($g^{[2]}_W,g^{[2]}_b$)}; &
+    \node [align=center] (node43) {\large ($g^{[L-1]}_W,g^{[L-1]}_b$)}; &
+    \node [align=center] (node44) {\large ($g^{[L]}_W,g^{[L]}_b$)}; &
+    \\
+   };
+
+\node [left of = node21, node distance = 2.5cm] (node20) {\large $x = a^{[0]}$};
+\node [right of = node21, node distance = 2cm] (node21_1) {\large $a^{[1]}$};
+\node [right of = node22, node distance = 1.6cm] (node22_1) {\large $a^{[2]}$};
+\node [right of = node23, node distance = 2.2cm] (node23_1) {\large $a^{[L-1]}$};
+\node [right of = node24, node distance = 1.8cm] (node24_1) {\large $a^{[L]}$};
+
+\draw [-Triangle, thickline] ([xshift=1.5cm]node20.west) -- ([xshift=-.9cm]node21.east);
+\draw [-Triangle, thickline] ([xshift=.8cm]node21.west) -- ([xshift=-.8cm]node21_1.east);
+\draw [-Triangle, thickline] ([xshift=.8cm]node21_1.west) -- ([xshift=-.8cm]node22.east);
+\draw [-Triangle, thickline] ([xshift=.8cm]node22.west) -- ([xshift=-.8cm]node22_1.east);
+\draw [-Triangle, thickline] ([xshift=1.2cm]node23.west) -- ([xshift=-1.2cm]node23_1.east);
+\draw [-Triangle, thickline] ([xshift=1.2cm]node23_1.west) -- ([xshift=-.8cm]node24.east);
+\draw [-Triangle, thickline] ([xshift=.8cm]node24.west) -- ([xshift=-.8cm]node24_1.east);
+
+\draw [dashed] ([xshift=.5cm]node12.east) -- ([xshift=-.5cm]node13.west) node[] {}; 
+\draw [dashed] ([xshift=.1cm]node22_1.east) -- ([xshift=-.1cm]node23.west) node[] {}; 
+\draw [dashed] ([xshift=.5cm]node32.east) -- ([xshift=-.5cm]node33.west) node[] {}; 
+\draw [dashed] ([xshift=.5cm]node42.east) -- ([xshift=-.5cm]node43.west) node[] {}; 
+
+\draw [-Triangle, thickline] ([xshift=-.5cm]node32.west) -- ([xshift=.5cm]node31.east);
+\draw [-Triangle, thickline] ([xshift=-.5cm]node34.west) -- ([xshift=.5cm]node33.east);
+
+\draw [-Triangle, thickline] ([yshift=-2mm]node11.south) -- ([yshift=2mm]node21.north);
+\draw [-Triangle, thickline] ([yshift=-2mm]node12.south) -- ([yshift=2mm]node22.north);
+\draw [-Triangle, thickline] ([yshift=-2mm]node13.south) -- ([yshift=2mm]node23.north);
+\draw [-Triangle, thickline] ([yshift=-2mm]node14.south) -- ([yshift=2mm]node24.north);
+
+\draw [-Triangle, thickline] ([yshift=-2mm]node31.south) -- ([yshift=2mm]node41.north);
+\draw [-Triangle, thickline] ([yshift=-2mm]node32.south) -- ([yshift=2mm]node42.north);
+\draw [-Triangle, thickline] ([yshift=-2mm]node33.south) -- ([yshift=2mm]node43.north);
+\draw [-Triangle, thickline] ([yshift=-2mm]node34.south) -- ([yshift=2mm]node44.north);
+
+
+\node[below right = .7cm and -10.5cm of m1, align=center] {\large Gradient Values};
+\node[above right = .7cm and -11cm of m1, align=center] {\large Parameter Values};
+
+\node[below right = 0mm and 10mm of node22, align=center] (textforward) {\large Forward};
+\node[above right = 0mm and 15mm of node32, align=center] {\large Backward};
+
+\node[rounded corners, bthickline, below right = .8cm and 2cm of node24] (nodec) {\large Loss : $C$};
+\node[above left = 2cm and -1.85cm of nodec.west] (nodey) {\large $y, \, \hat{y}$};
+\draw [-Triangle, thickline] ([yshift=-2mm]nodey.south) -- ([yshift=2mm, xshift=5mm]nodec.north);
+
+\path (node24_1.east)edge [-Triangle, thickline, out=0,in=90] node [midway, anchor=center] {} (nodec.north);
+
+\path (nodec.south)edge [-Triangle, thickline, out=270,in=0] node [midway, anchor=center] {} (node34.east);
+
+\end{tikzpicture}
+\end{document}

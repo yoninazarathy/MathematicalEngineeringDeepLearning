@@ -1,0 +1,86 @@
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{medl_colors}
+\usepackage{fontspec}
+
+\usepackage{arrayjob}
+\def\words{{
+    {"We","enjoyed","writing", "this", "book"},
+    {"Nous","avons","aimé", "écrire", "ce", "livre", "<end>"},
+    {"<start>", "Nous","avons","aimé", "écrire", "ce", "livre"}
+}}
+
+\pgfdeclarelayer{background}
+\pgfsetlayers{background, main}
+
+\newcommand\rnnunit[7]
+{
+    \foreach \i in {1,...,#4}
+    {
+        \pgfmathparse{int(\i-1)}\edef\j{\pgfmathresult};
+        \pgfmathparse{\words[#5][\j]} \edef\topword{\pgfmathresult};
+        \pgfmathparse{\words[#6][\j]} \edef\bottomword{\pgfmathresult};
+        
+        \node[blueshape, rounded corners, minimum width=1cm, minimum height=1cm] (unit\i#1) at (#2+\j*2, #3) { Unit };
+        \node[below of=unit\i#1, node distance= 2cm] (bottom\i-#1) {\texttt{ \bottomword} };
+        \draw[-Triangle, thickline] (bottom\i-#1) -- (unit\i#1);
+
+        \ifnum#7>1
+            \node[above of=unit\i#1, node distance= 2cm] (top\i-#1) { \texttt{ \topword }};
+            \draw[Triangle-, thickline] (top\i-#1) -- (unit\i#1);  
+            \ifnum\i>1
+                \draw[-Triangle,thickline, bend right, looseness=1] (top\j-#1.east) to[out=90, in=-90] ([xshift=-6mm]bottom\i-#1);
+            \fi
+        \fi
+        
+        \ifnum\i>1
+            \draw[-Triangle, thickline] (unit\j#1) -- (unit\i#1); 
+        \fi
+    }       
+}
+
+\newcommand\fullthing[3]
+{
+    \rnnunit{a#1}{0}{#2}{5}{0}{0}{1};
+    \node[draw, thick, rounded corners, minimum width=.7cm, minimum height=3cm, right of=unit5a#1, node distance=2cm] (block#1) {};
+    \node[rotate=90, below of=block#1, node distance=0cm] (code) {Context Vector};
+    \node[below of=code, node distance=2cm]{\LARGE #3};
+    \rnnunit{b#1}{12}{#2}{7}{1}{2}{2};
+    \draw[-Triangle, uthickline] (unit5a#1) -- (block#1);
+    \draw[-Triangle, uthickline] (block#1) -- (unit1b#1) node[pos=.2, above]{};
+    \begin{pgfonlayer}{background}
+        \node [greenshape, rounded corners, minimum width=9.5cm, minimum height=2.5cm, below of=unit3a#1, node distance=0cm] (rect1#1)  {};
+        \node [redshape, rounded corners, minimum width=13.5cm, minimum height=2.5cm, below of=unit4b#1, node distance=0cm] (rect2#1)  {};
+        \node [bluelayer, minimum width=10.2cm, minimum height=8cm, below of=unit3a#1, node distance=.4cm] (rect3#1)  {};
+        \node [redlayer, minimum width=14.5cm, minimum height=8cm, below of=unit4b#1, node distance=.4cm] (rect4#1)  {};
+        
+    \end{pgfonlayer}
+
+    \node [below left = -1cm and -2.5cm of rect3#1] {\LARGE  Encoder };
+    \node [below right = -1cm and -2.5cm of rect4#1] {\LARGE  Decoder };
+    
+    \node [below of=rect1#1, node distance=2.8cm] {\Large  Input} ;
+    \node [above of=rect2#1, node distance=3cm] { \Large Output};
+
+    \draw[uthickline] ([xshift=2mm, yshift=2.2cm]rect2#1.west) -- ([xshift=2mm, yshift=2.5cm]rect2#1.west) -- ([xshift=-2mm, yshift=2.5cm]rect2#1.east) -- ([xshift=-2mm, yshift=2.2cm]rect2#1.east) ;
+    \draw[uthickline] ([xshift=2mm, yshift=-2cm]rect1#1.west) -- ([xshift=2mm, yshift=-2.3cm]rect1#1.west) -- ([xshift=-2mm, yshift=-2.3cm]rect1#1.east) -- ([xshift=-2mm, yshift=-2cm]rect1#1.east) ;
+}
+
+\begin{document}
+\begin{tikzpicture}
+
+\fullthing{1}{0}{$z^\star$};
+
+\foreach \i in {1,...,7}
+{
+    \draw[-Triangle, draw=border-grey] ([xshift=5mm]block1.east) -- ([xshift=-6mm]top\i-b1);
+    \draw[-Triangle, draw=border-grey] ([xshift=5mm]block1.east) -- ([xshift=-6mm]bottom\i-b1);
+}
+
+\end{tikzpicture}
+\end{document}

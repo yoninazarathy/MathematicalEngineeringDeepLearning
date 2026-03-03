@@ -1,0 +1,92 @@
+\documentclass[tikz, border=50pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{geometry}
+\usepackage{medl_colors}
+\usepackage{graphicx}
+
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta}
+\usetikzlibrary{matrix,decorations.pathreplacing, calc, positioning,fit}
+
+\graphicspath{ {./images/} }
+
+\begin{document}
+
+\begin{tikzpicture}
+
+\newcommand\cube[7]
+{
+\fill[yellowshape] (#1+#4,#2,#3) -- (#1+#4,#2+#5,#3) -- (#1,#2+#5,#3)  --(#1,#2,#3) -- cycle;
+\fill[yellowshape]  (#1+#4,#2,#3) -- (#1+#4,#2,#3+#6) -- (#1+#4,#2+#5,#3+#6) -- (#1+#4,#2+#5,#3) -- cycle;
+\fill[yellowshape]  (#1+#4,#2+#5,#3) -- (#1,#2+#5,#3) -- (#1,#2+#5,#3+#6) -- (#1+#4,#2+#5,#3+#6) -- cycle;
+
+\coordinate (#7B) at (#1+#4, #2+#5/2, #3+#6/2);
+}
+
+%Clustering Blocks
+%Input Data
+\node (rect) [greenshape, minimum width=1.5cm,minimum height=3cm] (rect) at (0,0)  {};
+\draw[draw, -] ([yshift=-0.1cm]rect.north) -- ([yshift=0.1cm]rect.south) node[midway, anchor=center, fill=fill-green] {\large $x$}+(0,1mm);
+\node[above of=rect, align=center, node distance=2cm] (training) {\large Input Data};
+
+%Cube
+\cube{3}{-1.2}{0}{3}{2}{-1.5}{cube1}
+\node[align=center] at (4.5,-.2) {\large Clustering\\Algorithm};
+
+%Model
+\node[blueshape, ellipse, minimum width = 4cm, minimum height = 2.5cm,  align=center] (model) at (10.5,3) {\large Model\\(Clustering\\Rule)};
+
+%Clustered Data
+\node[redshape, rectangle split, rectangle split parts=7, rectangle split draw splits=false, minimum height=7cm, draw] (rect1) at (10.5, -3) {
+    Cluster 1
+    \nodepart{two} Cluster 2
+    \nodepart{three} .\\.
+    \nodepart{four} .\\.
+    \nodepart{five} .\\.
+    \nodepart{six} .\\.    
+    \nodepart{seven} Cluster k
+};
+\draw[draw, -] (rect1.text split east) -- (rect1.text split west) node[] {};
+\draw[draw, -] (rect1.two split east) -- (rect1.two split west) node[] {};
+\draw[draw, -] (rect1.six split east) -- (rect1.six split west) node[] {};
+\node[above of=rect1, align=center, node distance=2.8cm] (cluster) {\large Clustered Data};
+
+%World
+\node[scale = .5] (inputpic) at (16,-6) {\includegraphics {images/earth.jpeg}};
+\node[right of=inputpic, align=center, node distance=2.5cm] {\large Real\\World};
+
+%Arrows
+\draw [-Triangle, ubthickline] (rect.east) -- ($(rect.east)+(2.2,0)$)  node[] {};
+\path (cube1B) edge [-Triangle, out=0,in=180,ubthickline] node [] {} (model);
+\path (cube1B) edge [-Triangle, out=0,in=180,ubthickline] node [] {} (rect1);
+\path (inputpic) edge [Triangle-Triangle, out=90,in=0,ubthickline] node [] {} (model);
+\path (inputpic) edge [Triangle-Triangle, out=175,in=0,ubthickline] node [] {} (rect1);
+
+%Data Reduction
+
+%Input data
+\node (rect) [greenshape, minimum width=1.5cm,minimum height=3cm] (rect2) at (0,-11)  {};
+\draw[draw, -] ([yshift=-0.1cm]rect2.north) -- ([yshift=0.1cm]rect2.south) node[midway, anchor=center, fill=fill-green] {\large $x$}+(0,1mm);
+\node[above of=rect2, align=center, node distance=2cm] (training) {\large Input Data};
+
+%Cube
+\cube{3}{-12.2}{0}{3}{2}{-1.5}{cube2}
+\node[align=center] at (4.5,-11.2) {\large Data Reduction\\Algorithm};
+
+\node[blueshape, ellipse, minimum width = 4cm, minimum height = 2.5cm,  align=center] (model1) at (10.5,-15) {\large Model\\(Data Reduction\\Rule)};
+
+%low dimensional data
+\node (rect) [redshape, minimum width=.75cm,minimum height=3cm] (rect3) at (10.5, -9) {};
+\draw[draw, -] ([yshift=-0.1cm]rect3.north) -- ([yshift=0.1cm]rect3.south) node[midway, anchor=center, fill=fill-red] {\large $\tilde{x}$};
+\node[above of=rect3, align=center, node distance=2.2cm] (cluster) {\large Low Dimensional\\Data};
+
+%Arrows
+\draw [-Triangle, ubthickline] (rect2.east) -- ($(rect2.east)+(2.2,0)$)  node[] {};
+\path (cube2B) edge [-Triangle, out=0,in=180, ubthickline] node [] {} (model1);
+\path (cube2B) edge [-Triangle, out=0,in=180,ubthickline] node [] {} (rect3);
+\path (inputpic) edge [Triangle-Triangle, out=270,in=0,ubthickline] node [] {} (model1);
+\path (inputpic) edge [Triangle-Triangle, out=180,in=0,ubthickline] node [] {} (rect3);
+
+\end{tikzpicture}
+
+\end{document}

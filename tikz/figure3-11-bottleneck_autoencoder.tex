@@ -1,0 +1,50 @@
+\documentclass[tikz, border=50pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{medl_colors}
+
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta}
+\usetikzlibrary{matrix, calc, positioning,fit}
+\usepackage{amsmath}
+
+\begin{document}
+\begin{tikzpicture}
+
+%Encoder - Input Layer
+\node[bluelayer, inner xsep = 4cm, inner ysep=6cm] (encoderlayer){};
+\node [greenshape, circle, minimum size=1.2cm ] (incircle1) at (-2.5, 4) {\large $ x_1 $};
+\node [greenshape, circle, minimum size=1.2cm, below of=incircle1, node distance=3cm] (incircle2){\large $ x_2 $};
+\node [greenshape, circle, minimum size=1.2cm, below of=incircle2, node distance=5cm] (incircle3){\large $ x_p $};
+\draw[ultra thick, dotted] ([yshift=-3mm]incircle2.south) -- ([yshift=3mm]incircle3.north); 
+\node[above of=incircle1, align=center, node distance=1.4cm] {\large Input Layer};
+\node[below left= 8mm and -9mm of incircle3] {\large Encoder};
+
+%Bottleneck - hidden layer
+\node[draw=fill-grey, ultra thick, rounded corners, inner xsep = 1.2cm, inner ysep=4cm] at (2.5,0)(hiddenlayer){};
+\node [blueshape, circle, minimum size=1.2cm ] (hidcircle1) at (2.5, 3) {\large $\tilde x_1$};
+\node [blueshape, circle, minimum size=1.2cm, below of=hidcircle1, node distance=2.5cm ] (hidcircle2){\large $\tilde x_2$};
+\node [blueshape, circle, minimum size=1.2cm, below of=hidcircle2, node distance=3.5cm ] (hidcircle3){\large $\tilde x_m$};
+\draw[draw, ultra thick, dotted] ([yshift=-3mm]hidcircle2.south) -- ([yshift=3mm]hidcircle3.north); 
+\node[above of=hidcircle1, align=center, node distance=1.5cm] {\large Bottleneck};
+
+%Decode - Output Layer
+\node[redlayer, rounded corners, inner xsep = 4cm, inner ysep=6cm] at(5,-.2)(encoderlayer){};
+\node [redshape, circle, minimum size=1.2cm] (outcircle1) at (7.5, 4) {\large $\hat x_1 $};
+\node [redshape, circle, minimum size=1.2cm,  below of=outcircle1, node distance=3cm] (outcircle2){\large $\hat x_2 $};
+\node [redshape, circle, minimum size=1.2cm,  below of=outcircle2, node distance=5cm] (outcircle3){\large $\hat x_p $};
+\draw[ultra thick, dotted] ([yshift=-3mm]outcircle2.south) -- ([yshift=3mm]outcircle3.north); 
+\node[above of=outcircle1, align=center, node distance=1.3cm] {\large Output Layer};
+\node[below right = 1.1cm and -9mm of outcircle3] {\large Decoder};
+
+%Arrows
+\foreach \i in {1,2,3}
+{
+    \foreach \j in {1,2,3}
+    {
+      \draw[-Triangle, thickline] (incircle\i) -- (hidcircle\j);   
+      \draw[-Triangle, thickline] (hidcircle\i) -- (outcircle\j);
+    }
+} 
+
+\end{tikzpicture}
+\end{document}

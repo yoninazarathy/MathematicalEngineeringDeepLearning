@@ -1,0 +1,69 @@
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{medl_colors}
+
+\begin{document}
+\begin{tikzpicture}
+
+%Nodes
+\matrix[row sep=5mm, column sep=1cm] (m1) {
+    \node [blueshape, circle, minimum size=1.3cm, align=center] (node11) {\Large $z^{(1)}$}; &
+    \node [blueshape, circle, minimum size=1.3cm, align=center] (node12) {\Large $\bar z^{(1)}$}; &
+    \node [blueshape, circle, minimum size=1.3cm, align=center] (node13) {\Large $\hat z^{(1)}$}; &
+    &
+    \\
+    \node [yellowshape, circle, minimum size=1.3cm, align=center, xshift=3cm] (node21) {\Large $\hat{\mu}$}; &
+    \node [yellowshape, circle, minimum size=1.3cm, align=center, xshift=-3cm] (node22) {\Large $\hat{\sigma}^2$}; &
+    \node [yellowshape, circle, minimum size=1.3cm, align=center, xshift=-3cm, yshift=2cm] (node23) {\Large $\gamma$};
+    \node [yellowshape, circle, minimum size=1.3cm, align=center, xshift=-3cm, yshift=-2cm] (node24) {\Large $\beta$}; &
+    \node [redshape, circle, align=center, xshift=4cm] (node25) {\Large $C(\cdot)$}; &
+    \\
+    \node [blueshape, circle, minimum size=1.3cm, align=center] (node31) {\Large $z^{(n_b)}$}; &
+    \node [blueshape, circle, minimum size=1.3cm, align=center] (node32) {\Large $\bar z^{(n_b)}$}; &
+    \node [blueshape, circle, minimum size=1.3cm, align=center] (node33) {\Large $\tilde z^{(n_b)}$}; &
+    &
+    \\
+   };
+
+\draw[-Triangle, thickline] (node11) -- (node21);
+\draw[-Triangle, thickline] (node31) -- (node21);
+\draw[-Triangle, thickline] (node11) -- (node12);
+\draw[-Triangle, thickline] (node21) -- (node12);
+\draw[-Triangle, thickline] (node21) -- (node32);
+\draw[-Triangle, thickline] (node21) -- (node22);
+\draw[-Triangle, thickline] (node22) -- (node12);
+\draw[-Triangle, thickline] (node22) -- (node32);
+\draw[-Triangle, thickline] (node12) -- (node13);
+\draw[-Triangle, thickline] (node32) -- (node33);
+\draw[-Triangle, thickline] (node32) -- (node33);
+\draw[-Triangle, thickline] (node23) -- (node13);
+\draw[-Triangle, thickline] (node24) -- (node33);
+\draw[-Triangle, thickline] (node24) -- (node13);
+\draw[-Triangle, thickline] (node23) -- (node33);
+\draw[-Triangle, thickline] (node11) -- (node22);
+\draw[-Triangle, thickline] (node31) -- (node22);
+
+\draw[dashed, uthickline] ([yshift=-1cm]node11.south) -- ([yshift=1cm]node31.north);
+\draw[dashed, uthickline] ([yshift=-1cm]node12.south) -- ([yshift=1cm]node32.north);
+\draw[dashed, uthickline] ([yshift=-1cm]node13.south) -- ([yshift=1cm]node33.north);
+\draw[dashed, shorten >=5mm, shorten <=1cm, -Triangle, uthickline] (node13) -- (node25);
+\draw[dashed, shorten >=5mm, shorten <=1cm, -Triangle, uthickline] (node33) -- (node25);
+
+\draw[Triangle-, thickline] (node21) -- ++(-2.7, 0){};
+\draw[Triangle-, thickline] (node21) -- ++(-2.7, 1){};
+\draw[Triangle-, thickline] (node21) -- ++(-2.7, -1){};
+\draw[Triangle-, thickline] (node22) -- ++(-5, 2){};
+\draw[Triangle-, thickline] (node22) -- ++(-5, -2){};
+
+\draw[-Triangle, thickline] (node23) -- ++(2.7, -.9){};
+\draw[-Triangle, thickline] (node23) -- ++(2.7, -2.9){};
+\draw[-Triangle, thickline] (node24) -- ++(2.7, 1){};
+\draw[-Triangle, thickline] (node24) -- ++(2.7, 3){};
+
+\end{tikzpicture}
+\end{document}

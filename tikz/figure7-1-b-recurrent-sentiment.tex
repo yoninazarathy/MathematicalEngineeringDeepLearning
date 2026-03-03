@@ -1,0 +1,46 @@
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{medl_colors}
+
+\begin{document}
+\begin{tikzpicture}
+
+\def\words{{
+{"I","like","reading", "this", "terribly", "instructive", "book"}
+}}
+
+\foreach \i in {0,...,6}
+{
+    \pgfmathparse{int(\i-1)}\edef\j{\pgfmathresult};
+    \pgfmathparse{\words[0][\i]} \edef\word{\pgfmathresult};
+
+    \node[blueshape, rounded corners, minimum width=1cm, minimum height=1cm] (unit\i) at (\i*3, 0) {Unit};
+    
+    \node [greenshape, rounded corners, minimum width=1cm, minimum height=3cm, below of=unit\i, node distance=3cm] (rect\i)  {};
+    
+    \node[rotate=90, left of=unit\i, node distance=3cm] {Encoded Input};
+
+    \draw[-Triangle, uthickline] (rect\i) -- (unit\i);
+    
+    \node[below of=rect\i, node distance= 2cm] (word\i) {\Large \texttt{\word}};
+
+    \ifnum\i>0
+        \draw[-Triangle, uthickline] (unit\j) -- (unit\i);
+    \fi
+    
+}
+
+\node [minimum width=3cm, minimum height=1cm, above of=unit6, node distance=2cm, align=center] (rect)  {\large Softmax};
+
+\node[redshape, rounded corners, above of=rect, node distance=2cm, align=center] (text) {\large Sentiment};
+
+\draw[-Triangle, uthickline] (unit6) -- (rect);
+\draw[-Triangle, uthickline] (rect) -- (text);
+
+\end{tikzpicture}
+\end{document}

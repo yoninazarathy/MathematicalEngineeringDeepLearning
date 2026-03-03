@@ -1,0 +1,60 @@
+\documentclass[border=0.2cm]{standalone}
+ 
+% More defined colors
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage{xstring}
+\usepackage{pgfmath,pgffor}
+\usepackage{arrayjob}
+\usepackage{medl_colors}
+
+\usetikzlibrary{arrows.meta,shapes.arrows, shapes.misc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{cd, fit, calc}
+\usepackage{textcomp}
+
+\begin{document}
+\begin{tikzpicture}
+
+\newcommand{\numlayerA}{3}
+\newcommand{\nodedis}{8}
+
+\newarray\indicesarray
+\readarray{indicesarray}{-1&&+1}
+
+
+\node [blueshape, rounded corners, minimum width=2cm, minimum height=1cm] (controller1) at (0, 0) {$ h ^{\langle{} t \rangle{} } $ };
+\node [redshape, circle, minimum size=1.5cm, above of=controller1, node distance=2cm ] (circlea1) {$ y ^{\langle{} t \rangle{} } $ };
+\node [greenshape, circle, minimum size=1.5cm, below of=controller1, node distance=2cm ] (circleb1) {$ x ^{\langle{} t \rangle{} } $ };
+
+\draw [Triangle-, bthickline] (circlea1.south) -- (controller1.north) node[midway,right] {};
+\draw [-Triangle, bthickline] (circleb1.north) -- (controller1.south) node[midway,right] {};
+
+\draw[-Triangle, bthickline] ($(controller1.north west)+(0.5,0)$) -- ++ (0,0) arc[start angle=20, end angle=331, x radius=1.2cm, y radius =1.2cm] node[midway, right] (feedbackcircle) {};
+
+\node[right of=controller1, node distance=2.5cm] (arrowh) {};
+
+\node[right of=arrowh, thick, node distance=1.5cm, yshift=-1pt] (dot1) {- -};
+\draw [-Triangle, bthickline] (dot1.east)+(.1cm,1pt) -- node[below] (arrow1) {} ++(.6,1pt);
+\node[below of=circleb1, node distance=1.7cm] (textrecgraph) {\Huge Recursive graph};
+
+\node [greylayer, inner sep = 3mm, fit={(feedbackcircle) (controller1) (circlea1) (textrecgraph)} ] {};
+
+\foreach \i in {1,...,\numlayerA}
+{
+    \node [blueshape, rounded corners, minimum width=2cm, minimum height=1cm] (controller\i) at (3 + \i*3, 0) {$ h ^{\langle{} t\indicesarray(\i) \rangle{} } $};
+    \node [redshape, circle, minimum size=1.5cm, above of=controller\i, node distance=2cm ] (circlea\i) {$ y ^{\langle{} t\indicesarray(\i) \rangle{} } $ };
+    \node [greenshape, circle, minimum size=1.5cm, below of=controller\i, node distance=2cm ] (circleb\i) { $ x ^{\langle{} t\indicesarray(\i) \rangle{} } $ };
+    \draw [Triangle-, bthickline] (circlea\i.south) -- (controller\i.north) node[midway,right] {};
+    \draw [-Triangle, bthickline] (circleb\i.north) -- (controller\i.south) node[midway,right] {};
+    \draw [-Triangle, bthickline] (controller\i.east)+(.1cm,1pt) -- node[] (arrow\i) {} ++(.8,1pt);
+}
+
+\node[below of=circleb2, node distance=1.7cm] (textunfoldgraph) {\Huge  Unfolded graph};
+
+\node[right of=controller3, node distance=2.3cm](dot2) {- -}; 
+\node [greylayer, inner sep = 3mm, fit={(dot1) (dot2) (circlea2) (textunfoldgraph)}] {};
+
+
+\end{tikzpicture}
+\end{document}

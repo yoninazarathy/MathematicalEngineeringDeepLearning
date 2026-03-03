@@ -1,0 +1,53 @@
+\documentclass[tikz, border=50pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{geometry, amsmath}
+\usepackage{medl_colors}
+\usepackage{pgfplots}
+
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta}
+\usetikzlibrary{matrix,decorations.pathreplacing, calc, positioning,fit}
+\usetikzlibrary{positioning}
+
+\pgfplotsset{compat=1.17}
+
+\begin{document}
+\begin{tikzpicture}
+
+\newcommand\medlsquare[7]
+{
+    \addplot[thick, draw=gray!20,fill=#6] coordinates { (#1, #2) (#1+#3, #2) (#1+#3, #2+#4) (#1, #2+#4) (#1, #2)} node[] {};
+    \path[draw, Triangle-Triangle] ([yshift=-0.4cm]#1+#3, #2+#4) -- ([yshift=-0.4cm]#1, #2+#4) node[midway,anchor=center, fill=#6] {#7};
+}
+
+\begin{axis}[
+    axis line style = ultra thick,
+    xlabel={\Large Model Complexity}, 
+    ylabel={\Large Error},
+    xticklabels={},
+    yticklabels={},
+    ytick style={draw=none},
+    xtick style={draw=none},
+    x label style={at={(.6,-.03)}},
+    xmin = 0, xmax = 22,
+    ymin = 0.1, ymax = 14,
+    x=22,
+    y=14,
+    legend cell align=left,
+    legend style={at={(.58,.95)},column sep=10pt},
+    axis lines* = left
+]
+
+\medlsquare{1}{.2}{5}{14}{A}{fill-light-green}{\Large Underfitting}
+\medlsquare{14}{.2}{7}{14}{B}{fill-light-red}{\Large Overfitting}
+
+\addplot[thick, loosely dashed] coordinates {(7.7, .4) (7.7, 6)} node[align=center] at (8.1,7) {\Large Optimal Model};
+
+\path (1.5,13) edge [out=280,in=200,draw=border-red, line width=.7mm] node [pos=.85, above=.8] {\LARGE $\tilde{E}_{\text{unseen}}$} (21,11);
+
+\path (1.5,13) edge [out=280,in=175,draw=border-green, line width=.7mm] node [pos=.9, above=.5] {\LARGE $\tilde{E}_{\text{train}}$} (21,1);
+
+\end{axis}
+\end{tikzpicture}
+\end{document}
+

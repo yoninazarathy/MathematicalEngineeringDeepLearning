@@ -1,0 +1,43 @@
+\documentclass[border=0.2cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usepackage{medl_colors}
+\usepackage{amsmath}
+
+\newcommand\fillbg[9]{
+    \node [#6, thick, rectangle,minimum height=#3cm, minimum width=#4cm](#7) at (#1,#2){};
+    \node[anchor=#8,font=\small] at ([xshift=#9mm, yshift=-1mm]#7.#8) {{#7}};
+}
+
+\begin{document}
+\begin{tikzpicture}
+
+\fillbg{4.5}{0.5}{3.6}{9.5}{0.2}{redlayer}{Training}{north west}{2};
+\fillbg{7}{0.8}{4}{7}{0.2}{bluelayer}{Production}{north east}{-2};
+
+\node[align=center](start){{\large $x$}};
+\node[greenshape,trapezium, align=center, trapezium angle=80,minimum height=1.5cm,shape border rotate=270,right of = start, node distance = 1.5cm] (encoder) {{\large $q_\phi(z\, |\, x)$}};  
+\node[right of =encoder,node distance=3cm](samplevar_dist){{\large $\,\, z^*$}};
+\node[redshape,trapezium,trapezium angle=80,minimum height=1.5cm,shape border rotate=90,right of = samplevar_dist, node distance = 3cm] (decoder) {{\large $p_\theta (x\, |\, z^*)$}};
+\node[right of =decoder,node distance=2.5cm](prediction){{\large $\,\, x^*$}};
+
+\draw [-Triangle, thickline] (start) -- (encoder) {};
+\draw [-Triangle, thickline] (encoder) -- ($(samplevar_dist)+(-0.2,0)$) {};
+\draw [-Triangle, thickline] (samplevar_dist) -- (decoder) {};
+\draw [-Triangle, thickline] (decoder) -- ($(prediction)+(-0.2, 0)$) {};
+
+\node[below of=start,node distance=2 cm, align=center,font=\small](text1){Data\\sample};
+\node[below of=encoder,node distance=0.9 cm, align=center](text2){Encoder};
+\node[below of=samplevar_dist,node distance=2 cm, align=center](text3){Latent \\variable};
+\node[below of=decoder,node distance=0.9 cm, align=center,font=\small](text4){Decoder};
+\node[below of=prediction,node distance=2 cm, align=center,font=\small](text5){Generated \\ data sample};
+
+\draw [-, thickline, dashed] (text1) -- (start) {};
+\draw [-, thickline, dashed] (text3) -- (samplevar_dist) {};
+\draw [-, thickline, dashed] (text5) -- (prediction) {};
+
+\end{tikzpicture}
+\end{document}

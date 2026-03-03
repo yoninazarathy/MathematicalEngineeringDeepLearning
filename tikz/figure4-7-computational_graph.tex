@@ -1,0 +1,62 @@
+\documentclass[border=0.2cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{medl_colors}
+
+\begin{document}
+\begin{tikzpicture}
+
+%Nodes
+\matrix[row sep=2cm,column sep=1.8cm] {
+    \node [align=center] (node11) {$\theta_1$}; &
+    \node [blueshape, circle, align=center, minimum size=1.2cm] (node12) {$\times$};
+    &
+    \node [blueshape, circle, align=center, minimum size=1.2cm] (node13) {sin}; &
+    \\
+    \node [align=center] (node21) {$\theta_2$}; &
+    \node [blueshape, circle, align=center, minimum size=1.2cm] (node22) {+}; &
+    \node [blueshape, circle, align=center, minimum size=1.2cm] (node23) {exp}; &
+    \node [blueshape, circle, align=center, minimum size=1.2cm] (node24) {+}; &
+    \node [align=center] (node25) {$C(\theta)$}; &
+    \\
+    \node [align=center] (node31) {$\theta_3$}; &
+    \node [blueshape, circle, align=center, minimum size=1.2cm] (node32) {$\times$}; &
+    \node [] (node33) { }; &
+    \\
+    &
+    \node [] (node42) {$-2$}; &
+    \\
+    };
+
+%Lables for nodes
+\node[above of=node12, align=center, node distance=8mm] {\scriptsize 1};
+\node[above of=node22, align=center, node distance=8mm] {\scriptsize 2};
+\node[above of=node32, align=center, node distance=8mm] {\scriptsize 3};
+\node[above of=node13, align=center, node distance=8mm] {\scriptsize 4};
+\node[above of=node23, align=center, node distance=8mm] {\scriptsize 5};
+\node[above of=node24, align=center, node distance=8mm] {\scriptsize 6};
+
+%Arrows
+\draw [-Triangle, thickline] (node11) -- (node12); 
+\draw [-Triangle, thickline] (node12) -- (node13) node[pos=.2, above] {$a_1$}; 
+\draw [-Triangle, thickline] (node13) -- (node24) node[pos=.2, above] {$a_4$}; 
+
+\draw [-Triangle, thickline] (node21) -- (node22); 
+\draw [-Triangle, thickline] (node21) -- (node12);
+\draw [-Triangle, thickline] (node22) -- (node23) node[pos=.2, above] {$a_2$}; 
+\draw [-Triangle, thickline] (node23) -- (node24) node[pos=.2, above] {$a_5$}; 
+\draw [-Triangle, thickline] (node24) -- (node25) node[pos=.2, above] {$a_6$};
+
+\draw [-Triangle, thickline] (node31) -- (node32); 
+\draw [-Triangle, thickline] (node31) -- (node22);
+\draw (node32) -- (node33.center) node[pos=.2, above] {$a_3$}; 
+\draw [-Triangle, thickline] (node33.center) -- (node24); 
+
+\draw [-Triangle, thickline] (node42) -- (node32); 
+
+\end{tikzpicture}
+\end{document}

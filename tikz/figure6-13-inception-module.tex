@@ -1,0 +1,70 @@
+\documentclass[tikz, border=50pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{medl_colors}
+\usepackage{amsmath,xstring}
+\usepackage{ifthen}
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta, decorations.pathreplacing, calligraphy}
+\usetikzlibrary{matrix, calc, positioning,fit, backgrounds}
+\begin {document}
+
+\begin{tikzpicture}[node distance=3.5cm]
+
+\tikzstyle{red_rect} = [redshape, text = black, minimum width=1.6cm, align=center]
+\tikzstyle{blue_rect} = [blueshape, text = black, minimum width=1.6cm, align=center]
+\tikzstyle{green_rect} = [greenshape, text = black, minimum width=1.6cm, align=center]
+
+
+\newcommand\cube[9]
+{
+\filldraw[fill=#7, draw=#8] (#1+#4,#2,#3) -- (#1+#4,#2+#5,#3) -- (#1,#2+#5,#3) -- (#1,#2,#3) -- cycle;
+\filldraw[fill=#7, draw=#8] (#1+#4,#2,#3) -- (#1+#4,#2,#3+#6) -- (#1+#4,#2+#5,#3+#6) -- (#1+#4,#2+#5,#3) -- cycle;
+\filldraw[fill=#7, draw=#8] (#1+#4,#2+#5,#3) -- (#1,#2+#5,#3) -- (#1,#2+#5,#3+#6) -- (#1+#4,#2+#5,#3+#6) -- cycle;
+\node at (#1+#4+.25, #2+#5/2-.5, #3+#6/2) {\tiny $#9$};
+}
+
+\begin{scope}
+\sffamily
+
+%nodes
+\node[green_rect] (node-11) {Previous \\activations};
+\node[blue_rect,right of = node-11, node distance = 3cm, ,yshift=+0.5cm] (node-21) { $1 \times 1$\\Conv};
+\node[blue_rect, below of = node-21, node distance = 2cm, align=center] (node-22) { $1 \times 1$\\Conv};
+\node[red_rect, below of = node-22, node distance = 2cm, draw, align=center] (node-23) { $3 \times 3$\\ Max-pooling}; %,s=1\\same};
+
+\node[blue_rect,right of = node-21, node distance = 4cm, draw, align=center] (node-31) { $3 \times 3$\\Conv};
+\node[blue_rect,right of = node-22, node distance = 4cm, draw, align=center] (node-32) { $5 \times 5$\\Conv};
+\node[blue_rect,right of = node-23, node distance = 4cm, draw, align=center] (node-33) { $1 \times 1$\\Conv};
+\node[blue_rect,above of = node-31, node distance = 2.5cm, draw, align=center] (node-34) { $1 \times 1$\\Conv};
+
+\node[right of = node-32, yshift= -2cm,align=center,node distance = 4.5cm] (node-44)  {Channel concatenation};
+
+%Arrows
+\draw[-Triangle, thickline](node-11)--(node-21);
+\draw[-Triangle, thickline](node-11)--(node-22);
+\draw[-Triangle, thickline](node-11)--(node-23);
+\draw[-Triangle, thickline](node-11)edge[bend left=30](node-34);
+\draw[-Triangle, thickline](node-21)--(node-31) node[below, pos=.5] {\scriptsize $96 \times 28 \times 28$};
+\draw[-Triangle, thickline](node-22)--(node-32) node[below, pos=.5] {\scriptsize $16 \times 28 \times 28$};
+\draw[-Triangle, thickline](node-23)--(node-33) node[below, pos=.5] {\scriptsize $192 \times 28\times28$} ;
+
+\draw[-Triangle, thickline](node-34)--(11.6,-0.2)node[above, pos=.5, sloped] {\scriptsize $64\times 28\times 28$} ;
+\draw[-Triangle, thickline](node-31)--(11.1,-0.65) node[above, pos=.5, sloped] {\scriptsize $128 \times 28\times28$} ;
+\draw[-Triangle, thickline](node-32)--(10.65, -1.1) node[above, pos=.5, sloped] {\scriptsize $32 \times 28\times28$};
+\draw[-Triangle, thickline](node-33)--(10.4, -1.9) node[above, pos=.5, sloped] {\scriptsize $32 \times 28\times28$};
+
+
+\cube{10}{-3}{-4}{1.2}{1}{-1}{border-green}{fill-grey}{64}
+\cube{10}{-3}{-2.5}{1.2}{1}{-1.5}{fill-green}{fill-grey}{128}
+\cube{10}{-3}{-2}{1.2}{1}{-.5}{border-light-green}{fill-grey}{32}
+\cube{10}{-3}{-1.5}{1.2}{1}{-.5}{fill-light-green}{fill-grey}{32}
+
+\node at (11.15, -1.95) {\tiny $28 \times 28$};
+%\node at (10.25, -2) {\tiny $28$};
+
+\node[below of = node-11, node distance=1cm, xshift= -0.7cm] {\scriptsize $192 \times 28 \times 28$};
+\node[above of = node-44, node distance=0.5cm] {\scriptsize $256 \times 28 \times 28$};
+
+\end{scope}
+\end{tikzpicture}
+\end {document}

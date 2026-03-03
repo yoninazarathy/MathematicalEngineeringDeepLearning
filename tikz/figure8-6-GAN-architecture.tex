@@ -1,0 +1,37 @@
+\documentclass[border=0.2cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usepackage{medl_colors}
+\usepackage{amsmath}
+
+\newcommand\fillbg[7]{
+    \node [#6,rectangle,minimum height=#3cm,minimum width=#4cm](#7) at (#1,#2){};
+    \node[anchor=north east,font=\Large] at ([xshift=-3mm, yshift=-3mm]#7.north east) {{#7}};
+}
+
+\begin{document}
+\begin{tikzpicture}
+
+\fillbg{-4.5}{3}{5}{13}{0.2}{redlayer}{Production};
+\fillbg{-1}{1.5}{8.5}{21}{0.1}{bluelayer}{Training};
+
+\node[greenshape,cylinder,minimum width=2cm,minimum height = 2cm, shape border rotate = 90, font=\Large,aspect=0.3] (node_z) at (0,2.5) {{\Huge $x^*$}};
+\node[yellowshape, cylinder, minimum width=2cm,minimum height = 2cm, shape border rotate = 90, below of=node_z, node distance=4cm, font=\Large,aspect=0.2] (node_x) []{{\LARGE $x \in  {\cal D}$}};
+\node (rect) [blueshape,minimum width=3cm,minimum height=2cm, left of=node_z, node distance=5cm, font=\Large] (node_ftheta){{\huge $f_{\theta}^{\text{G}}(\cdot)$}};
+\node[blueshape,rectangle, trapezium angle=80, minimum height=1cm,minimum width=5cm,rotate=270, font=\Large] (node_fphi) at (4,0.5) {\rotatebox{90}{{\huge $f_{\phi}^{\text{D}}(\cdot)$}}};  
+\node [align=center, right of=node_fphi, node distance=4cm, font=\Large] (predlabel)  {\texttt{Fake}/\texttt{Real}};
+
+\node[lightgreyshape,cylinder, minimum width=2cm,minimum height = 2cm, shape border rotate = 90, font=\Large,aspect=0.3] (node_D) at (-9,2.5) {{\Huge $z^*$}};
+
+\draw [-Triangle, ultra thick] (node_fphi.north) -- (predlabel.west) node[midway,right] {};
+\draw [-Triangle, ultra thick] (node_z.east) -- (node_fphi.south|-node_z.east) node[midway,right] {};
+\draw [-Triangle, ultra thick] (node_x.east) -- (node_fphi.south|-node_x.east) node[midway,right] {};
+\draw [-Triangle, ultra thick] (node_ftheta.east) -- (node_z.west) node[midway,right] {};
+\draw [-Triangle, ultra thick] (node_D.east) --   (node_ftheta.west) {};
+
+\end{tikzpicture}
+ 
+\end{document}

@@ -1,0 +1,44 @@
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{medl_colors}
+
+\begin{document}
+\begin{tikzpicture}
+
+\node[bluelayer, minimum width=3cm, minimum height=1cm] (unit11) {\parindent=.1cm $a_{\textrm{out}}^{\langle 1\rangle }$  \indent - - -  \indent $a_{\textrm{out}}^{\langle T\rangle }$};
+
+\node[lightgreyshape, circle, minimum size=.8cm, below of = unit11, node distance = 2.25cm, align=center] (unit12) {+};
+
+\node[bluelayer, minimum width=3cm, minimum height=1cm, node distance=1.5cm, below of = unit12 ] (unit13) {\parindent=.1cm $u_{[3]}^{\langle 1\rangle }$ \indent  - - -  \indent $u_{[3]}^{\langle T\rangle }$};
+
+\node[uthickline, rounded corners, minimum width=3cm, minimum height=1cm, below of = unit13, node distance = 1.2cm, align=center] (unit14) {Feed Forward\\Network};
+
+\node[bluelayer, minimum width=3cm, minimum height=1cm, node distance=2cm, below of = unit14 ] (unit15) {\parindent=.1cm $u_{[2]}^{\langle 1\rangle }$ \indent - - - \indent $u_{[2]}^{\langle T\rangle }$};
+
+\node[lightgreyshape, circle, minimum size=.8cm, below of = unit15, node distance = 2.25cm, align=center] (unit16) {+};
+
+\node[bluelayer, minimum width=3cm, minimum height=1cm, node distance=1.5cm, below of = unit16 ] (unit17) {\parindent=.1cm $u_{[1]}^{\langle 1\rangle }$ \indent - - -  \indent $u_{[1]}^{\langle T\rangle }$};
+
+\node[uthickline, rounded corners, minimum width=3cm, minimum height=1cm, below of = unit17, node distance = 1.2cm, align=center] (unit18) {Multi-Head\\Self Attention};
+
+\node[bluelayer, minimum width=3cm, minimum height=1cm, node distance=2cm, below of = unit18 ] (unit19) 
+{$a_{\textrm{in}}^{\langle 1\rangle }$  \indent - - -  \indent $a_{\textrm{in}}^{\langle T\rangle }$};
+
+\draw[-Triangle, thickline] (unit19) -- (unit18);
+\draw[-Triangle, thickline] (unit17) -- (unit16);
+\draw[-Triangle, thickline] (unit16) -- (unit15) node[pos=.4, anchor=center, fill=white] {Layer Norm};
+\draw[-Triangle, thickline] (unit13) -- (unit12);
+\draw[-Triangle, thickline] (unit13) -- (unit12);
+\draw[-Triangle, thickline] (unit15) -- (unit14);
+\draw[-Triangle, thickline] (unit12) -- (unit11) node[pos=.4, anchor=center, fill=white] {Layer Norm};
+
+\draw[-Triangle, thickline] ([yshift=5mm]unit19.north) -| ++(2cm, 0) |- (unit16.east);
+\draw[-Triangle, thickline] ([yshift=-5mm]unit14.south) -| ++(2cm, 0) |- (unit12.east);
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,63 @@
+\documentclass[tikz, border=50pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{medl_colors}
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta}
+\usetikzlibrary{matrix, calc, positioning,fit}
+
+\begin {document}
+ 
+% Layer A neurons'number
+\newcommand{\numlayerA}{4} 
+ 
+% Layer B neurons'number
+\newcommand{\numlayerB}{5}  
+
+% Layer C neurons'number
+\newcommand{\numlayerC}{1}   
+  
+\begin{tikzpicture}
+ 
+% Layer A
+\foreach \i in {1,...,\numlayerA}
+{
+    \node[greenshape, circle, minimum size = 1cm] (layerA\i) at (0,-\i*2-1) {\Large $x_\i$};
+}
+
+% Layer B
+\foreach \i in {1,...,\numlayerB}
+{
+    \node[blueshape, circle, minimum size = 1cm] (layerB\i) at (4,-\i*2) {};
+}
+
+% Layer C
+\foreach \i in {1,...,\numlayerC}
+{
+    \node[redshape, circle, minimum size = 1cm] (layerC\i) at (8,-6) {\Large $\hat y$};
+}
+
+%connect Layer A and Layer B
+\foreach \i in {1,...,\numlayerA}
+{
+    \foreach \j in {1,...,\numlayerB}
+    {
+      \draw[-Triangle, thickline] (layerA\i) -- (layerB\j);   
+    }
+} 
+
+%connect Layer B and Layer C
+\foreach \i in {1,...,\numlayerB}
+{
+    \foreach \j in {1,...,\numlayerC}
+    {
+      \draw[-Triangle, thickline] (layerB\i) -- (layerC\j);   
+    }
+} 
+
+\node[above of=layerA1, align=center, node distance=2.5cm] {\Large Input\\\Large Layer};
+\node[above of=layerB1, align=center, node distance=1.5cm] {\Large Hidden\\\Large Layer};
+\node[above of=layerC1, align=center, node distance=5.5cm] {\Large Output\\\Large Layer};
+
+\end{tikzpicture}
+ 
+\end {document}

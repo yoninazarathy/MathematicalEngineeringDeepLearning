@@ -1,0 +1,75 @@
+\documentclass[border=1cm]{standalone}
+\usepackage{pgfplots}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{shapes.geometric, shapes.misc, calc}
+\usepackage{medl_colors}
+\usetikzlibrary{intersections, patterns}
+\pgfplotsset{compat=1.18} 
+
+
+
+\begin{document}
+
+\pgfmathdeclarefunction{gauss}{3}{%
+  \pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}%
+}
+
+\begin{tikzpicture}
+\begin{axis}[
+  name=axis,
+  axis line style={very thick},
+  clip=false,
+  samples=1000,
+  ymin=0, xmin=0, xmax=40, ymax=1,
+  axis lines*=left,
+  xtick=\empty, ytick=\empty,
+  enlargelimits=false,
+  axis on top,
+  no markers,
+  every axis y label/.style={at=(current axis.above origin),anchor=south},  
+  every axis x label/.style={at=(current axis.right of origin),anchor=west},
+  width=10cm,
+  height=10cm,
+  xlabel={$p_{{\cal D}}$},
+  ylabel={$p_G$},
+]
+
+\addplot[border-red,thick, rotate=180, xshift=-100] {gauss(x, 0, 1.2)}   coordinate [pos=0.5] (g1);
+\addplot[border-green,thick, rotate=180, xshift=-200] {gauss(x, 0, 1.2)}   coordinate [pos=0.5] (g2);
+\addplot[border-red,thick, rotate=90, xshift=170, yshift=-30] {gauss(x, 0, 1.2)}   coordinate [pos=0.5] (g3);
+\addplot[border-green,thick, rotate=90,  xshift=172, yshift=-30] {gauss(x, 0, 1.2)}   coordinate [pos=0.5] (g4);
+
+\end{axis}
+
+\path[draw, thick, name path=splitline]  (axis.south west) -- ($(axis.north east)+(-2, -2)$);
+
+\path[name path=r1line] (g1 |- g3) -- (g1);
+\path[name path=r2line] (g1 |- g3) -- ++(100,0);
+\path[name intersections={of=splitline and r1line, by=ra}];
+\path[name intersections={of=splitline and r2line, by=rb}];
+
+\path[name path=g1line] (g2 |- g3) -- (g2);
+\path[name path=g2line] (g2 |- g3) -- ++(100,0);
+\path[name intersections={of=splitline and g1line, by=ga}];
+\path[name intersections={of=splitline and g2line, by=gb}];
+
+\def\radius{1}
+\pgfmathsetseed{4}
+% % Draw the circle
+  \draw[border-red, thick, draw=none] (g1 |- g3) circle (\radius);
+  \foreach \i in {1,...,1000} {
+     \pgfmathsetmacro{\angle}{random(0,360)}
+    \pgfmathsetmacro{\r}{min(1.5\radius, -0.3*ln(random())*\radius)}
+     \draw[fill=border-red, draw=none] ($(g1 |- g3)+(\angle:\r)$) circle (1pt);
+  }
+  \foreach \i in {1,...,1000} {
+     \pgfmathsetmacro{\angle}{random(0,360)}
+    \pgfmathsetmacro{\r}{min(1.5\radius, -0.3*ln(random())*\radius)}
+     \draw[fill=border-green, draw=none] ($(g2 |- g3)+(\angle:\r)$) circle (1pt);
+  }
+
+\draw[-,thick]  (g2 |- g3) -- (ga) node[pos=.7, left, border-green] {$W(p_{{\cal D}}, p_G)$};
+\draw[-,thick]  (g1 |- g3) -- (ra) node[pos=.6, right, border-red] {$W(p_{{\cal D}}, p_G)$};
+\end{tikzpicture}
+
+\end{document}

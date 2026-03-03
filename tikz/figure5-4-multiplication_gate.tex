@@ -1,0 +1,65 @@
+\documentclass[tikz, border=50pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{medl_colors}
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta}
+\usetikzlibrary{matrix, calc, positioning,fit}
+\usepackage{arrayjob}
+
+\begin {document}
+ 
+% Layer A neurons'number
+\newcommand{\numlayerA}{2} 
+\def\negationorder{{{" ","-"," ","-"},{" ","-","-"," "},{"+","-","-","+"},{"","","-","-"}}}
+
+% Layer B neurons'number
+\newcommand{\numlayerB}{4}  
+
+% Layer C neurons'number
+\newcommand{\numlayerC}{1}   
+  
+\begin{tikzpicture}
+ 
+% Layer A
+\foreach \i in {1,...,\numlayerA}
+{
+    \node[greenshape, circle, minimum size = 2cm] (layerA\i) at (0,-\i*4) {\large {$x_\i$}};
+}
+
+% Layer B
+\foreach \i in {1,...,\numlayerB}
+{
+    \pgfmathparse{\negationorder[0][\i-1]} \edef\lsign{\pgfmathresult}
+    \pgfmathparse{\negationorder[2][\i-1]} \edef\rsign{\pgfmathresult}
+    
+    \node[blueshape, circle, minimum size = 3cm] (layerB\i) at (7, 4-\i*4) {$\sigma^{[1]}( \lsign \lambda x_1 \rsign \lambda x_2) $};
+}
+
+% Layer C
+\foreach \i in {1,...,\numlayerC}
+{
+    \node[redshape, circle, minimum size = 2cm] (layerC\i) at (13,-6) {$\hat{y}=f_\theta(x_1, x_2)$};
+}
+
+%connect Layer A and Layer B
+\foreach \i in {1,...,\numlayerA}
+{
+    \foreach \j in {1,...,\numlayerB}
+    {
+      \pgfmathparse{\negationorder[\i-1][\j-1]} \edef\lsign{\pgfmathresult}
+      \draw[-Triangle, thickline] (layerA\i) -- (layerB\j) node[pos=.8, above, sloped] {$w_{\j, \i}^{[1]} = \lsign \lambda$};   
+    }
+} 
+
+%connect Layer B and Layer C
+\foreach \i in {1,...,\numlayerB}
+{
+    \foreach \j in {1,...,\numlayerC}
+    {
+      \pgfmathparse{\negationorder[3][\i-1]} \edef\lsign{\pgfmathresult}
+      \draw[-Triangle, thickline] (layerB\i) -- (layerC\j) node[pos=.6, above, sloped] {$w_{1, \i}^{[2]} = \lsign \mu $};   
+    }
+} 
+
+\end{tikzpicture}
+\end {document}

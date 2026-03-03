@@ -1,0 +1,64 @@
+\documentclass[border=1cm]{standalone}
+\usepackage{pgfplots}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+%\pgfplotsset{compat=1.18} 
+\pgfmathdeclarefunction{gauss}{3}{%
+  \pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}%
+}
+
+\begin{document}
+
+\begin{tikzpicture}
+
+\begin{axis}[
+  axis line style = ultra thick,
+  clip=false,
+  samples=1000,
+  ymin=0, xmin=0, xmax=40, ymax=1,
+  hide y axis, 
+  domain=-5:40,
+  xtick=\empty,
+  axis lines*=left,
+  enlargelimits=false,
+  width=20cm,
+  height=5cm]
+
+\addplot[black, ultra thick,restrict x to domain=5:15] {gauss(x, 10, .7)}
+  coordinate [pos=1] (g10)
+  coordinate [pos=0.5] (g11)
+  coordinate [pos=0.6] (g12);
+
+\addplot[black, ultra thick,restrict x to domain=25:35] {gauss(x, 30, .7)}
+  coordinate [pos=1] (g20)
+  coordinate [pos=0.5] (g21)
+  coordinate [pos=.6] (g22)
+  coordinate [pos=.7] (g23);
+  
+\node at ([xshift=1cm]g12) {\large $p_{{\cal D}}(\cdot)$};
+\node at ([xshift=1cm]g22) {\large $p_{G}(\cdot)$};
+
+\draw[black, thick] ([xshift=-120, yshift=11]g11) -- ([xshift=120, yshift=11]g11);
+\draw[black, thick] ([xshift=120, yshift=11]g11) to[out=-5, in=180] (230,0);
+
+% Add "XX" label next to the red curve
+\node at ([xshift=160, yshift=0]g11) {\large $f_{\phi^{(t)}}^D(\cdot)$};
+
+\fill[fill=black] ([xshift=-100]g10) circle (3pt);
+\fill[fill=black] ([xshift=-80]g10) circle (3pt);
+\fill[fill=black] ([xshift=-70]g10) circle (3pt);
+\fill[fill=black] ([xshift=-65]g10) circle (3pt);
+\fill[fill=black] ([xshift=-50]g10) circle (3pt);
+
+\fill[fill=black] ([xshift=-100]g20) circle (3pt);
+\fill[fill=black] ([xshift=-85]g20) circle (3pt);
+\fill[fill=black] ([xshift=-80]g20) circle (3pt);
+\fill[fill=black] ([xshift=-70]g20) circle (3pt);
+\fill[fill=black] ([xshift=-65]g20) circle (3pt);
+\fill[fill=black] ([xshift=-60]g20) circle (3pt);
+
+\end{axis}
+
+\end{tikzpicture}
+
+\end{document}

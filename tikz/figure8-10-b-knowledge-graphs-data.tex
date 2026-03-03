@@ -1,0 +1,20 @@
+\documentclass[border=10pt]{standalone}
+\usepackage{tikz}
+\usepackage{medl_colors}
+\usetikzlibrary{graphdrawing,graphdrawing.trees,graphs, graphs.standard, backgrounds, calc, arrows.meta, quotes, bending}
+\usegdlibrary{layered}
+
+\begin{document}
+    \begin{tikzpicture}
+        \path (0, -2) graph [tree layout,nodes={lightblueshape, circle, minimum size=1.5cm}, level sep=1cm, sibling sep=1cm, edges={>={Triangle[round,sep,bend]}, thickline}]
+        {
+            Sheep ->["is"] Animal;
+            Sheep ->["eat"] Herb;
+            Herb ->["is"] Plant;
+            Plant ->["is"] Being;
+            Frog ->["is"] Animal; 
+            Animal ->["is"] Being;
+        };
+        
+    \end{tikzpicture}
+\end{document}

@@ -1,0 +1,54 @@
+\documentclass[tikz, border=50pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{medl_colors}
+
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta}
+\usetikzlibrary{matrix, calc, positioning,fit}
+\usetikzlibrary{angles,quotes}
+\usepackage{amsmath}
+
+\begin{document}
+\begin{tikzpicture}
+
+%Input matrix
+\matrix (m1) [
+    row sep=0.8cm, 
+    matrix of math nodes,
+    nodes in empty cells,
+    left delimiter={[},right delimiter={]}
+    ] {
+    {x_1}\\
+    {x_2}\\
+    \vdots \\
+    {x_p}\\
+    } ;
+
+%Center rectangles and circles
+\node[rounded corners, draw, inner xsep = 3cm, inner ysep=1.2cm, fill=fill-light-grey, right of = m1, node distance = 6cm] (rec){};
+\node [draw, circle, minimum size=22mm, left of = rec, node distance=14mm, fill=fill-light-yellow] (circle2) {$ \sum $};
+\node [fill=fill-light-yellow, draw, circle, minimum size=22mm, right of = rec, node distance=14mm ] (circle1) {};
+\draw[draw=border-blue,looseness=1.4, line width=.5mm] ([yshift=-4mm, xshift=3mm]circle1.west) to [out = 0,in =260] (circle1.center) to [out=80,in=180] ([yshift=4mm, xshift=-3mm]circle1.east);
+
+%Arrrows 
+\draw [-Triangle, thickline] ([xshift=1.8cm,yshift=5mm]m1.north east) -- (rec.north west)  node[pos=0, fill=white] (B) {$b$};
+\draw [-Triangle, thickline] ([xshift=7mm]$(m1-1-1)$) -- ($(rec.north west)!0.25!(rec.south west)$) node[pos=.5, below] {$w_1$};
+\draw [-Triangle, thickline] ([xshift=7mm]$(m1-2-1)$) -- ($(rec.north west)!0.50!(rec.south west)$) node[pos=.5, below] {$w_2$};
+\draw [-Triangle, thickline] ([xshift=7mm]$(m1-3-1)$) -- ($(rec.north west)!0.75!(rec.south west)$) node[] {};
+\draw [-Triangle, thickline] ([xshift=7mm]$(m1-4-1)$) -- (rec.south west) node[pos=.5, below] {$w_p$};
+\draw [-Triangle, thickline] (rec.east) -- node[pos=4.1] {\large $ \hat{y} = \sigma(b + w^\top x)$} ++(.5,0); 
+
+%input formulas
+\draw[dashed] ([yshift=-5mm]circle2.south) -- node[pos=1.3] {\large $ z = b + \sum_{i=1}^p w_i x_i$} ++(-1,-1.5); 
+\draw[dashed] ([yshift=-5mm]circle1.south) -- node[pos=1.3] (output) {\large $  \sigma(z) = \dfrac{1}{1+e^{-z}} \in (0,1)$} ++(1,-1.5); 
+
+%titles
+\node[above of=m1-1-1, align=center, node distance=2 cm] {\large Input \\ x};
+\node[above right = 3.4mm and -18mm of B, align=center] {\large Weight, Bias \\ $(w, b)$};
+\node[above of=circle2, align=center, node distance=3.88 cm, xshift=0.1cm] {\large Affine\\ \large Transformation\\z};
+\node[above of=circle1, align=center, node distance=4 cm] (tact) {\large Activation \\ $\sigma(z)$};
+\node[right of = tact, node distance = 2.5cm, align=center] {\large Output \\ $ \hat{y}$};
+
+\end{tikzpicture}
+\end{document}
+

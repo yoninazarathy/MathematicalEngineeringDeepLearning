@@ -1,0 +1,79 @@
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{ifthen}
+\usepackage{medl_colors}
+\usepackage{arrayjob}
+\usepackage{amsmath}
+
+\begin{document}
+\begin{tikzpicture}
+
+\node[rounded corners, minimum width=10cm, minimum height=1cm] at (6, 2.5) (rect1) {$u^{\langle t \rangle} = \textrm{Attention} [z_q^{\langle t\rangle} = s^{\langle t-1\rangle}, z_k = (v^{\langle 1 \rangle},\ldots ,v^{ \langle 
+ T_{\text{in}}\rangle}), v = (v^{\langle 1 \rangle},\ldots,v^{ \langle T_{\text{in}} \rangle})]$};
+
+\foreach \i in {1,...,5}
+{
+    \pgfmathparse{\i-1}\edef\j{\pgfmathresult};
+    \ifthenelse{\i = 3}
+    {
+        \node[] (unit1\i) at (\i*2, 0) {\large ... };
+        \node[] (unit2\i) at (\i*2, -1) {\large ... };
+    }
+    {
+        \node[lightblueshape, rounded corners, minimum width=1.5cm, minimum height=2cm] at (\i*2, -0.5) (rectbox\i) {};
+        \node[blueshape, rounded corners, minimum width=1cm, minimum height=.5cm] (unit1\i) at (\i*2, 0) { Unit};
+        \node[blueshape, rounded corners, minimum width=1cm, minimum height=.5cm] (unit2\i) at (\i*2, -1) { Unit};
+    }
+
+    \ifnum\i>1
+        \draw[Triangle-, thickline] (unit1\j) -- (unit1\i);
+        \draw[-Triangle, thickline] (unit2\j) -- (unit2\i);
+    \fi    
+}
+
+\foreach \i in {1,...,6}
+{
+    \pgfmathparse{\i-1}\edef\j{\pgfmathresult};
+    \ifthenelse{\i=2 \OR \i=5 }
+    {
+        \node[] at (-1+\i*2, 5) (trectbox\i) {\large ... };
+    }
+    {
+        \node[redshape, rounded corners, minimum width=1.2cm, minimum height=2cm] at (-1+\i*2, 5) (trectbox\i) {};
+    }   
+}
+
+\node [left of=rectbox1, node distance=4cm] { Encoder };
+\node [left of=trectbox1, node distance=3cm] { Decoder };
+
+\draw[-Triangle, thickline, looseness=.5] (trectbox3.south) to[out=-90, in=90] ([xshift=-2cm]rect1.north);
+\draw[Triangle-, thickline, looseness=.5] (trectbox4.south) to[out=-90, in=90] ([xshift=2mm, yshift=5mm]rect1.west);
+
+\draw[-Triangle, thickline] (rectbox1.north) -- (rect1.south -| rectbox1) node[pos=.5, right] {$v^{ \langle 1 \rangle}$};
+\draw[Triangle-, thickline] (rectbox1.south) -- ++(0, -1) node[pos=1.3] {$x^{\langle 1 \rangle}$}; 
+\draw[-Triangle, thickline] (rectbox2.north) -- (rect1.south -| rectbox2) node[pos=.5, right] {$v^{ \langle 2 \rangle}$};
+\draw[Triangle-, thickline] (rectbox2.south) -- ++(0, -1) node[pos=1.3] {$x^{\langle 2 \rangle}$};
+
+\draw[-Triangle, thickline] (rectbox4.north) -- (rect1.south -| rectbox4) node[pos=.5, right] {$v^{ \langle T_{\text{in}}-1 \rangle}$};
+\draw[Triangle-, thickline] (rectbox4.south) -- ++(0, -1) node[pos=1.3] {$x^{\langle T_{\text{in}}-1 \rangle}$};
+
+\draw[-Triangle, thickline] (rectbox5.north) -- (rect1.south -| rectbox5) node[pos=.5, right] {$v^{ \langle T_{\text{in}} \rangle}$};
+\draw[Triangle-, thickline] (rectbox5.south) -- ++(0, -1) node[pos=1.3] {$x^{\langle T_{\text{in}} \rangle}$};
+
+\draw[-Triangle, thickline] (trectbox1.north) -- ++(0, 1) node[pos=1.2] {$ \texttt{<start>} $};
+\draw[-Triangle, thickline] (trectbox3.north) -- ++(0, 1) node[pos=1.2] {$\hat{y}^{ \langle t-1 \rangle}$};
+\draw[-Triangle, thickline] (trectbox4.north) -- ++(0, 1) node[pos=1.2] {$\hat{y}^{ \langle t \rangle}$};
+\draw[-Triangle, thickline] (trectbox6.north) -- ++(0, 1) node[pos=1.2] {$\texttt{<stop>} $};
+
+\node[] at (trectbox1)  {$s^{ \langle 1 \rangle}$};
+\node[] at (trectbox3)  {$s^{ \langle t-1 \rangle}$};
+\node[] at (trectbox4)  {$s^{ \langle t \rangle}$};
+\node[] at (trectbox6)  {$s^{ \langle T_{\text{out}} \rangle}$};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,23 @@
+\documentclass[tikz, border=50pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{medl_colors}
+\usepackage{graphicx}
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta}
+\usetikzlibrary{matrix, calc, positioning,fit}
+\usepackage{xstring}
+
+\begin{document}
+\begin{tikzpicture}
+
+%input picture
+\node[scale = .67] (outputpic)  {\includegraphics {images/mnist_predict.pdf}};
+
+%lables
+\node[left of = outputpic, node distance = 10.65cm, yshift=3.2cm, align=right]  {\huge MNIST test set};
+\node[left of = outputpic, node distance = 12.1cm, yshift=1cm, align=right]  {\huge Reconstruction with PCA};
+\node[left of = outputpic, node distance = 14.4cm, yshift=-1.1cm, align=right]  {\huge Reconstruction with shallow autoencoder};
+\node[left of = outputpic, node distance = 14.0cm, yshift=-3.3cm, align=right]  {\huge Reconstruction with deep autoencoder};
+
+\end{tikzpicture}
+\end{document}

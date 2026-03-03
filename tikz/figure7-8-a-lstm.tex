@@ -1,0 +1,87 @@
+\documentclass[tikz, border=50pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{medl_colors}
+\usepackage{amsmath,xstring}
+\usepackage{ifthen}
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta, decorations.pathreplacing, calligraphy}
+\usetikzlibrary{matrix, calc, positioning,fit, backgrounds}
+\usetikzlibrary{decorations.markings}
+
+
+\tikzset{middlearrow/.style={
+        decoration={markings,
+            mark= at position .5 with {\arrow{Triangle}}
+        }, 
+        postaction={decorate}
+    }
+}
+
+\begin{document}
+
+\begin{tikzpicture}[node distance=2cm]
+
+\node[lightblueshape, rounded corners, inner xsep = 3mm, inner ysep=1cm, minimum width=8.5cm,minimum height=6cm] (largerec) at(-.5,0){};
+
+\matrix[row sep=0.8cm,column sep=0.8cm] {
+    \node [draw, uthickline, circle, minimum size=.6cm] (circle1) { . }; &
+    &
+    \node[draw, uthickline, circle, minimum size=.6cm] (circle2) { + }; &
+    \node[label={\large $ c ^{\langle{} t \rangle{} } $}] (hid) { }; &
+    \node (hid) { }; &
+    \\
+    &
+    &
+    \node [draw, uthickline, circle, minimum size=.6cm] (circle3) { . }; &
+    &
+    \node [draw, uthickline, circle, minimum size=.6cm] (circle4) { . }; &
+    \\
+    \node (rect) [draw, rounded corners, yellowshape, minimum width=.6cm,minimum height=1.2cm] (rect1) { {$ g_f ^{\langle{} t \rangle{} } $ }}; &
+    \node (rect) [draw, rounded corners, yellowshape, minimum width=.6cm,minimum height=1.2cm] (rect2) { {$ g_i ^{\langle{} t \rangle{} } $ }}; &
+    \node (rect) [draw, rounded corners, lightgreyshape, minimum width=.6cm,minimum height=1.2cm] (rect3) { {$ \tilde c ^{\langle{} t \rangle{} } $ }}; &
+    \node (rect) [draw, rounded corners, yellowshape, minimum width=.6cm,minimum height=1.2cm] (rect4) { {$ g_o ^{\langle{} t \rangle{} } $ }}; &
+    &
+    \\
+    \node (hid1) { }; &
+    \node (hid2) { }; &
+    \node (hid3) { }; &
+    \node (hid4) { }; &
+    \node (hid5) { }; &
+    &
+    \\
+    };
+
+\node [greenshape, rounded corners, minimum width=1.3cm, minimum height=2cm] at ($(rect1.east)+(-.5,-4)$)(rect5)  {\large $ x ^{\langle{} t \rangle{} } $};
+
+\node [blueshape,rounded corners, minimum width=1.3cm, minimum height=2cm, node distance=3cm, left of=circle1] (rect6)  {\large $ c ^{\langle{} t-1 \rangle{} } $};
+
+\node [blueshape,rounded corners, minimum width=1.3cm, minimum height=2cm, node distance=3cm, left of=hid1] (rect7)  {\large $ h ^{\langle{} t-1 \rangle{} } $};
+
+\node [blueshape, rounded corners, minimum width=1.3cm, minimum height=2cm, node distance=6.5cm, right of=circle2] (rect8)  {\large $ c ^{\langle{} t \rangle{} } $};
+
+\node [blueshape,rounded corners, minimum width=1.3cm, minimum height=2cm, above right = 7cm and .1cm of hid5] (rect9)  {\large $ h ^{\langle{} t \rangle{} } $};
+
+\node [blueshape,rounded corners, minimum width=1.3cm, minimum height=2cm, node distance=3.5cm, right of=hid5] (rect10)  {\large $ h ^{\langle{} t \rangle{} } $};
+
+\draw[-Triangle, thickline] (rect1.north) -- (circle1.south) {};
+\draw[-Triangle, thickline] (circle3.north) -- (circle2.south) {};
+\draw [thickline](circle1.east) -- (circle2.west) {};
+\draw [thickline](rect3.north) -- (circle3.south) {};
+\draw[-Triangle, thickline] (rect2) |- (circle3);
+\draw[-Triangle, thickline] (rect4) |- (circle4);
+
+\draw (hid.center) -- (circle4) node[midway,anchor=center,fill=fill-light-blue] {$S_{\text{Tanh}}(\cdot)$};
+\draw (rect4) -- (hid4.center) node[midway,anchor=center,fill=fill-light-blue] {$S_{\text{Sig}}(\cdot)$};
+\draw (rect3) -- (hid3.center) node[midway,anchor=center,fill=fill-light-blue] {$S_{\text{Tanh}}(\cdot)$};
+\draw (rect2) -- (hid2.center) node[midway,anchor=center,fill=fill-light-blue] {$S_{\text{Sig}}(\cdot)$};
+\draw (rect1) -- (hid1.center) node[midway,anchor=center,fill=fill-light-blue] {$S_{\text{Sig}}(\cdot)$};
+\draw [thickline](circle4) -- (hid5.center) node[] {};
+\draw[-Triangle, thickline] (hid1.center) -- (rect10) {};
+\draw[Triangle-,thickline] (hid1.west) -- ++(0,-1.5){};
+\draw [middlearrow,thickline] (rect7) -- (hid1.center) node[ above, pos=.3] {};
+\draw [-Triangle, thickline] (circle2) -- (rect8);
+\draw [middlearrow,thickline] (rect6) -- (circle1);
+\draw [Triangle-,thickline] (rect9) -- (rect9 |- hid5);
+
+\end{tikzpicture}
+\end{document}

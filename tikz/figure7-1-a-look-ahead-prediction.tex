@@ -1,0 +1,88 @@
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{medl_colors}
+\usepackage{ifthen}
+
+\begin{document}
+\begin{tikzpicture}
+
+\newcommand\rnnunit[6]
+{
+    \foreach \i in {1,...,#6}
+    {
+        \ifthenelse{\i=3 \OR \i=6}
+        {
+            \node[thick] (unit#4\i) at (#2+\i*3,#3) {\Huge {...}};
+        }
+        {
+            \node[#5, rounded corners, minimum width=2cm, minimum height=1cm] (unit#4\i) at (#2+\i*3,#3) {Unit};
+        }
+    }
+    \foreach \i in {2,...,#6}
+    {
+        \pgfmathparse{\i-1}\edef\ni{\pgfmathresult};
+        \draw[-Triangle,uthickline] (unit#4\ni) -- (unit#4\i);
+    }
+    
+}
+
+\newcommand\connect[3]
+{
+    \foreach \i in {#1,...,#2}
+    {
+        \pgfmathparse{\i+1}\edef\ni{\pgfmathresult};
+        \draw[-Triangle, uthickline, bend left, looseness=2.5] (#3\i) to[out=90, in=-90] (#3\ni);
+    }
+}
+
+\rnnunit{}{0}{0}{1}{blueshape}{7};
+\node[right of= unit17, node distance=2cm] (unit18) {\large };
+
+\draw[-Triangle,uthickline,bend left, looseness=2.5] (unit14) to[out=90, in=-90] (unit15);
+\draw[-Triangle,uthickline, bend left, looseness=2.5] (unit15) to[out=90, in=-90] (unit16);
+\draw[-Triangle,uthickline, bend left, looseness=2.5] (unit16) to[out=90, in=-90] (unit17);
+
+
+\node[redshape, rounded corners, minimum width=2cm, minimum height=1cm, above of = unit14, node distance=2cm ] (unit24) {\Large $\hat{x}^{\langle T+1 \rangle}$};
+\node[redshape, rounded corners, minimum width=2cm, minimum height=1cm, above of = unit15, node distance=2cm ] (unit25) {\Large $\hat{x}^{\langle T+2 \rangle}$};
+\node[ minimum width=2cm, minimum height=1cm, above of = unit16, node distance=2cm ] (unit26) {\Huge $...$};
+\node[redshape, rounded corners, minimum width=2cm, minimum height=1cm, above of = unit17, node distance=2cm ] (unit27) {\Large $\hat{x}^{\langle T+\tau \rangle}$};
+\node[redshape, rounded corners, minimum width=2cm, minimum height=1cm, right of = unit27, node distance=2.5cm ] (unit28) {\large Predictions};
+\node[lightgreyshape, rounded corners, minimum width=8cm, minimum height=1cm, left of = unit24, node distance=6cm ] (unit28) {\large Warmup Phase};
+
+\node[yellowshape, rounded corners, minimum width=11cm, minimum height=1cm, above right = 3cm and 1.2cm of unit13] (unit01) {};
+
+\node[above of = unit24, node distance = 1.8cm] {\Large $x^{\langle T+1\rangle}$};
+\node[above of = unit25, node distance = 1.8cm] {\Large $x^{\langle T+2\rangle}$};
+\node[above of = unit26, node distance = 1.8cm] {\Huge {...}};
+\node[above of = unit27, node distance = 1.8cm] {\Large $x^{\langle T+\tau\rangle}$};
+
+\node[greenshape, rounded corners, minimum width=11cm, minimum height=1cm, below left = 3cm and 1cm of unit25] (unit41) {};
+
+
+\node[below of = unit11, node distance = 2cm] {\Large $x^{\langle 1 \rangle }$};
+\node[below of = unit12, node distance = 2cm] {\Large $x^{\langle 2 \rangle }$};
+\node[below of = unit13, node distance = 2cm] {\Huge {...}};
+\node[below of = unit14, node distance = 2cm] {\Large $x^{\langle T \rangle }$};
+
+\draw [uthickline]([xshift = -2mm, yshift=-2mm]unit41.west) -- ([xshift=-2mm, yshift=-9mm]unit41.west) -- ([xshift=2mm, yshift=-9mm]unit41.east) -- ([xshift=2mm, yshift=-2mm]unit41.east);
+\node[below of = unit41, node distance = 1.2cm] {\large Inputs Sequence};
+
+\draw[uthickline] ([xshift = -2mm, yshift=2mm]unit01.west) -- ([xshift=-2mm, yshift=9mm]unit01.west) -- ([xshift=2mm, yshift=9mm]unit01.east) -- ([xshift=2mm, yshift=2mm]unit01.east);
+\node[above of = unit01, node distance = 1.2cm] {\large Labels};
+
+\draw[Triangle-, uthickline] (unit11) -- (unit11 |- unit41.north);
+\draw[Triangle-, uthickline] (unit12) -- (unit12 |- unit41.north);
+\draw[Triangle-, uthickline] (unit13) -- (unit13 |- unit41.north);
+\draw[Triangle-, uthickline] (unit14) -- (unit14 |- unit41.north);
+\draw[-Triangle, uthickline] (unit14) -- (unit24);
+\draw[-Triangle, uthickline] (unit15) -- (unit25);
+\draw[-Triangle, uthickline] (unit17) -- (unit27);
+
+\end{tikzpicture}
+\end{document}

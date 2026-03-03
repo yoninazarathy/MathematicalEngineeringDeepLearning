@@ -1,0 +1,30 @@
+\documentclass[border=0.2cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usepackage{medl_colors}
+\begin{document}
+\begin{tikzpicture}
+
+\node[blueshape,trapezium, align=center, trapezium angle=80, minimum width=1cm, align=center, shape border rotate=270, node distance = 1.5cm] (node1) {\small Agent};  
+
+%\node (rect)[blueshape,rounded corners, minimum width=2cm,minimum height=1cm, align=center] (node1) {\small Agent};
+
+\node (rect)[yellowshape,rounded corners,minimum width=1cm,minimum height=2cm, align=center,below of=node1,node distance = 3cm] (node2) {\small Environment};
+\node [below of=node1, xshift=3cm,node distance=1.5cm,minimum height=1cm](node3){};
+\node [right of=node3,align=center,node distance=0.75cm,text=red](textnode1){\small Action};
+\node [below of=node1, xshift=-3cm,node distance=1.5cm](node4){};
+\node [right of=node4,align=center, text=green3](textnode2){\small Reward};
+\node [left of=node4,align=center,node distance=1.4cm,text=green3](textnode3){\small Observation};
+
+\draw [bthickline](node1.east) -| (node3.center){};
+\draw [-Triangle,bthickline](node3.center) |- (node2.east){};
+\draw [bthickline]($(node2.west)+(0,0.25)$) -| ($(node4.center)+(0.25,0)$){};
+\draw [bthickline]($(node2.west)+(0,-0.25)$) -| ($(node4.center)+(-0.25,0)$){};
+\draw [-Triangle,bthickline]($(node4.center)+(0.25,0)$) |- ($(node1.west)+(0,-0.2)$){};
+\draw [-Triangle,bthickline]($(node4.center)+(-0.25,0)$) |- ($(node1.west)+(0,0.2)$){};
+
+\end{tikzpicture}
+\end{document}

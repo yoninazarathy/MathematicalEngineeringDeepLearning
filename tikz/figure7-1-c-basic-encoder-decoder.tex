@@ -1,0 +1,76 @@
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{medl_colors}
+\usepackage{fontspec}
+
+\usepackage{arrayjob}
+\def\words{{
+{"We","Enjoyed","Writing", "This", "Book", "<start>", "nous","avons","aimé", "écrire", "ce", "livre"},
+{"", "", "", "", "", "nous","avons","aimé", "écrire", "ce", "livre", "<end>"}
+}}
+
+\begin{document}
+\begin{tikzpicture}
+
+\pgfdeclarelayer{layer1}
+\pgfdeclarelayer{layer2}
+\pgfsetlayers{layer2,layer1}
+
+\begin{pgfonlayer}{layer1}
+\foreach \i in {1,...,12}
+{
+    \pgfmathparse{int(\i-1)}\edef\j{\pgfmathresult};
+    \pgfmathparse{\words[1][\j]} \edef\topword{\pgfmathresult};
+    \pgfmathparse{\words[0][\j]} \edef\bottomword{\pgfmathresult};
+    \node[blueshape, rounded corners, minimum width=1cm, minimum height=1cm] (unit\i) at (\j*2, 0) { Unit };
+    \ifnum\i>1
+        \draw[-Triangle, bthickline] (unit\j) -- (unit\i);
+    \fi
+    \node[above of=unit\i, node distance= 2cm] (top\i) { \texttt{ \topword }};
+    \node[below of=unit\i, node distance= 2cm] (bottom\i) { \texttt{ \bottomword} };
+
+}
+
+\foreach \i in {6,...,12}
+{
+    \ifnum\i<12
+        \pgfmathparse{\i+1}\edef\ni{\pgfmathresult};
+        \draw[-Triangle,uthickline, bend right, looseness=1] (top\i) to[out=90, in=-90] ([xshift=-1.2cm]bottom\ni);
+    \fi
+    \draw[-Triangle, uthickline] (unit\i) -- (top\i);
+}
+
+\foreach \i in {1,...,6}
+{
+    \draw[-Triangle, uthickline] (bottom\i) -- (unit\i);
+}
+\end{pgfonlayer}
+
+\begin{pgfonlayer}{layer2}
+
+\node [greenshape, rounded corners, minimum width=9.5cm, minimum height=2.5cm, below of=unit3, node distance=0cm] (rect1)  {};
+
+\node [redshape, rounded corners, minimum width=13.5cm, minimum height=2.5cm, below of=unit9, node distance=0cm] (rect2)  {};
+
+\node [bluelayer, minimum width=10.2cm, minimum height=8cm, below of=unit3, node distance=.6cm] (rect3)  {};
+\node [redlayer, minimum width=14.2cm, minimum height=8cm, below of=unit9, node distance=.4cm] (rect4)  {};
+
+\node [below left = -1cm and -2cm of rect3] {\large  Encoder };
+\node [below right = -1cm and -2cm of rect4] {\large  Decoder };
+
+\node [below of=rect1, node distance=2.8cm] {\large  Input} ;
+\node [above of=rect2, node distance=3cm] {\large Output};
+
+\draw[uthickline] ([xshift=2mm, yshift=2.2cm]rect2.west) -- ([xshift=2mm, yshift=2.5cm]rect2.west) -- ([xshift=-2mm, yshift=2.5cm]rect2.east) -- ([xshift=-2mm, yshift=2.2cm]rect2.east) ;
+
+\draw[uthickline] ([xshift=2mm, yshift=-2cm]rect1.west) -- ([xshift=2mm, yshift=-2.3cm]rect1.west) -- ([xshift=-2mm, yshift=-2.3cm]rect1.east) -- ([xshift=-2mm, yshift=-2cm]rect1.east) ;
+
+\end{pgfonlayer}
+
+\end{tikzpicture}
+\end{document}

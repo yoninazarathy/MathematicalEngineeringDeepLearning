@@ -1,0 +1,89 @@
+\documentclass[border = 0.2cm]{standalone}
+ 
+% Required package
+\usepackage{tikz}
+\usepackage{medl_colors}
+\begin {document}
+ 
+% Input layer neurons'number
+\newcommand{\inputnum}{8} 
+ 
+% Hidden layer neurons'number
+\newcommand{\hiddennum}{9}  
+
+% Total Hidden layers
+\newcommand{\hiddenlayers}{3}   
+ 
+% Output layer neurons'number
+\newcommand{\outputnum}{4} 
+ 
+\begin{tikzpicture}
+ 
+% Input Layer
+\foreach \i in {1,...,\inputnum}
+{
+    \node[greenshape, circle, draw, minimum size = 6mm] (Input-\i) at (0,-\i) {};
+}
+
+\node[above of=Input-1, node distance=1cm] (AInputLayer) {{\Huge Input layer}};
+ 
+% Hidden Layer
+\foreach \i in {1,...,\hiddenlayers}
+{
+    \foreach \j in {1,...,\hiddennum}
+    {
+        \node[blueshape, circle, draw, minimum size = 6mm, yshift=(\hiddennum-\inputnum)*5 mm ] (Hidden-\i\j) at (5*\i,-\j) {};
+    }
+    \node[above of=Hidden-\i1, node distance=1cm] (AHiddenLayer\i) {{\Huge Layer \i}};
+}
+ 
+% Output Layer
+\foreach \i in {1,...,\outputnum}
+{
+    \node[redshape, circle, draw, minimum size = 6mm, yshift=(\outputnum-\inputnum) * 5mm ] (Output-\i) at (20,-\i) {};
+}
+
+\node[above of=Output-1, node distance=1.4cm] (AOutputLayer) {{\Huge Output layer}};
+
+% Connect neurons In-Hidden
+\foreach \i in {1,...,\inputnum}
+{
+    \foreach \j in {1,...,\hiddennum}
+    {
+      \draw[line] (Input-\i) -- (Hidden-1\j);   
+    }
+} 
+
+%\foreach \x[evaluate=\x as \evalx using int(\x+1)]
+
+% Connect neurons between hidden layers
+\foreach \i [evaluate=\i as \in using int(\i+1) ] in {1,2}
+{
+    \foreach \j  in {1,...,\hiddennum}
+    {
+        \foreach \k  in {1,...,\hiddennum}
+        {
+            \draw[line] (Hidden-\i\j) -- (Hidden-\in\k);
+        }
+    }
+} 
+
+% Connect neurons Hidden-Out
+\foreach \i in {1,...,\hiddennum}
+{
+    \foreach \j in {1,...,\outputnum}
+    {
+      \draw[line] (Hidden-\hiddenlayers\i) -- (Output-\j);   
+    }
+} 
+
+% Outputs
+\foreach \i in {1,...,\outputnum}
+{            
+    \draw[-Triangle, thickline, shorten <=1pt] (Output-\i) -- ++(1,0)
+        node[right]{};
+}
+
+\end{tikzpicture}
+ 
+\end {document}

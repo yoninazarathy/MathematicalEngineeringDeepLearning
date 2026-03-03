@@ -1,0 +1,30 @@
+\documentclass[border=0.2cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc}
+\usetikzlibrary{cd, fit, calc}
+\usetikzlibrary{positioning}
+\usepackage{medl_colors}
+
+\begin{document}
+\begin{tikzpicture}
+
+\node at (0,0)[lightblueshape,circle,minimum size=15mm, align=center,font=\small] (node1) {Emily};
+\node [lightblueshape,circle,minimum size=15mm, align=center,font=\small,right of=node1, yshift=0.75cm,node distance = 4cm] (node2) {Kayley};
+\node [lightblueshape,circle,minimum size=15mm, align=center,font=\small,above of=node1, xshift=0.75cm,node distance = 3cm] (node3) {Yarden};
+\node [lightblueshape,circle,minimum size=15mm, align=center,font=\small,below of=node1, xshift=2cm,node distance = 2cm] (node4) {Adaya};
+
+\draw [dashed,thickline](node1) -- (-2,-1);
+\draw [dashed,thickline](node1) -- (-1,2);
+\draw [thickline](node3) -- (node2) -- (node4) -- (node3) --  (node1);
+\draw [dashed,thickline](node2) -- (5,2);
+\draw [dashed,thickline](node2) -- (5,0.25);
+\draw [dashed,thickline](node3) -- (2,4);
+\draw [dashed,thickline](node3) -- (-1,4);
+\draw [dashed,thickline](node4) -- (3,-3);
+\draw [dashed,thickline](node4) -- (1,-2);
+\draw [dashed,thickline](node4) -- (2,-3);
+\draw [dashed, thickline](node2)--(node1)node[midway,above]{\textbf{?}}--(node4)node[midway,above]{\textbf{?}};
+
+\end{tikzpicture}
+\end{document}

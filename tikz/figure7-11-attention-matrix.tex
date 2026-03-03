@@ -1,0 +1,74 @@
+\documentclass[tikz, border=50pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{medl_colors}
+\usepackage{amsmath,xstring}
+\usepackage{ifthen}
+\usepackage{etoolbox}
+\usetikzlibrary{shapes.multipart, shapes.geometric, arrows.meta, decorations.pathreplacing, calligraphy}
+\usetikzlibrary{matrix, calc, positioning,fit, backgrounds, shapes}
+\usepackage{arrayjob}
+
+\begin {document}
+
+\def\nums{{
+        {"0.93", "0.02", "0.01", "0.02", "0.02"}, 
+        {"0.44", "0.46", "0.04", "0.05", "0.01"}, 
+        {"0.23", "0.26", "0.23", "0.25", "0.03"}, 
+        {"0.01", "0.04", "0.45", "0.47", "0.03"}, 
+        {"0.01", "0.02", "0.39", "0.55", "0.03"}, 
+        {"0.02", "0.01", "0.67", "0.28", "0.02"}, 
+        {"0.01", "0.01", "0.01", "0.01", "0.96"}
+}}
+
+\def\colors{{
+        {"border-blue", "border-blue!40", "border-blue!40", "border-blue!40", "border-blue!40"}, 
+        {"border-blue!80", "border-blue!80", "border-blue!40", "border-blue!40", "border-blue!40"}, 
+        {"border-blue!60", "border-blue!60", "border-blue!60", "border-blue!50", "border-blue!40"}, 
+        {"border-blue!40", "border-blue!40", "border-blue!80", "border-blue!80", "border-blue!40"}, 
+        {"border-blue!40", "border-blue!40", "border-blue!80", "border-blue!90", "border-blue!40"}, 
+        {"border-blue!40", "border-blue!40", "border-blue!75", "border-blue!80", "border-blue!40"}, 
+        {"border-blue!40", "border-blue!40", "border-blue!40", "border-blue!40", "border-blue"}
+}}
+
+\def\words{{
+    {"We","love","deep", "learning", "<stop>"},
+    {"nous","aimons","l'", "apprentissage", "en", "profondeur", "<stop>"}
+}}
+
+\begin{tikzpicture}
+
+\begin{scope}
+
+\foreach \i in {0,...,4}
+{
+    \foreach \j in {0,...,6}
+    {
+        \pgfmathparse{\nums[\j][\i]} \edef\num{\pgfmathresult};
+        \pgfmathparse{\colors[\j][\i]} \edef\color{\pgfmathresult};
+        \node[rectangle, thickline, minimum size=1cm, fill=\color] at (\i+.5 ,-\j+6.5) (grid\i\j) { \texttt{\num}};
+        \ifnum\i=4
+        {
+            \pgfmathparse{\words[1][\j]} \edef\word{\pgfmathresult};
+            \pgfmathparse{int(\j+1)}\edef\k{\pgfmathresult};
+
+            \node[left of= grid0\j, node distance=2cm] (word\j) { \texttt{\scriptsize \word}};
+            \node[right of= grid4\j, node distance=2cm] { \texttt {\scriptsize t=\k}};
+        }
+        \fi
+        
+    }
+    \pgfmathparse{\words[0][\i]} \edef\word{\pgfmathresult};
+    \pgfmathparse{int(\i+1)}\edef\j{\pgfmathresult};
+    \node[above of= grid\i0, node distance=1.3cm] { \texttt {\scriptsize \word}};
+    \node[above of= grid\i0, node distance=.8cm] { \texttt {\scriptsize$\tau=$\j}}; 
+}
+
+\node[left of= grid03, node distance=4.5cm, font=\boldmath] { \texttt { $[\alpha_{\tau}^{\langle t \rangle }]=$}};
+\draw[decorate, decoration={calligraphic brace,mirror, raise=3cm, amplitude=10pt}, uthickline, draw=black!50] (grid00.north) -- (grid06.south);
+\draw[uthickline] ([xshift=-1cm]grid00.north) -- ([xshift=-1cm]grid06.south);
+\draw[uthickline] ([xshift=1cm]grid40.north) -- ([xshift=1cm]grid46.south);
+
+\end{scope}
+\end{tikzpicture}
+\end{document}
